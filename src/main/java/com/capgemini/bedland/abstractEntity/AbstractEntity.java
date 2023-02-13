@@ -1,6 +1,8 @@
 package com.capgemini.bedland.abstractEntity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Version;
 
 import java.time.LocalDateTime;
@@ -8,6 +10,8 @@ import java.time.LocalDateTime;
 import static java.time.temporal.ChronoUnit.MILLIS;
 
 @MappedSuperclass
+@Getter
+@Setter
 public abstract class AbstractEntity {
 
 
