@@ -14,7 +14,6 @@ import static java.time.temporal.ChronoUnit.MILLIS;
 @Setter
 public abstract class AbstractEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -31,11 +30,13 @@ public abstract class AbstractEntity {
     public void createDate() {
         this.createDate = LocalDateTime.now().truncatedTo(MILLIS);
         this.updateDate = createDate;
+        this.version = 0L;
     }
 
     @PreUpdate
     public void updateDate() {
         this.updateDate = LocalDateTime.now().truncatedTo(MILLIS);
+        this.version++;
     }
 
 }
