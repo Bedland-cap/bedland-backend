@@ -1,5 +1,6 @@
 package com.capgemini.bedland.manager.internal;
 
+import com.capgemini.bedland.abstractEntity.AbstractDto;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -7,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class ManagerDto {
+public class ManagerDto extends AbstractDto {
 
     private Long id;
     private String login;
@@ -16,8 +17,5 @@ public class ManagerDto {
     private String lastName;
     private String email;
     private String phoneNumber;
-
-    // TODO: add buildings to DTO when buildings mapper will be implemented
-    // private List<BuildingDto> managedBuildings;
 
 }

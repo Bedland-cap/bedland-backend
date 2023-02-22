@@ -7,17 +7,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @RequiredArgsConstructor
 @Entity
 @Table(name = "MEMBER")
 public class MemberEntity extends AbstractEntity {
-
-    @OneToMany(mappedBy = "flatOwner", cascade = CascadeType.ALL)
-    private List<FlatEntity> ownedFlatEntities;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn

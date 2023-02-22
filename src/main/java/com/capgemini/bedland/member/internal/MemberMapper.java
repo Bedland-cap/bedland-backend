@@ -24,11 +24,11 @@ class MemberMapper {
                         .email(entity.getEmail())
                         .phoneNumber(entity.getPhoneNumber())
                         .isOwner(entity.isOwner())
-                        //TODO   .flatId(entity.getFlatEntity().getId()) add after implemented flatMapper
+                        .flatId(entity.getFlatEntity().getId())
                         .build();
     }
 
-    public List<MemberDto> entities2Dtos(List<MemberEntity> entities) {
+    public List<MemberDto> entities2DTOs(List<MemberEntity> entities) {
         return entities.stream()
                        .map(this::entity2Dto)
                        .toList();
@@ -42,7 +42,7 @@ class MemberMapper {
         newMember.setVersion(dto.getVersion());
         newMember.setCreateDate(dto.getCreateDate());
         newMember.setUpdateDate(dto.getUpdateDate());
-        // TODO newMember.setFlatEntity(null);
+        newMember.setFlatEntity(null);
         newMember.setLogin(dto.getLogin());
         newMember.setPassword(dto.getPassword());
         newMember.setName(dto.getName());

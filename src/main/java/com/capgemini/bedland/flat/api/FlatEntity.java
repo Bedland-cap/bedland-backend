@@ -21,11 +21,6 @@ import java.util.List;
 @Table(name = "FLAT")
 public class FlatEntity extends AbstractEntity {
 
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    @JoinColumn
-    private MemberEntity flatOwner;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn
     private BuildingEntity buildingEntity;

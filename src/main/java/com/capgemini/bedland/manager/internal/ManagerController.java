@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+
 @RestController
 @RequestMapping("/manager")
 class ManagerController {
@@ -27,6 +30,7 @@ class ManagerController {
     }
 
     @PostMapping()
+    @ResponseStatus(CREATED)
     ManagerDto create(@RequestBody ManagerDto request) {
         return managerService.create(request);
     }
@@ -37,6 +41,7 @@ class ManagerController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
     void delete(@PathVariable Long id) {
         managerService.delete(id);
     }

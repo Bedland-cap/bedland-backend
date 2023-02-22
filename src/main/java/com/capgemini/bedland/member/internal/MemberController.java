@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+
 @RestController
 @RequestMapping("/member")
 class MemberController {
@@ -26,6 +29,7 @@ class MemberController {
     }
 
     @PostMapping()
+    @ResponseStatus(CREATED)
     MemberDto create(@RequestBody MemberDto request) {
         return memberService.create(request);
     }
@@ -36,6 +40,7 @@ class MemberController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
     void delete(@PathVariable Long id) {
         memberService.delete(id);
     }

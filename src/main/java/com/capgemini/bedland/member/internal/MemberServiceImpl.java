@@ -1,6 +1,7 @@
 package com.capgemini.bedland.member.internal;
 
 import com.capgemini.bedland.exceptions.NotFoundException;
+import com.capgemini.bedland.flat.internal.FlatRepository;
 import com.capgemini.bedland.member.api.MemberEntity;
 import com.capgemini.bedland.member.api.MemberProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ class MemberServiceImpl implements MemberService, MemberProvider {
     private MemberRepository memberRepository;
     @Autowired
     private MemberMapper memberMapper;
+    @Autowired
+    private FlatRepository flatRepository;
 
     @Override
     public List<MemberDto> getAll() {
-        return memberMapper.entities2Dtos(memberRepository.findAll());
+        return memberMapper.entities2DTOs(memberRepository.findAll());
     }
 
     @Override
@@ -58,8 +61,7 @@ class MemberServiceImpl implements MemberService, MemberProvider {
 
     private MemberEntity repackDtoToEntity(MemberDto dto) {
         MemberEntity entity = memberMapper.dto2Entity(dto);
-        //TODO add after complete flat implementation
-        // entity.setFlatEntity(...);
+        entity.setFlatEntity(flatRepository.findById(dto.getFlatId()).get());
         return entity;
     }
 

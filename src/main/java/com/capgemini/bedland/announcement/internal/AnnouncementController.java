@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+
 @RestController
 @RequestMapping("/announcement")
 class AnnouncementController {
@@ -26,6 +29,7 @@ class AnnouncementController {
     }
 
     @PostMapping()
+    @ResponseStatus(CREATED)
     AnnouncementDto create(@RequestBody AnnouncementDto request) {
         return announcementService.create(request);
     }
@@ -36,6 +40,7 @@ class AnnouncementController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
     void delete(@PathVariable Long id) {
         announcementService.delete(id);
     }

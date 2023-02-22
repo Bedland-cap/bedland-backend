@@ -34,10 +34,11 @@ public class BuildingEntity extends AbstractEntity {
 
     @Column(nullable = false, length = 125, name = "BUILDING_NAME")
     private String buildingName;
+
     @Column(nullable = false, length = 125, name = "ADDRESS")
     private String address;
+
     @Column(nullable = false, length = 2, name = "FLOORS")
     private int floors;
-
 
 }
