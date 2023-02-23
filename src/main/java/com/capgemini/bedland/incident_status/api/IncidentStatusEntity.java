@@ -1,6 +1,6 @@
-package com.capgemini.bedland.incidentStatus.api;
+package com.capgemini.bedland.incident_status.api;
 
-import com.capgemini.bedland.abstractEntity.AbstractEntity;
+import com.capgemini.bedland.abstract_entity.AbstractEntity;
 import com.capgemini.bedland.incident.api.IncidentEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

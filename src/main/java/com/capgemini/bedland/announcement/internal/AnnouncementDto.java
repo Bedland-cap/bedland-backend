@@ -1,6 +1,6 @@
 package com.capgemini.bedland.announcement.internal;
 
-import com.capgemini.bedland.abstractEntity.AbstractDto;
+import com.capgemini.bedland.abstract_entity.AbstractDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

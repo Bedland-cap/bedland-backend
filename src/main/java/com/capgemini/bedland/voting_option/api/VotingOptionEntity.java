@@ -1,31 +1,24 @@
-package com.capgemini.bedland.voting.api;
+package com.capgemini.bedland.voting_option.api;
 
 import com.capgemini.bedland.abstract_entity.AbstractEntity;
-import com.capgemini.bedland.building.api.BuildingEntity;
+import com.capgemini.bedland.voting.api.VotingEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @RequiredArgsConstructor
 @Entity
-@Table(name = "VOTING")
-public class VotingEntity extends AbstractEntity {
+@Table(name = "VOTING_OPTION")
+public class VotingOptionEntity extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn
-    private BuildingEntity buildingEntity;
-
-    @Column(nullable = false, length = 125, name = "EXPIRATION_DATE")
-    private LocalDateTime expirationDate;
-
+    private VotingEntity votingEntity;
     @Column(nullable = false, length = 125, name = "TITLE")
     private String title;
-
     @Column(nullable = false, name = "DESCRIPTION")
     private String description;
 

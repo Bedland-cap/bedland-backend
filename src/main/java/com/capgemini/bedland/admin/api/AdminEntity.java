@@ -1,6 +1,6 @@
 package com.capgemini.bedland.admin.api;
 
-import com.capgemini.bedland.abstractEntity.AbstractEntity;
+import com.capgemini.bedland.abstract_entity.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

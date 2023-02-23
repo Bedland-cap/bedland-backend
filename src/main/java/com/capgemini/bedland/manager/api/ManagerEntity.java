@@ -1,6 +1,6 @@
 package com.capgemini.bedland.manager.api;
 
-import com.capgemini.bedland.abstractEntity.AbstractEntity;
+import com.capgemini.bedland.abstract_entity.AbstractEntity;
 import com.capgemini.bedland.building.api.BuildingEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

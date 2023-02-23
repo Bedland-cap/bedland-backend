@@ -1,6 +1,6 @@
 package com.capgemini.bedland.announcement.api;
 
-import com.capgemini.bedland.abstractEntity.AbstractEntity;
+import com.capgemini.bedland.abstract_entity.AbstractEntity;
 import com.capgemini.bedland.building.api.BuildingEntity;
 import com.capgemini.bedland.flat.api.FlatEntity;
 import jakarta.persistence.*;

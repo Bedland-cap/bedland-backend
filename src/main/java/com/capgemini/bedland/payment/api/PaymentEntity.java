@@ -1,8 +1,8 @@
 package com.capgemini.bedland.payment.api;
 
-import com.capgemini.bedland.abstractEntity.AbstractEntity;
+import com.capgemini.bedland.abstract_entity.AbstractEntity;
 import com.capgemini.bedland.flat.api.FlatEntity;
-import com.capgemini.bedland.paymentStatus.api.PaymentStatusEntity;
+import com.capgemini.bedland.payment_status.api.PaymentStatusEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

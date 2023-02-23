@@ -1,6 +1,6 @@
 package com.capgemini.bedland.manager.internal;
 
-import com.capgemini.bedland.abstractEntity.AbstractDto;
+import com.capgemini.bedland.abstract_entity.AbstractDto;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

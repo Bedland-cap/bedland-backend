@@ -1,6 +1,6 @@
 package com.capgemini.bedland.building.api;
 
-import com.capgemini.bedland.abstractEntity.AbstractEntity;
+import com.capgemini.bedland.abstract_entity.AbstractEntity;
 import com.capgemini.bedland.announcement.api.AnnouncementEntity;
 import com.capgemini.bedland.flat.api.FlatEntity;
 import com.capgemini.bedland.manager.api.ManagerEntity;

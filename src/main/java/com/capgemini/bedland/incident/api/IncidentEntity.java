@@ -1,8 +1,8 @@
 package com.capgemini.bedland.incident.api;
 
-import com.capgemini.bedland.abstractEntity.AbstractEntity;
+import com.capgemini.bedland.abstract_entity.AbstractEntity;
 import com.capgemini.bedland.flat.api.FlatEntity;
-import com.capgemini.bedland.incidentStatus.api.IncidentStatusEntity;
+import com.capgemini.bedland.incident_status.api.IncidentStatusEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.capgemini.bedland.incidentStatus.api;
+package com.capgemini.bedland.incident_status.api;
 
 public enum IncidentStatusName {
     CREATED,

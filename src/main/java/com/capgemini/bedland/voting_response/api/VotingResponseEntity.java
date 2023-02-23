@@ -1,8 +1,8 @@
-package com.capgemini.bedland.votingResponse.api;
+package com.capgemini.bedland.voting_response.api;
 
-import com.capgemini.bedland.abstractEntity.AbstractEntity;
+import com.capgemini.bedland.abstract_entity.AbstractEntity;
 import com.capgemini.bedland.flat.api.FlatEntity;
-import com.capgemini.bedland.voting.api.VotingEntity;
+import com.capgemini.bedland.voting_option.api.VotingOptionEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +19,7 @@ public class VotingResponseEntity extends AbstractEntity {
     @JoinColumn
     private FlatEntity flatEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    @JoinColumn
-    private VotingEntity votingEntity;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private VotingOptionEntity votingOptionEntity;
 
-    @Column(nullable = false, name = "ANSWER")
-    private int answer;
 }

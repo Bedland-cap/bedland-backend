@@ -1,3 +1,6 @@
+DELETE FROM voting_response;
+DELETE FROM voting_option;
+DELETE FROM voting;
 DELETE FROM announcement;
 DELETE FROM member;
 DELETE FROM flat;
@@ -36,4 +39,52 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 'iSutherland','IsABEl','Isabel', 'Suth
        (5, 0, '2023-02-14', '2023-02-14', 'iPerry','IsABEl','Isabel', 'Perry', 'isabel.perry@email.com', '123456789', 0, 4);
 
 INSERT INTO announcement(id, version, create_date, update_date, flat_entity_id, building_entity_id, title, description)
-VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 1, 'Uwaga mieszkańcy!','Mamy inwazję szczurów! Gryzą, napadają w ciemnych zaułkach i kradną portfele!');
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 1, 'Uwaga mieszkańcy!','Mamy inwazję szczurów! Gryzą, napadają w ciemnych zaułkach i kradną portfele!'),
+       (2, 0, '2023-02-14', '2023-02-14', 1, 1, 'Prace konserwacyjne!','Informujemy, że w dniu 23.02.2023 mogą wystąpić chwilowe braki prądu.'),
+       (3, 0, '2023-02-14', '2023-02-14', 1, 1, 'ALERT RCB!','Uwaga! Dziś i jutro silny wiatr. Możliwe przerwy w dostawie prądu. Unikaj otwartych przestrzeni. Zabezpiecz rzeczy, które może porwać wiatr.'),
+       (4, 0, '2023-02-14', '2023-02-14', 2, 1, 'Sprzedam Opla','Sprzedam Opla, stan igła, przebieg do ustalenia pozdrawiam Zarządca');
+
+INSERT INTO voting(id, version, create_date, update_date, building_entity_id, expiration_date, title, description)
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, '2023-03-14', 'Nowe głosowanie','Drodzy mieszkańcy! Głosujemy nad budżetem osiedlowym na przyszły rok. Co chcielibyście zobaczyć na naszym osiedlu?'),
+       (2, 0, '2023-02-14', '2023-02-14', 1, '2023-03-15', 'Usługi sprzątające','Drodzy mieszkańcy! Rozważamy zmianę firmy świadczącej usługi sprzątające. Czy jest Pan/Pani zadowolona z jakości usług świadczonych do tej pory?'),
+       (3, 0, '2023-02-14', '2023-02-14', 1, '2023-04-14', 'Nowe głosowanie','Drodzy mieszkańcy! Głosujemy nad zmianą godzin, w których zakazane jest wykonywanie głośnych prac remontowych. Proszę zaznaczyć przedział godzinowy, który Pani/Pana zdaniem będzie odpowiedni.'),
+       (4, 0, '2023-02-14', '2023-02-14', 1, '2023-08-14', 'Płatna strefa parkowania','Czy popiera Pani/Pan wprowadzenie płatnej strefy parkowania na terenie naszego osiedla'),
+       (5, 0, '2023-02-14', '2023-02-14', 1, '2023-03-14', 'Aplikacja BedLand','Proszę zaznaczyć odpowiedź najtrafniej określającą odczucia odnoście aplikacji BedLand zarządzającej naszym osiedlem');
+
+INSERT INTO voting_option(id, version, create_date, update_date, voting_entity_id, title, description)
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'więcej roślinności', 'na osiedlu zostaną wykonane nowe nasadzenia'),
+       (2, 0, '2023-02-14', '2023-02-14', 1, 'prywatne miejsca parkingowe', 'wyznaczone zostaną prywatne miejsca parkingowe z możliwością wykupu'),
+       (3, 0, '2023-02-14', '2023-02-14', 1, 'koncert Arki Noego', 'zostanie zorganizowany koncert Arki Noego'),
+       (4, 0, '2023-02-14', '2023-02-14', 2, 'tak', ''),
+       (5, 0, '2023-02-14', '2023-02-14', 2, 'nie', ''),
+       (6, 0, '2023-02-14', '2023-02-14', 3, '20:00-7:00', ''),
+       (7, 0, '2023-02-14', '2023-02-14', 3, '18:00-9:00', ''),
+       (8, 0, '2023-02-14', '2023-02-14', 3, '00:00-23:59', 'zakaz obowiązuje całą dobę'),
+       (9, 0, '2023-02-14', '2023-02-14', 4, 'za', 'jestem za'),
+       (10, 0, '2023-02-14', '2023-02-14', 4, 'przeciw', 'jestem przeciw'),
+       (11, 0, '2023-02-14', '2023-02-14', 5, 'cudowna', 'aplikacja jest cudowna'),
+       (12, 0, '2023-02-14', '2023-02-14', 5, 'wspaniała', 'brak słów aby to opisać'),
+       (13, 0, '2023-02-14', '2023-02-14', 5, 'niesamowita', 'widać, że sztab ekspertów nad tym pracował');
+
+INSERT INTO voting_response(id, version, create_date, update_date, flat_entity_id, voting_option_entity_id)
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 11),
+       (2, 0, '2023-02-14', '2023-02-14', 2, 12),
+       (3, 0, '2023-02-14', '2023-02-14', 3, 13),
+       (4, 0, '2023-02-14', '2023-02-14', 4, 13),
+       (5, 0, '2023-02-14', '2023-02-14', 5, 11),
+       (6, 0, '2023-02-14', '2023-02-14', 6, 1),
+       (7, 0, '2023-02-14', '2023-02-14', 7, 1),
+       (8, 0, '2023-02-14', '2023-02-14', 4, 1),
+       (9, 0, '2023-02-14', '2023-02-14', 9, 11),
+       (10, 0, '2023-02-14', '2023-02-14', 9, 3),
+       (11, 0, '2023-02-14', '2023-02-14', 9, 7),
+       (12, 0, '2023-02-14', '2023-02-14', 1, 1),
+       (13, 0, '2023-02-14', '2023-02-14', 2, 7),
+       (14, 0, '2023-02-14', '2023-02-14', 3, 6),
+       (15, 0, '2023-02-14', '2023-02-14', 4, 6),
+       (16, 0, '2023-02-14', '2023-02-14', 5, 5),
+       (17, 0, '2023-02-14', '2023-02-14', 6, 4),
+       (18, 0, '2023-02-14', '2023-02-14', 7, 3),
+       (19, 0, '2023-02-14', '2023-02-14', 7, 12),
+       (20, 0, '2023-02-14', '2023-02-14', 1, 1);
+

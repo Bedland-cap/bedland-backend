@@ -49,7 +49,6 @@ class AnnouncementServiceImpl implements AnnouncementService, AnnouncementProvid
             throw new NotFoundException(id);
         }
         announcementRepository.deleteById(id);
-
     }
 
     @Override

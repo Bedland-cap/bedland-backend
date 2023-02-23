@@ -1,12 +1,12 @@
 package com.capgemini.bedland.flat.api;
 
-import com.capgemini.bedland.abstractEntity.AbstractEntity;
+import com.capgemini.bedland.abstract_entity.AbstractEntity;
 import com.capgemini.bedland.announcement.api.AnnouncementEntity;
 import com.capgemini.bedland.building.api.BuildingEntity;
 import com.capgemini.bedland.incident.api.IncidentEntity;
 import com.capgemini.bedland.member.api.MemberEntity;
 import com.capgemini.bedland.payment.api.PaymentEntity;
-import com.capgemini.bedland.votingResponse.api.VotingResponseEntity;
+import com.capgemini.bedland.voting_response.api.VotingResponseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

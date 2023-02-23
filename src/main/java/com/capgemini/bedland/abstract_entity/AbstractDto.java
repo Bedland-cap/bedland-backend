@@ -1,4 +1,4 @@
-package com.capgemini.bedland.abstractEntity;
+package com.capgemini.bedland.abstract_entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

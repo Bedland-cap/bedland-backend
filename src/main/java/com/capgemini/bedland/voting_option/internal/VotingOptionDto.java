@@ -1,4 +1,4 @@
-package com.capgemini.bedland.flat.internal;
+package com.capgemini.bedland.voting_option.internal;
 
 import com.capgemini.bedland.abstract_entity.AbstractDto;
 import lombok.AllArgsConstructor;
@@ -10,11 +10,10 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class FlatDto extends AbstractDto {
+public class VotingOptionDto extends AbstractDto {
 
-    private Long buildingId;
-    private String number;
-    private int floor;
-    private String shapePath;
+    private Long votingId;
+    private String title;
+    private String description;
 
 }
