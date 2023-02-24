@@ -30,7 +30,7 @@ public class IncidentEntity extends AbstractEntity {
     @Column(nullable = false, name = "DESCRIPTION")
     private String description;
 
-    @Column(nullable = false, name = "COMMON_SPACE") //todo: maybe use enums like "involves : COMMON_SPACE, FLAT ...etc"
+    @Column(nullable = false, name = "COMMON_SPACE")
     private boolean commonSpace;
 
 }

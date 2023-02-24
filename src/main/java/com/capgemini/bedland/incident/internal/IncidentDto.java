@@ -1,4 +1,20 @@
 package com.capgemini.bedland.incident.internal;
 
-public class IncidentDto {
+import com.capgemini.bedland.abstract_entity.AbstractDto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+public class IncidentDto extends AbstractDto {
+
+    private Long flatId;
+    private String title;
+    private String description;
+    private boolean commonSpace;
+
 }

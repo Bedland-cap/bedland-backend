@@ -1,3 +1,5 @@
+DELETE FROM incident_status;
+DELETE FROM incident;
 DELETE FROM voting_response;
 DELETE FROM voting_option;
 DELETE FROM voting;
@@ -32,11 +34,11 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 1, 1, "X1-Y17-Z8273"),
        (9, 0, '2023-02-14', '2023-02-14', 5, 1, 2, "X4531-Y13457-Z8273");
 
 INSERT INTO member(id, version, create_date, update_date, login, password, name, last_name, email, phone_number, is_owner, flat_entity_id)
-VALUES (1, 0, '2023-02-14', '2023-02-14', 'iSutherland','IsABEl','Isabel', 'Sutherland', 'isabel.sutherland@email.com', '123456789', 1, 1),
-       (2, 0, '2023-02-14', '2023-02-14', 'clWeiss','ClWeiss','Claude', 'Weiss', 'Claude.Weiss@email.com', '123456789', 0, 2),
-       (3, 0, '2023-02-14', '2023-02-14', 'aBray','AlBray','Alyssia', 'Bray', 'Alyssia.Bray@email.com', '123456789', 0, 3),
-       (4, 0, '2023-02-14', '2023-02-14', 'aPerry','IsABEl','Ashton', 'Perry', 'Ashton.Perry@email.com', '123456789', 1, 4),
-       (5, 0, '2023-02-14', '2023-02-14', 'iPerry','IsABEl','Isabel', 'Perry', 'isabel.perry@email.com', '123456789', 0, 4);
+VALUES (1, 0, '2023-02-14', '2023-02-14', 'iSutherland','IsABEl','Isabel', 'Sutherland', 'isabel.sutherland@email.com', '123456789', true, 1),
+       (2, 0, '2023-02-14', '2023-02-14', 'clWeiss','ClWeiss','Claude', 'Weiss', 'Claude.Weiss@email.com', '123456789', false, 2),
+       (3, 0, '2023-02-14', '2023-02-14', 'aBray','AlBray','Alyssia', 'Bray', 'Alyssia.Bray@email.com', '123456789', false, 3),
+       (4, 0, '2023-02-14', '2023-02-14', 'aPerry','IsABEl','Ashton', 'Perry', 'Ashton.Perry@email.com', '123456789', true, 4),
+       (5, 0, '2023-02-14', '2023-02-14', 'iPerry','IsABEl','Isabel', 'Perry', 'isabel.perry@email.com', '123456789', false, 4);
 
 INSERT INTO announcement(id, version, create_date, update_date, flat_entity_id, building_entity_id, title, description)
 VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 1, 'Uwaga mieszkańcy!','Mamy inwazję szczurów! Gryzą, napadają w ciemnych zaułkach i kradną portfele!'),
@@ -88,3 +90,31 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 11),
        (19, 0, '2023-02-14', '2023-02-14', 7, 12),
        (20, 0, '2023-02-14', '2023-02-14', 1, 1);
 
+INSERT INTO incident(id, version, create_date, update_date, flat_entity_id, title, description, common_space)
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'Donos na sąsiada', 'Uprzejmie donoszę, że sąsiedzi spod 2 nie sprzątają po swoim psie', true),
+       (2, 0, '2023-02-14', '2023-02-14', 2, 'Pożar', 'Klatka schodowa na 4 piętrze zajęła się ogniem. Proszę o pilną interwencję!', false),
+       (3, 0, '2023-02-14', '2023-02-14', 2, 'Drzwi wejściowe', 'Drzwi wejściowe do budynku nie domykają się automatycznie, trzeba je szarpnąć aby się zatrzasnęły', true),
+       (4, 0, '2023-02-14', '2023-02-14', 3, 'Adam Mickiewicz - Pan Tadeusz - Inwokacja', 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie. Ile cię trzeba cenić, ten tylko się dowie, Kto cię stracił. Dziś piękność twą w całej ozdobie Widzę i opisuję, bo tęsknię po tobie...', true),
+       (5, 0, '2023-02-14', '2023-02-14', 4, 'Kot w pustym mieszkaniu - Wiesława Szymborska', 'Umrzeć - tego się nie robi kotu. Bo co ma począć kot w pustym mieszkaniu. Wdrapywać się na ściany. Ocierać między meblami. Nic niby tu nie zmienione, a jednak pozamieniane. Niby nie przesunięte, a jednak porozsuwane. I wieczorami lampa już nie świeci...', true),
+       (6, 0, '2023-02-14', '2023-02-14', 5, 'Jan Kochanowski – Na zdrowie', 'Szlachetne zdrowie, Nikt się nie dowie, Jako smakujesz, Aż się zepsujesz. Tam człowiek prawie Widzi na jawie I sam to powie, Że nic nad zdrowie Ani lepszego, Ani droższego; Bo dobre mienie, Perły, kamienie...', true),
+       (7, 0, '2023-02-14', '2023-02-14', 6, 'Dzik jest dziki - Jak Brzechwa', 'Dzik jest dziki, dzik jest zły Dzik ma bardzo ostre kły Kto spotyka w lesie dzika, Ten na drzewo zaraz zmyka', true),
+       (8, 0, '2023-02-14', '2023-02-14', 7, 'Katar - Jan Brzechwa', 'Spotkał katar Katarzynę – A – psik! Katarzyna pod pierzynę – A – psik! Sprowadzono wnet doktora – A – psik! „Pani jest na katar chora” – A – psik! Terpentyną grzbiet jej natarł – A – psik! A po chwili sam miał katar – A – psik..', true),
+       (9, 0, '2023-02-14', '2023-02-14', 8, 'Abecadło - Juliana Tuwim', 'Abecadło z pieca spadło, O ziemię się hukło, Rozsypało się po kątach, Strasznie się potłukło: I zgubiło kropeczkę, H- złamało kładeczkę, B- zbiło sobie brzuszki, A- zwichnęło nóżki, O- jak balon pękło, aż się P przelękło. T- daszek zgubiło...', false),
+       (10, 0, '2023-02-14', '2023-02-14', 9, 'Kołysanka', 'Idzie niebo ciemną nocą Ma w fartuszku pełno gwiazd Gwiazdki błyszczą i migocą Aż wyjrzały ptaszki z gniazd...', true);
+
+INSERT INTO incident_status(id, version, create_date, update_date, incident_entity_id, incident_status_name)
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'CREATED'),
+       (2, 0, '2023-02-14', '2023-02-14', 2, 'CREATED'),
+       (3, 0, '2023-02-14', '2023-02-14', 3, 'CREATED'),
+       (4, 0, '2023-02-14', '2023-02-14', 4, 'CREATED'),
+       (5, 0, '2023-02-14', '2023-02-14', 5, 'CREATED'),
+       (6, 0, '2023-02-14', '2023-02-14', 6, 'CREATED'),
+       (7, 0, '2023-02-14', '2023-02-14', 7, 'CREATED'),
+       (8, 0, '2023-02-14', '2023-02-14', 8, 'CREATED'),
+       (9, 0, '2023-02-14', '2023-02-14', 9, 'CREATED'),
+       (10, 0, '2023-02-14', '2023-02-14', 10, 'CREATED'),
+       (11, 0, '2023-02-15', '2023-02-15', 1, 'IN_PROGRESS'),
+       (12, 0, '2023-02-15', '2023-02-15', 2, 'IN_PROGRESS'),
+       (13, 0, '2023-02-15', '2023-02-15', 3, 'IN_PROGRESS'),
+       (14, 0, '2023-02-16', '2023-02-16', 1, 'SOLVED'),
+       (15, 0, '2023-02-16', '2023-02-16', 2, 'SOLVED');

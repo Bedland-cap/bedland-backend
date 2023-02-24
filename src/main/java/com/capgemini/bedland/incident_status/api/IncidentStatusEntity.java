@@ -19,6 +19,7 @@ public class IncidentStatusEntity extends AbstractEntity {
     private IncidentEntity incidentEntity;
 
     @Column(nullable = false, name = "INCIDENT_STATUS_NAME")
+    @Enumerated(EnumType.STRING)
     private IncidentStatusName incidentStatusName;
 
 }

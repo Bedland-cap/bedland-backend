@@ -48,7 +48,6 @@ class FlatServiceImpl implements FlatService, FlatProvider {
             throw new NotFoundException(id);
         }
         flatRepository.deleteById(id);
-
     }
 
     @Override
