@@ -39,7 +39,7 @@ class IncidentServiceImpl implements IncidentService, IncidentProvider {
             throw new IllegalArgumentException("Given request contains an ID. Incident can't be created");
         }
         IncidentEntity createIncident = incidentRepository.save(repackDtoToEntity(request));
-        incidentStatusService.createByIncidentId(createIncident.getId()); //create new IncidentStatus when user created new Incident
+        incidentStatusService.createByIncidentId(createIncident.getId());
         return incidentMapper.entity2Dto(createIncident);
     }
 

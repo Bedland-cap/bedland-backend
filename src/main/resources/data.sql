@@ -1,3 +1,5 @@
+DELETE FROM payment_status;
+DELETE FROM payment;
 DELETE FROM incident_status;
 DELETE FROM incident;
 DELETE FROM voting_response;
@@ -47,11 +49,11 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 1, 'Uwaga mieszkańcy!','Mamy inwaz
        (4, 0, '2023-02-14', '2023-02-14', 2, 1, 'Sprzedam Opla','Sprzedam Opla, stan igła, przebieg do ustalenia pozdrawiam Zarządca');
 
 INSERT INTO voting(id, version, create_date, update_date, building_entity_id, expiration_date, title, description)
-VALUES (1, 0, '2023-02-14', '2023-02-14', 1, '2023-03-14', 'Nowe głosowanie','Drodzy mieszkańcy! Głosujemy nad budżetem osiedlowym na przyszły rok. Co chcielibyście zobaczyć na naszym osiedlu?'),
-       (2, 0, '2023-02-14', '2023-02-14', 1, '2023-03-15', 'Usługi sprzątające','Drodzy mieszkańcy! Rozważamy zmianę firmy świadczącej usługi sprzątające. Czy jest Pan/Pani zadowolona z jakości usług świadczonych do tej pory?'),
-       (3, 0, '2023-02-14', '2023-02-14', 1, '2023-04-14', 'Nowe głosowanie','Drodzy mieszkańcy! Głosujemy nad zmianą godzin, w których zakazane jest wykonywanie głośnych prac remontowych. Proszę zaznaczyć przedział godzinowy, który Pani/Pana zdaniem będzie odpowiedni.'),
-       (4, 0, '2023-02-14', '2023-02-14', 1, '2023-08-14', 'Płatna strefa parkowania','Czy popiera Pani/Pan wprowadzenie płatnej strefy parkowania na terenie naszego osiedla'),
-       (5, 0, '2023-02-14', '2023-02-14', 1, '2023-03-14', 'Aplikacja BedLand','Proszę zaznaczyć odpowiedź najtrafniej określającą odczucia odnoście aplikacji BedLand zarządzającej naszym osiedlem');
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, CURRENT_DATE() + INTERVAL 2 MONTH, 'Nowe głosowanie','Drodzy mieszkańcy! Głosujemy nad budżetem osiedlowym na przyszły rok. Co chcielibyście zobaczyć na naszym osiedlu?'),
+       (2, 0, '2023-02-14', '2023-02-14', 1, CURRENT_DATE() + INTERVAL 3 MONTH, 'Usługi sprzątające','Drodzy mieszkańcy! Rozważamy zmianę firmy świadczącej usługi sprzątające. Czy jest Pan/Pani zadowolona z jakości usług świadczonych do tej pory?'),
+       (3, 0, '2023-02-14', '2023-02-14', 1, CURRENT_DATE() + INTERVAL 4 MONTH, 'Nowe głosowanie','Drodzy mieszkańcy! Głosujemy nad zmianą godzin, w których zakazane jest wykonywanie głośnych prac remontowych. Proszę zaznaczyć przedział godzinowy, który Pani/Pana zdaniem będzie odpowiedni.'),
+       (4, 0, '2023-02-14', '2023-02-14', 1, CURRENT_DATE() + INTERVAL 5 MONTH, 'Płatna strefa parkowania','Czy popiera Pani/Pan wprowadzenie płatnej strefy parkowania na terenie naszego osiedla'),
+       (5, 0, '2023-02-14', '2023-02-14', 1, CURRENT_DATE() - INTERVAL 1 MONTH, 'Aplikacja BedLand','Proszę zaznaczyć odpowiedź najtrafniej określającą odczucia odnoście aplikacji BedLand zarządzającej naszym osiedlem');
 
 INSERT INTO voting_option(id, version, create_date, update_date, voting_entity_id, title, description)
 VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'więcej roślinności', 'na osiedlu zostaną wykonane nowe nasadzenia'),
@@ -118,3 +120,42 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'CREATED'),
        (13, 0, '2023-02-15', '2023-02-15', 3, 'IN_PROGRESS'),
        (14, 0, '2023-02-16', '2023-02-16', 1, 'SOLVED'),
        (15, 0, '2023-02-16', '2023-02-16', 2, 'SOLVED');
+
+INSERT INTO payment(id, version, create_date, update_date, flat_entity_id, expiration_date, payment_type, payment_value)
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, CURRENT_DATE() + INTERVAL 7 DAY, 'RENT', 200.20),
+       (2, 0, '2023-02-14', '2023-02-14', 2, CURRENT_DATE() + INTERVAL 7 DAY, 'MEDIA', 123.45),
+       (3, 0, '2023-02-14', '2023-02-14', 3, CURRENT_DATE() + INTERVAL 7 DAY, 'ELECTRICITY_BILL', 70.67),
+       (4, 0, '2023-02-14', '2023-02-14', 4, CURRENT_DATE() + INTERVAL 7 DAY, 'RENT', 200),
+       (5, 0, '2023-02-14', '2023-02-14', 5, CURRENT_DATE() + INTERVAL 7 DAY, 'ELECTRICITY_BILL', 50.50),
+       (6, 0, '2023-02-14', '2023-02-14', 6, CURRENT_DATE() + INTERVAL 7 DAY, 'MEDIA', 77.77),
+       (7, 0, '2023-02-14', '2023-02-14', 7, CURRENT_DATE() + INTERVAL 7 DAY, 'RENT', 909.02),
+       (8, 0, '2023-02-14', '2023-02-14', 8, CURRENT_DATE() + INTERVAL 7 DAY, 'RENT', 211),
+       (9, 0, '2023-02-14', '2023-02-14', 9, CURRENT_DATE() + INTERVAL 7 DAY, 'RENT', 222.33),
+       (10, 0, '2023-02-14', '2023-02-14', 1, CURRENT_DATE() - INTERVAL 7 DAY, 'MEDIA', 233.44),
+       (11, 0, '2023-02-14', '2023-02-14', 2, CURRENT_DATE() - INTERVAL 7 DAY, 'RENT', 244.55),
+       (12, 0, '2023-02-14', '2023-02-14', 3, CURRENT_DATE() - INTERVAL 7 DAY, 'ELECTRICITY_BILL', 266.77),
+       (13, 0, '2023-02-14', '2023-02-14', 4, CURRENT_DATE() - INTERVAL 7 DAY, 'MEDIA', 288.99),
+       (14, 0, '2023-02-14', '2023-02-14', 5, CURRENT_DATE() - INTERVAL 7 DAY, 'RENT', 299.00),
+       (15, 0, '2023-02-14', '2023-02-14', 6, CURRENT_DATE() - INTERVAL 7 DAY, 'ELECTRICITY_BILL', 200);
+
+INSERT INTO payment_status(id, version, create_date, update_date, payment_entity_id, payment_status_name)
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'UNPAID'),
+       (2, 0, '2023-02-15', '2023-02-15', 1, 'PAID'),
+       (3, 0, '2023-02-14', '2023-02-14', 2, 'UNPAID'),
+       (4, 0, '2023-02-15', '2023-02-15', 2, 'PAID'),
+       (5, 0, '2023-02-14', '2023-02-14', 3, 'UNPAID'),
+       (6, 0, '2023-02-14', '2023-02-14', 4, 'UNPAID'),
+       (7, 0, '2023-02-14', '2023-02-14', 5, 'UNPAID'),
+       (8, 0, '2023-02-14', '2023-02-14', 6, 'UNPAID'),
+       (9, 0, '2023-02-14', '2023-02-14', 7, 'UNPAID'),
+       (10, 0, '2023-02-14', '2023-02-14',8, 'UNPAID'),
+       (11, 0, '2023-02-14', '2023-02-14', 9, 'UNPAID'),
+       (12, 0, '2023-02-14', '2023-02-14', 10, 'UNPAID'),
+       (13, 0, CURRENT_DATE() - INTERVAL 7 DAY, CURRENT_DATE() - INTERVAL 7 DAY, 10, 'EXPIRED'),
+       (14, 0, '2023-02-14', '2023-02-14', 11, 'UNPAID'),
+       (15, 0, CURRENT_DATE() - INTERVAL 7 DAY, CURRENT_DATE() - INTERVAL 7 DAY, 11, 'EXPIRED'),
+       (16, 0, CURRENT_DATE() - INTERVAL 6 DAY, CURRENT_DATE() - INTERVAL 6 DAY, 11, 'PAID'),
+       (17, 0, '2023-02-14', '2023-02-14', 12, 'UNPAID'),
+       (18, 0, CURRENT_DATE() - INTERVAL 7 DAY, CURRENT_DATE() - INTERVAL 7 DAY, 12, 'EXPIRED'),
+       (19, 0, '2023-02-14', '2023-02-14', 13, 'UNPAID'),
+       (20, 0, CURRENT_DATE() - INTERVAL 7 DAY, CURRENT_DATE() - INTERVAL 7 DAY, 13, 'EXPIRED');

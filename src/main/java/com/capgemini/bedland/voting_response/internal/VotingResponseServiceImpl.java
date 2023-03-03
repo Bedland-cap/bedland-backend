@@ -24,14 +24,14 @@ class VotingResponseServiceImpl implements VotingResponseService, VotingResponse
 
     @Override
     public List<VotingResponseDto> getAll() {
-        System.out.println("DUPA");
         return votingResponseMapper.entities2DTO(votingResponseRepository.findAll());
     }
 
     @Override
     public VotingResponseDto getById(Long id) {
         return votingResponseMapper.entity2Dto(votingResponseRepository.findById(id)
-                                                                       .orElseThrow(() -> new NotFoundException(id)));    }
+                                                                       .orElseThrow(() -> new NotFoundException(id)));
+    }
 
     @Override
     public VotingResponseDto create(VotingResponseDto request) {
@@ -61,10 +61,13 @@ class VotingResponseServiceImpl implements VotingResponseService, VotingResponse
         VotingResponseEntity updateVotingResponse = votingResponseRepository.save(repackDtoToEntity(request));
         return votingResponseMapper.entity2Dto(updateVotingResponse);
     }
+
     private VotingResponseEntity repackDtoToEntity(VotingResponseDto dto) {
         VotingResponseEntity entity = votingResponseMapper.dto2Entity(dto);
-        entity.setFlatEntity(flatRepository.findById(dto.getFlatId()).orElseThrow(()->new NotFoundException(dto.getFlatId())));
-        entity.setVotingOptionEntity(votingOptionRepository.findById(dto.getVotingOptionId()).orElseThrow(()-> new NotFoundException(dto.getVotingOptionId())));
+        entity.setFlatEntity(flatRepository.findById(dto.getFlatId())
+                                           .orElseThrow(() -> new NotFoundException(dto.getFlatId())));
+        entity.setVotingOptionEntity(votingOptionRepository.findById(dto.getVotingOptionId())
+                                                           .orElseThrow(() -> new NotFoundException(dto.getVotingOptionId())));
         return entity;
     }
 

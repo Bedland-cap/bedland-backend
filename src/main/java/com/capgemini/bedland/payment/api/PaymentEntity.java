@@ -29,6 +29,10 @@ public class PaymentEntity extends AbstractEntity {
     private LocalDateTime expirationDate;
 
     @Column(nullable = false, name = "PAYMENT_TYPE")
+    @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
+
+    @Column(nullable = false,name = "PAYMENT_VALUE")
+    private double paymentValue;
 
 }

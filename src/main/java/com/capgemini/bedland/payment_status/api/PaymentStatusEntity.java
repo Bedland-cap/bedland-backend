@@ -19,6 +19,7 @@ public class PaymentStatusEntity extends AbstractEntity {
     private PaymentEntity paymentEntity;
 
     @Column(nullable = false, length = 125, name = "PAYMENT_STATUS_NAME")
+    @Enumerated(EnumType.STRING)
     private PaymentStatusName paymentStatusName;
 
 }
