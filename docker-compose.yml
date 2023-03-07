@@ -1,0 +1,31 @@
+
+
+version: "3.8"
+services:
+  server:
+    container_name: bedland-backend
+    build:
+          context: ./
+          dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysqldb:
+        condition: service_started
+    restart: on-failure
+
+  mysqldb:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bedland
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: [ "CMD", "admin" ,"ping", "-h", "localhost" ]
+      timeout: 30s
+      interval: 10s
+      retries: 10
+
