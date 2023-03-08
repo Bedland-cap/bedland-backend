@@ -21,6 +21,7 @@ class PaymentServiceImpl implements PaymentService, PaymentProvider {
     private FlatRepository flatRepository;
     @Autowired
     private PaymentStatusService paymentStatusService;
+    private final String idIsNull = "Given ID is null";
 
     @Override
     public List<PaymentDto> getAll() {
@@ -29,12 +30,18 @@ class PaymentServiceImpl implements PaymentService, PaymentProvider {
 
     @Override
     public PaymentDto getById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException(idIsNull);
+        }
         return paymentMapper.entity2Dto(paymentRepository.findById(id)
                                                          .orElseThrow(() -> new NotFoundException(id)));
     }
 
     @Override
     public PaymentDto create(PaymentDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Given request is null");
+        }
         if (request.getId() != null) {
             throw new IllegalArgumentException("Given request contains an ID. Payment can't be created");
         }
@@ -45,6 +52,9 @@ class PaymentServiceImpl implements PaymentService, PaymentProvider {
 
     @Override
     public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException(idIsNull);
+        }
         if (!paymentRepository.existsById(id)) {
             throw new NotFoundException(id);
         }
@@ -53,6 +63,9 @@ class PaymentServiceImpl implements PaymentService, PaymentProvider {
 
     @Override
     public PaymentDto update(PaymentDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Given request is null");
+        }
         if (request.getId() == null) {
             throw new IllegalArgumentException("Given request has no ID");
         }
