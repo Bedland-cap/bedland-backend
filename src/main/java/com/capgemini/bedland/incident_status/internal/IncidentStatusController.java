@@ -1,7 +1,7 @@
 package com.capgemini.bedland.incident_status.internal;
 
 import com.capgemini.bedland.incident_status.api.IncidentStatusProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,13 +10,13 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/incident-status")
 class IncidentStatusController {
 
-    @Autowired
-    private IncidentStatusService incidentStatusService;
-    @Autowired
-    private IncidentStatusProvider incidentStatusProvider;
+    private final IncidentStatusService incidentStatusService;
+
+    private final IncidentStatusProvider incidentStatusProvider;
 
     @GetMapping()
     List<IncidentStatusDto> getAll() {

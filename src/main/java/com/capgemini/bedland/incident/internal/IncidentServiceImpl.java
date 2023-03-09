@@ -21,6 +21,7 @@ class IncidentServiceImpl implements IncidentService, IncidentProvider {
     private FlatRepository flatRepository;
     @Autowired
     private IncidentStatusService incidentStatusService;
+    private final String idIsNull = "Given ID is null";
 
     @Override
     public List<IncidentDto> getAll() {
@@ -29,12 +30,18 @@ class IncidentServiceImpl implements IncidentService, IncidentProvider {
 
     @Override
     public IncidentDto getById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException(idIsNull);
+        }
         return incidentMapper.entity2Dto(incidentRepository.findById(id)
                                                            .orElseThrow(() -> new NotFoundException(id)));
     }
 
     @Override
     public IncidentDto create(IncidentDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Given request is null");
+        }
         if (request.getId() != null) {
             throw new IllegalArgumentException("Given request contains an ID. Incident can't be created");
         }
@@ -45,6 +52,9 @@ class IncidentServiceImpl implements IncidentService, IncidentProvider {
 
     @Override
     public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException(idIsNull);
+        }
         if (!incidentRepository.existsById(id)) {
             throw new NotFoundException(id);
         }
@@ -53,6 +63,9 @@ class IncidentServiceImpl implements IncidentService, IncidentProvider {
 
     @Override
     public IncidentDto update(IncidentDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Given request is null");
+        }
         if (request.getId() == null) {
             throw new IllegalArgumentException("Given request has no ID");
         }

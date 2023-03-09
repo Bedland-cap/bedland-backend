@@ -49,5 +49,4 @@ class IncidentMapper {
         }
         return newIncident;
     }
-
 }

@@ -19,6 +19,7 @@ class IncidentStatusServiceImpl implements IncidentStatusService, IncidentStatus
     private IncidentStatusRepository incidentStatusRepository;
     @Autowired
     private IncidentRepository incidentRepository;
+    private final String idIsNull = "Given ID is null";
 
     @Override
     public List<IncidentStatusDto> getAll() {
@@ -27,12 +28,18 @@ class IncidentStatusServiceImpl implements IncidentStatusService, IncidentStatus
 
     @Override
     public IncidentStatusDto getById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException(idIsNull);
+        }
         return incidentStatusMapper.entity2Dto(incidentStatusRepository.findById(id)
                                                                        .orElseThrow(() -> new NotFoundException(id)));
     }
 
     @Override
     public IncidentStatusDto create(IncidentStatusDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Given request is null");
+        }
         if (request.getId() != null) {
             throw new IllegalArgumentException("Given request contains an ID. IncidentStatus can't be created");
         }
@@ -43,6 +50,9 @@ class IncidentStatusServiceImpl implements IncidentStatusService, IncidentStatus
 
     @Override
     public void createByIncidentId(Long incidentId) {
+        if (incidentId == null) {
+            throw new IllegalArgumentException(idIsNull);
+        }
         IncidentStatusEntity createIncidentStatus = new IncidentStatusEntity();
         createIncidentStatus.setIncidentStatusName(IncidentStatusName.CREATED);
         createIncidentStatus.setIncidentEntity(incidentRepository.findById(incidentId)
@@ -52,6 +62,9 @@ class IncidentStatusServiceImpl implements IncidentStatusService, IncidentStatus
 
     @Override
     public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException(idIsNull);
+        }
         if (!incidentStatusRepository.existsById(id)) {
             throw new NotFoundException(id);
         }
@@ -60,6 +73,9 @@ class IncidentStatusServiceImpl implements IncidentStatusService, IncidentStatus
 
     @Override
     public IncidentStatusDto update(IncidentStatusDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Given request is null");
+        }
         if (request.getId() == null) {
             throw new IllegalArgumentException("Given request has no ID");
         }
