@@ -25,7 +25,7 @@ public class FlatEntity extends AbstractEntity {
     @JoinColumn
     private BuildingEntity buildingEntity;
 
-    @OneToMany(mappedBy = "flatEntity")
+    @OneToMany(mappedBy = "flatEntity",cascade = CascadeType.ALL)
     private List<MemberEntity> flatMembers;
 
     @OneToMany(mappedBy = "flatEntity",cascade = CascadeType.ALL)
