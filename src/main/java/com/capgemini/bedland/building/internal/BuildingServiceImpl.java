@@ -26,6 +26,9 @@ public class BuildingServiceImpl implements BuildingService, BuildingProvider {
 
     @Override
     public BuildingDto getById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         return buildingMapper.entity2Dto(buildingRepository.findById(id)
                                                            .orElseThrow(() -> new NotFoundException(id)));
     }
@@ -41,6 +44,9 @@ public class BuildingServiceImpl implements BuildingService, BuildingProvider {
 
     @Override
     public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         if (!buildingRepository.existsById(id)) {
             throw new NotFoundException(id);
         }

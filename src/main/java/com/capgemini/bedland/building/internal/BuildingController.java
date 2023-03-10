@@ -1,6 +1,7 @@
 package com.capgemini.bedland.building.internal;
 
 import com.capgemini.bedland.building.api.BuildingProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,13 +11,14 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/building")
 class BuildingController {
 
     @Autowired
-    private BuildingService buildingService;
+    private final BuildingService buildingService;
     @Autowired
-    private BuildingProvider buildingProvider;
+    private final BuildingProvider buildingProvider;
 
     @GetMapping()
     List<BuildingDto> getAll() {

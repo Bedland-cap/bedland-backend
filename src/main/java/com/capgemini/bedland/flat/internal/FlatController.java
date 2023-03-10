@@ -1,6 +1,7 @@
 package com.capgemini.bedland.flat.internal;
 
 import com.capgemini.bedland.flat.api.FlatProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,12 +11,13 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/flat")
 public class FlatController {
     @Autowired
-    private FlatService flatService;
+    private final FlatService flatService;
     @Autowired
-    private FlatProvider flatProvider;
+    private final FlatProvider flatProvider;
     @GetMapping()
     List<FlatDto> getAll(){
         return flatProvider.getAll();

@@ -29,6 +29,9 @@ class FlatServiceImpl implements FlatService, FlatProvider {
 
     @Override
     public FlatDto getById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         return flatMapper.entity2Dto(flatRepository.findById(id)
                                                    .orElseThrow(() -> new NotFoundException(id)));
     }
@@ -44,6 +47,9 @@ class FlatServiceImpl implements FlatService, FlatProvider {
 
     @Override
     public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         if (!flatRepository.existsById(id)) {
             throw new NotFoundException(id);
         }

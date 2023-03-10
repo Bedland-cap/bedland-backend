@@ -69,7 +69,7 @@ public class MemberServiceImplTest {
     }
 
     @Test
-    void shouldThrowIllegalArgumentExceptionWhenFindingMemberByIdAndMemberAndGivenIdIsNull() {
+    void shouldThrowIllegalArgumentExceptionWhenFindingMemberByIdGivenIdIsNull() {
         //given
         Long sampleID = null;
         //when
@@ -130,7 +130,7 @@ public class MemberServiceImplTest {
     }
 
     @Test
-    void shouldUpdateMemberWhenUpdatingManager() {
+    void shouldUpdateMemberWhenUpdatingMember() {
         //given
         MemberDto memberToUpdate = memberProvider.getAll().get(0);
         String oldName = memberToUpdate.getName();
