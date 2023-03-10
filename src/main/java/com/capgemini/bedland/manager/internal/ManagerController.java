@@ -1,6 +1,7 @@
 package com.capgemini.bedland.manager.internal;
 
 import com.capgemini.bedland.manager.api.ManagerProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,14 +11,15 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/manager")
 class ManagerController {
 
     @Autowired
-    private ManagerService managerService;
+    private final ManagerService managerService;
 
     @Autowired
-    private ManagerProvider managerProvider;
+    private final ManagerProvider managerProvider;
 
     @GetMapping()
     List<ManagerDto> getAll() {

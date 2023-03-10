@@ -1,6 +1,7 @@
 package com.capgemini.bedland.member.internal;
 
 import com.capgemini.bedland.member.api.MemberProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,13 +11,14 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/member")
 class MemberController {
 
     @Autowired
-    private MemberService memberService;
+    private final MemberService memberService;
     @Autowired
-    private MemberProvider memberProvider;
+    private final MemberProvider memberProvider;
 
     @GetMapping()
     List<MemberDto> getAll() {

@@ -26,6 +26,9 @@ class MemberServiceImpl implements MemberService, MemberProvider {
 
     @Override
     public MemberDto getById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         return memberMapper.entity2Dto(memberRepository.findById(id)
                                                        .orElseThrow(() -> new NotFoundException(id)));
     }
@@ -41,6 +44,9 @@ class MemberServiceImpl implements MemberService, MemberProvider {
 
     @Override
     public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         if (!memberRepository.existsById(id)) {
             throw new NotFoundException(id);
         }

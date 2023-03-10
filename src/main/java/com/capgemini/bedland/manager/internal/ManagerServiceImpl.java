@@ -24,8 +24,11 @@ class ManagerServiceImpl implements ManagerService, ManagerProvider {
 
     @Override
     public ManagerDto getById(final Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         return managerMapper.entity2Dto(managerRepository.findById(id)
-                                                         .orElseThrow(() -> new NotFoundException(id)));
+                .orElseThrow(() -> new NotFoundException(id)));
     }
 
     @Override
@@ -52,6 +55,9 @@ class ManagerServiceImpl implements ManagerService, ManagerProvider {
 
     @Override
     public void delete(final Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         if (!managerRepository.existsById(id)) {
             throw new NotFoundException(id);
         }

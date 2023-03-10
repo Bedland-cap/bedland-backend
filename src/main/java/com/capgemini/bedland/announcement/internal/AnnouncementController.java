@@ -1,7 +1,7 @@
 package com.capgemini.bedland.announcement.internal;
 
 import com.capgemini.bedland.announcement.api.AnnouncementProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,14 +9,15 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/announcement")
 class AnnouncementController {
 
-    @Autowired
-    private AnnouncementService announcementService;
-    @Autowired
-    private AnnouncementProvider announcementProvider;
+
+    private final AnnouncementService announcementService;
+
+    private final AnnouncementProvider announcementProvider;
 
     @GetMapping()
     List<AnnouncementDto> getAll() {

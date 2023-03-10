@@ -30,6 +30,9 @@ class AnnouncementServiceImpl implements AnnouncementService, AnnouncementProvid
 
     @Override
     public AnnouncementDto getById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         return announcementMapper.entity2Dto(announcementRepository.findById(id)
                                                                    .orElseThrow(() -> new NotFoundException(id)));
     }
@@ -45,6 +48,9 @@ class AnnouncementServiceImpl implements AnnouncementService, AnnouncementProvid
 
     @Override
     public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         if (!announcementRepository.existsById(id)) {
             throw new NotFoundException(id);
         }
