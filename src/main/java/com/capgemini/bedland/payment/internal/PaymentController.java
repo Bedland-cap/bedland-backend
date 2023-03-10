@@ -1,7 +1,7 @@
 package com.capgemini.bedland.payment.internal;
 
 import com.capgemini.bedland.payment.api.PaymentProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,13 +10,12 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/payment")
 class PaymentController {
 
-    @Autowired
-    private PaymentProvider paymentProvider;
-    @Autowired
-    private PaymentService paymentService;
+    private final PaymentProvider paymentProvider;
+    private final PaymentService paymentService;
 
     @GetMapping()
     List<PaymentDto> getAll() {

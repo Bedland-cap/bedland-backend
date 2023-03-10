@@ -3,15 +3,14 @@ package com.capgemini.bedland.payment.internal;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.payment.api.PaymentProvider;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,17 +24,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 class PaymentControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
-    @MockBean
+    private MockMvc mockMvc;
+    @Mock
     private PaymentService paymentServiceMock;
-    @MockBean
+    @Mock
     private PaymentProvider paymentProviderMock;
+
+    @BeforeEach
+    void setUpController(){
+        PaymentController controller = new PaymentController(paymentProviderMock, paymentServiceMock);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    }
 
     @Test
     void shouldReturnListOfPaymentWhenGetAll() throws Exception {
@@ -44,25 +46,25 @@ class PaymentControllerTest {
 
         when(paymentProviderMock.getAll()).thenReturn(List.of(payment1, payment2));
 
-        mvc.perform(get("/payment").contentType(APPLICATION_JSON))
-           .andDo(log())
-           .andExpect(status().isOk())
-           .andExpect(jsonPath("$").isArray())
-           .andExpect(jsonPath("$[0].flatId").value(payment1.getFlatId()))
-           .andExpect(jsonPath("$[0].paymentType").value(payment1.getPaymentType()))
-           .andExpect(jsonPath("$[0].paymentValue").value(payment1.getPaymentValue()))
-           .andExpect(jsonPath("$[1].flatId").value(payment2.getFlatId()))
-           .andExpect(jsonPath("$[1].paymentType").value(payment2.getPaymentType()))
-           .andExpect(jsonPath("$[1].paymentValue").value(payment2.getPaymentValue()))
-           .andExpect(jsonPath("$[2]").doesNotExist());
+        mockMvc.perform(get("/payment").contentType(APPLICATION_JSON))
+               .andDo(log())
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$").isArray())
+               .andExpect(jsonPath("$[0].flatId").value(payment1.getFlatId()))
+               .andExpect(jsonPath("$[0].paymentType").value(payment1.getPaymentType()))
+               .andExpect(jsonPath("$[0].paymentValue").value(payment1.getPaymentValue()))
+               .andExpect(jsonPath("$[1].flatId").value(payment2.getFlatId()))
+               .andExpect(jsonPath("$[1].paymentType").value(payment2.getPaymentType()))
+               .andExpect(jsonPath("$[1].paymentValue").value(payment2.getPaymentValue()))
+               .andExpect(jsonPath("$[2]").doesNotExist());
     }
 
     @Test
     void shouldReturnEmptyListWhenGetAllPaymentAndZeroPaymentExist() throws Exception {
-        mvc.perform(get("/payment").contentType(APPLICATION_JSON))
-           .andDo(log())
-           .andExpect(status().isOk())
-           .andExpect(jsonPath("$[0]").doesNotExist());
+        mockMvc.perform(get("/payment").contentType(APPLICATION_JSON))
+               .andDo(log())
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$[0]").doesNotExist());
     }
 
     @Test
@@ -72,13 +74,13 @@ class PaymentControllerTest {
 
         when(paymentProviderMock.getById(any())).thenReturn(payment);
 
-        mvc.perform(get("/payment/{paymentId}", paymentId)
-                            .contentType(APPLICATION_JSON))
-           .andDo(log())
-           .andExpect(status().isOk())
-           .andExpect(jsonPath("$.flatId").value(payment.getFlatId()))
-           .andExpect(jsonPath("$.paymentType").value(payment.getPaymentType()))
-           .andExpect(jsonPath("$.paymentValue").value(payment.getPaymentValue()));
+        mockMvc.perform(get("/payment/{paymentId}", paymentId)
+                                .contentType(APPLICATION_JSON))
+               .andDo(log())
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.flatId").value(payment.getFlatId()))
+               .andExpect(jsonPath("$.paymentType").value(payment.getPaymentType()))
+               .andExpect(jsonPath("$.paymentValue").value(payment.getPaymentValue()));
     }
 
     @Test
@@ -87,10 +89,10 @@ class PaymentControllerTest {
 
         doThrow(NotFoundException.class).when(paymentProviderMock)
                                         .getById(paymentId);
-        mvc.perform(get("/payment/{paymentId}", paymentId)
-                            .contentType(APPLICATION_JSON))
-           .andDo(log())
-           .andExpect(status().isNotFound());
+        mockMvc.perform(get("/payment/{paymentId}", paymentId)
+                                .contentType(APPLICATION_JSON))
+               .andDo(log())
+               .andExpect(status().isNotFound());
     }
 
     @Test
@@ -112,14 +114,14 @@ class PaymentControllerTest {
                                 "paymentValue": %s
                              }
                              """.formatted(flatId, expirationDate, paymentType, paymentValue);
-        mvc.perform(post("/payment")
-                            .contentType(APPLICATION_JSON)
-                            .content(requestBody))
-           .andDo(log())
-           .andExpect(status().isCreated())
-           .andExpect(jsonPath("$.flatId").value(payment.getFlatId()))
-           .andExpect(jsonPath("$.paymentType").value(payment.getPaymentType()))
-           .andExpect(jsonPath("$.paymentValue").value(payment.getPaymentValue()));
+        mockMvc.perform(post("/payment")
+                                .contentType(APPLICATION_JSON)
+                                .content(requestBody))
+               .andDo(log())
+               .andExpect(status().isCreated())
+               .andExpect(jsonPath("$.flatId").value(payment.getFlatId()))
+               .andExpect(jsonPath("$.paymentType").value(payment.getPaymentType()))
+               .andExpect(jsonPath("$.paymentValue").value(payment.getPaymentValue()));
     }
 
     @Test
@@ -127,10 +129,10 @@ class PaymentControllerTest {
     void shouldDeletedPaymentWhenDelete() throws Exception {
         long paymentId = 1L;
 
-        mvc.perform(delete("/payment/{paymentId}", paymentId)
-                            .contentType(MediaType.APPLICATION_JSON))
-           .andDo(log())
-           .andExpect(status().isNoContent());
+        mockMvc.perform(delete("/payment/{paymentId}", paymentId)
+                                .contentType(MediaType.APPLICATION_JSON))
+               .andDo(log())
+               .andExpect(status().isNoContent());
     }
 
     @Test
@@ -140,10 +142,10 @@ class PaymentControllerTest {
         doThrow(NotFoundException.class).when(paymentServiceMock)
                                         .delete(paymentId);
 
-        mvc.perform(delete("/payment/{paymentId}", paymentId)
-                            .contentType(APPLICATION_JSON))
-           .andDo(log())
-           .andExpect(status().isNotFound());
+        mockMvc.perform(delete("/payment/{paymentId}", paymentId)
+                                .contentType(APPLICATION_JSON))
+               .andDo(log())
+               .andExpect(status().isNotFound());
     }
 
     @Test
@@ -165,14 +167,14 @@ class PaymentControllerTest {
                                   "paymentValue": %s
                                }
                                """.formatted(payment.getId(), flatId, expirationDate, paymentType, paymentValue);
-        mvc.perform(patch("/payment")
-                            .contentType(APPLICATION_JSON)
-                            .content(updateRequest))
-           .andDo(log())
-           .andExpect(status().isOk())
-           .andExpect(jsonPath("$.flatId").value(payment.getFlatId()))
-           .andExpect(jsonPath("$.paymentType").value(payment.getPaymentType()))
-           .andExpect(jsonPath("$.paymentValue").value(payment.getPaymentValue()));
+        mockMvc.perform(patch("/payment")
+                                .contentType(APPLICATION_JSON)
+                                .content(updateRequest))
+               .andDo(log())
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.flatId").value(payment.getFlatId()))
+               .andExpect(jsonPath("$.paymentType").value(payment.getPaymentType()))
+               .andExpect(jsonPath("$.paymentValue").value(payment.getPaymentValue()));
     }
 
 }
