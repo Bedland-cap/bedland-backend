@@ -26,12 +26,18 @@ class VotingOptionServiceImpl implements VotingOptionService, VotingOptionProvid
 
     @Override
     public VotingOptionDto getById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         return votingOptionMapper.entity2Dto(votingOptionRepository.findById(id)
                                                                    .orElseThrow(() -> new NotFoundException(id)));
     }
 
     @Override
     public VotingOptionDto create(VotingOptionDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Given request is null");
+        }
         if (request.getId() != null) {
             throw new IllegalArgumentException("Given request contains an ID. VotingOption can't be created");
         }
@@ -41,6 +47,9 @@ class VotingOptionServiceImpl implements VotingOptionService, VotingOptionProvid
 
     @Override
     public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         if (!votingOptionRepository.existsById(id)) {
             throw new NotFoundException(id);
         }
@@ -49,6 +58,9 @@ class VotingOptionServiceImpl implements VotingOptionService, VotingOptionProvid
 
     @Override
     public VotingOptionDto update(VotingOptionDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Given request is null");
+        }
         if (request.getId() == null) {
             throw new IllegalArgumentException("Given request has no ID");
         }

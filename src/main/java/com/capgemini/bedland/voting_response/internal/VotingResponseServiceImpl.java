@@ -29,12 +29,18 @@ class VotingResponseServiceImpl implements VotingResponseService, VotingResponse
 
     @Override
     public VotingResponseDto getById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         return votingResponseMapper.entity2Dto(votingResponseRepository.findById(id)
                                                                        .orElseThrow(() -> new NotFoundException(id)));
     }
 
     @Override
     public VotingResponseDto create(VotingResponseDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Given request is null");
+        }
         if (request.getId() != null) {
             throw new IllegalArgumentException("Given request contains an ID. VotingResponse can't be created");
         }
@@ -44,6 +50,9 @@ class VotingResponseServiceImpl implements VotingResponseService, VotingResponse
 
     @Override
     public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Given ID is null");
+        }
         if (!votingResponseRepository.existsById(id)) {
             throw new NotFoundException(id);
         }
@@ -52,6 +61,9 @@ class VotingResponseServiceImpl implements VotingResponseService, VotingResponse
 
     @Override
     public VotingResponseDto update(VotingResponseDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Given request is null");
+        }
         if (request.getId() == null) {
             throw new IllegalArgumentException("Given request has no ID");
         }

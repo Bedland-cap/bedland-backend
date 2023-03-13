@@ -1,7 +1,7 @@
 package com.capgemini.bedland.voting_option.internal;
 
 import com.capgemini.bedland.voting_option.api.VotingOptionProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,12 +10,12 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/voting-option")
 class VotingOptionController {
-    @Autowired
-    private VotingOptionProvider votingOptionProvider;
-    @Autowired
-    private VotingOptionService votingOptionService;
+
+    private final VotingOptionProvider votingOptionProvider;
+    private final VotingOptionService votingOptionService;
 
     @GetMapping()
     List<VotingOptionDto> getAll() {

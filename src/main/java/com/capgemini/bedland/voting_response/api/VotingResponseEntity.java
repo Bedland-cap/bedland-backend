@@ -19,7 +19,7 @@ public class VotingResponseEntity extends AbstractEntity {
     @JoinColumn
     private FlatEntity flatEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private VotingOptionEntity votingOptionEntity;
 
 }
