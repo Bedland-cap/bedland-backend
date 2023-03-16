@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-class VotingMapper {
+public class VotingMapper {
 
     public VotingDto entity2Dto(VotingEntity entity) {
         if (entity == null) {

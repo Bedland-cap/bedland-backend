@@ -33,7 +33,7 @@ class VotingServiceImpl implements VotingService, VotingProvider {
             throw new IllegalArgumentException("Given ID is null");
         }
         return votingMapper.entity2Dto(votingRepository.findById(id)
-                                                       .orElseThrow(() -> new NotFoundException(id)));
+                .orElseThrow(() -> new NotFoundException(id)));
     }
 
     @Override
@@ -77,7 +77,7 @@ class VotingServiceImpl implements VotingService, VotingProvider {
     private VotingEntity repackDtoToEntity(VotingDto dto) {
         VotingEntity entity = votingMapper.dto2Entity(dto);
         entity.setBuildingEntity(buildingRepository.findById(dto.getBuildingId())
-                                                   .orElseThrow(() -> new NotFoundException(dto.getBuildingId())));
+                .orElseThrow(() -> new NotFoundException(dto.getBuildingId())));
         return entity;
     }
 

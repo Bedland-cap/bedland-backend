@@ -54,7 +54,7 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 1, CURRENT_TIMESTAMP(), 'Nowe głosowa
        (2, 0, '2023-02-14', '2023-02-14', 1, CURRENT_TIMESTAMP(), 'Usługi sprzątające','Drodzy mieszkańcy! Rozważamy zmianę firmy świadczącej usługi sprzątające. Czy jest Pan/Pani zadowolona z jakości usług świadczonych do tej pory?'),
        (3, 0, '2023-02-14', '2023-02-14', 1, CURRENT_TIMESTAMP(), 'Nowe głosowanie','Drodzy mieszkańcy! Głosujemy nad zmianą godzin, w których zakazane jest wykonywanie głośnych prac remontowych. Proszę zaznaczyć przedział godzinowy, który Pani/Pana zdaniem będzie odpowiedni.'),
        (4, 0, '2023-02-14', '2023-02-14', 1, CURRENT_TIMESTAMP(), 'Płatna strefa parkowania','Czy popiera Pani/Pan wprowadzenie płatnej strefy parkowania na terenie naszego osiedla'),
-       (5, 0, '2023-02-14', '2023-02-14', 1, CURRENT_TIMESTAMP(), 'Aplikacja BedLand','Proszę zaznaczyć odpowiedź najtrafniej określającą odczucia odnoście aplikacji BedLand zarządzającej naszym osiedlem');
+       (5, 0, '2023-02-14', '2023-02-14', 2, CURRENT_TIMESTAMP(), 'Aplikacja BedLand','Proszę zaznaczyć odpowiedź najtrafniej określającą odczucia odnoście aplikacji BedLand zarządzającej naszym osiedlem');
 
 INSERT INTO voting_option(id, version, create_date, update_date, voting_entity_id, title, description)
 VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'więcej roślinności', 'na osiedlu zostaną wykonane nowe nasadzenia'),
