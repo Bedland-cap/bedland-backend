@@ -5,8 +5,11 @@ import com.capgemini.bedland.building.internal.BuildingDto;
 import java.util.List;
 
 public interface BuildingProvider {
+
     List<BuildingDto> getAll();
 
     BuildingDto getById(Long id);
+
+    byte[] getPhotoByBuildingId(Long id);
 
 }

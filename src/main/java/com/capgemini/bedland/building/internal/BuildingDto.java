@@ -14,4 +14,5 @@ public class BuildingDto extends AbstractDto {
     private String buildingName;
     private String address;
     private int floors;
+    private byte[] photo;
 }

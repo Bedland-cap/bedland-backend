@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 public class MemberDto extends AbstractDto {
@@ -20,5 +19,6 @@ public class MemberDto extends AbstractDto {
     private String phoneNumber;
     private boolean isOwner;
     private Long flatId;
+    private byte[] avatar;
 
 }

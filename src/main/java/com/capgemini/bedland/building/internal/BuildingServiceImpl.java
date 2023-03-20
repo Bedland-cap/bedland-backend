@@ -3,10 +3,14 @@ package com.capgemini.bedland.building.internal;
 import com.capgemini.bedland.building.api.BuildingEntity;
 import com.capgemini.bedland.building.api.BuildingProvider;
 import com.capgemini.bedland.exceptions.NotFoundException;
+import com.capgemini.bedland.image.ImageUtil;
+import com.capgemini.bedland.manager.api.ManagerEntity;
 import com.capgemini.bedland.manager.internal.ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -31,6 +35,13 @@ public class BuildingServiceImpl implements BuildingService, BuildingProvider {
         }
         return buildingMapper.entity2Dto(buildingRepository.findById(id)
                                                            .orElseThrow(() -> new NotFoundException(id)));
+    }
+
+    @Override
+    public byte[] getPhotoByBuildingId(Long id) {
+        BuildingEntity buildingEntity = buildingRepository.findById(id)
+                                                       .orElseThrow(() -> new NotFoundException(id));
+        return ImageUtil.decompressImage(buildingEntity.getPhoto());
     }
 
     @Override
@@ -64,6 +75,21 @@ public class BuildingServiceImpl implements BuildingService, BuildingProvider {
         }
         BuildingEntity updateBuilding = buildingRepository.save(repackDtoToEntity(request));
         return buildingMapper.entity2Dto(updateBuilding);
+    }
+
+    @Override
+    public BuildingDto updatePhoto(Long id, MultipartFile file) {
+        if (id == null || file == null) {
+            throw new IllegalArgumentException("Given param is null");
+        }
+        BuildingEntity buildingEntity =buildingRepository.findById(id)
+                                                       .orElseThrow(() -> new NotFoundException(id));
+        try {
+            buildingEntity.setPhoto(ImageUtil.compressImage(file.getBytes()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buildingMapper.entity2Dto(buildingRepository.save(buildingEntity));
     }
 
     private BuildingEntity repackDtoToEntity(BuildingDto dto) {

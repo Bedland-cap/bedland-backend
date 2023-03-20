@@ -12,6 +12,8 @@ import lombok.Setter;
 
 import java.util.List;
 
+import static org.hibernate.Length.LONG32;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -40,5 +42,7 @@ public class BuildingEntity extends AbstractEntity {
 
     @Column(nullable = false, length = 2, name = "FLOORS")
     private int floors;
+    @Column(name = "PHOTO", length = LONG32)
+    private byte[] photo;
 
 }

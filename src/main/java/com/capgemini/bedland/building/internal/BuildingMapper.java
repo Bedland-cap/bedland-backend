@@ -22,6 +22,7 @@ class BuildingMapper {
                           .buildingName(entity.getBuildingName())
                           .address(entity.getAddress())
                           .floors(entity.getFloors())
+                          .photo(entity.getPhoto())
                           .build();
     }
 
@@ -43,6 +44,7 @@ class BuildingMapper {
         newBuilding.setBuildingName(dto.getBuildingName());
         newBuilding.setAddress(dto.getAddress());
         newBuilding.setFloors(dto.getFloors());
+        newBuilding.setPhoto(dto.getPhoto());
         if (dto.getId() != null) {
             newBuilding.setId(dto.getId());
         }

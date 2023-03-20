@@ -20,6 +20,7 @@ class ManagerMapper {
                          .lastName(entity.getLastName())
                          .email(entity.getEmail())
                          .phoneNumber(entity.getPhoneNumber())
+                         .avatar(entity.getAvatar())
                          .build();
     }
 
@@ -43,6 +44,7 @@ class ManagerMapper {
         newManager.setLastName(dto.getLastName());
         newManager.setEmail(dto.getEmail());
         newManager.setPhoneNumber(dto.getPhoneNumber());
+        newManager.setAvatar(dto.getAvatar());
         if (dto.getId() != null) {
             newManager.setId(dto.getId());
         }

@@ -2,11 +2,14 @@ package com.capgemini.bedland.member.internal;
 
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.flat.internal.FlatRepository;
+import com.capgemini.bedland.image.ImageUtil;
 import com.capgemini.bedland.member.api.MemberEntity;
 import com.capgemini.bedland.member.api.MemberProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -31,6 +34,13 @@ class MemberServiceImpl implements MemberService, MemberProvider {
         }
         return memberMapper.entity2Dto(memberRepository.findById(id)
                                                        .orElseThrow(() -> new NotFoundException(id)));
+    }
+
+    @Override
+    public byte[] getAvatarByMemberId(Long id) {
+        MemberEntity memberEntity = memberRepository.findById(id)
+                                                    .orElseThrow(() -> new NotFoundException(id));
+        return ImageUtil.decompressImage(memberEntity.getAvatar());
     }
 
     @Override
@@ -61,13 +71,36 @@ class MemberServiceImpl implements MemberService, MemberProvider {
         if (!memberRepository.existsById(request.getId())) {
             throw new NotFoundException(request.getId());
         }
+        MemberDto memberDto = memberMapper.entity2Dto(memberRepository.findById(request.getId())
+                                                                      .orElseThrow(() -> new NotFoundException(
+                                                                              request.getId())));
+        if (request.getAvatar() == null) {
+            request.setAvatar(memberDto.getAvatar());
+        }
         MemberEntity updateMember = memberRepository.save(repackDtoToEntity(request));
+        return memberMapper.entity2Dto(updateMember);
+    }
+
+    @Override
+    public MemberDto updateAvatar(Long id, MultipartFile file) {
+        if (id == null || file == null) {
+            throw new IllegalArgumentException("Given param is null");
+        }
+        MemberDto member = memberMapper.entity2Dto(memberRepository.findById(id)
+                                                                   .orElseThrow(() -> new NotFoundException(id)));
+        try {
+            member.setAvatar(ImageUtil.compressImage(file.getBytes()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MemberEntity updateMember = memberRepository.save(repackDtoToEntity(member));
         return memberMapper.entity2Dto(updateMember);
     }
 
     private MemberEntity repackDtoToEntity(MemberDto dto) {
         MemberEntity entity = memberMapper.dto2Entity(dto);
-        entity.setFlatEntity(flatRepository.findById(dto.getFlatId()).get());
+        entity.setFlatEntity(flatRepository.findById(dto.getFlatId())
+                                           .orElseThrow(() -> new NotFoundException(dto.getFlatId())));
         return entity;
     }
 

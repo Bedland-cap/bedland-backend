@@ -1,14 +1,17 @@
 package com.capgemini.bedland.building.internal;
 
 import com.capgemini.bedland.building.api.BuildingProvider;
+import com.capgemini.bedland.manager.internal.ManagerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +33,13 @@ class BuildingController {
         return buildingProvider.getById(id);
     }
 
+    @GetMapping("/image/{id}")
+    ResponseEntity<byte[]> getPhotoByBuildingId(@PathVariable Long id) {
+        return ResponseEntity.status(OK)
+                             .contentType(MediaType.valueOf("image/png"))
+                             .body(buildingProvider.getPhotoByBuildingId(id));
+    }
+
     @PostMapping()
     @ResponseStatus(CREATED)
     BuildingDto create(@RequestBody BuildingDto request) {
@@ -41,6 +51,10 @@ class BuildingController {
         return buildingService.update(request);
     }
 
+    @PatchMapping("/image/{id}")
+    BuildingDto updatePhoto(@PathVariable Long id, @RequestParam(value = "image", required = false) MultipartFile file) {
+        return buildingService.updatePhoto(id, file);
+    }
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     void delete(@PathVariable Long id) {

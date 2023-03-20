@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import static org.hibernate.Length.LONG32;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -39,5 +41,7 @@ public class MemberEntity extends AbstractEntity {
     @Column(nullable = false, name = "IS_OWNER")
     private boolean isOwner;
 
+    @Column(name = "AVATAR", length = LONG32)
+    private byte[] avatar;
 
 }

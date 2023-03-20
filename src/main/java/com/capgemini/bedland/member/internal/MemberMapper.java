@@ -24,7 +24,9 @@ class MemberMapper {
                         .email(entity.getEmail())
                         .phoneNumber(entity.getPhoneNumber())
                         .isOwner(entity.isOwner())
-                        .flatId(entity.getFlatEntity().getId())
+                        .flatId(entity.getFlatEntity()
+                                      .getId())
+                        .avatar(entity.getAvatar())
                         .build();
     }
 
@@ -50,6 +52,7 @@ class MemberMapper {
         newMember.setEmail(dto.getEmail());
         newMember.setPhoneNumber(dto.getPhoneNumber());
         newMember.setOwner(dto.isOwner());
+        newMember.setAvatar(dto.getAvatar());
         if (dto.getId() != null) {
             newMember.setId(dto.getId());
         }

@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.util.List;
 
+import static org.hibernate.Length.LONG32;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -37,5 +39,7 @@ public class ManagerEntity extends AbstractEntity {
     @Column(nullable = false, length = 25, name = "PHONE_NUMBER")
     private String phoneNumber;
 
+    @Column(name="AVATAR", length = LONG32)
+    private byte[] avatar;
 
 }

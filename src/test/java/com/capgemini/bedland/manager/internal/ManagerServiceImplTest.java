@@ -1,26 +1,33 @@
 package com.capgemini.bedland.manager.internal;
 
 import com.capgemini.bedland.exceptions.NotFoundException;
+import com.capgemini.bedland.image.ImageUtil;
 import com.capgemini.bedland.manager.api.ManagerEntity;
 import com.capgemini.bedland.manager.api.ManagerProvider;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @Transactional
 @AutoConfigureTestDatabase
 @SpringBootTest
-public class ManagerServiceImplTest {
+class ManagerServiceImplTest {
 
     @Autowired
     private ManagerProvider managerProvider;
@@ -32,6 +39,11 @@ public class ManagerServiceImplTest {
 
     @Autowired
     private ManagerMapper managerMapper;
+
+    @AfterEach
+    void cleanUp() {
+        Mockito.clearAllCaches();
+    }
 
     @Test
     void shouldReturnAllManagersWhenGettingAllManagers() {
@@ -45,11 +57,11 @@ public class ManagerServiceImplTest {
         assertEquals(managersInDB, managersReceivedWhenGettingALl);
     }
 
-
     @Test
     void shouldFindManagerByIdWhenGettingManagerById() {
         //given
-        ManagerDto expectedManager = managerMapper.entity2Dto(managerRepository.findAll().get(0));
+        ManagerDto expectedManager = managerMapper.entity2Dto(managerRepository.findAll()
+                                                                               .get(0));
         //when
         ManagerDto foundManager = managerProvider.getById(expectedManager.getId());
         //then
@@ -77,9 +89,32 @@ public class ManagerServiceImplTest {
     }
 
     @Test
+    void shouldFindManagerAvatarByManagerIdWhenGettingManagerById() throws IOException {
+        //given
+        ManagerEntity manager = managerRepository.findAll()
+                                                 .get(0);
+        byte[] data = {1, 2};
+        MultipartFile file = new MockMultipartFile("name.xD", data);
+        //when
+        mockStatic(ImageUtil.class);
+        when(ImageUtil.decompressImage(data)).thenReturn(data);
+        manager.setAvatar(file.getBytes());
+        managerRepository.save(manager);
+        //then
+        assertEquals(managerProvider.getAvatarByManagerId(manager.getId()), manager.getAvatar());
+    }
+
+    @Test
     void shouldCreateManagerWhenCreatingManager() {
         //given
-        ManagerDto newManager = ManagerDto.builder().login("jwick").password("password123").name("John").lastName("Wick").email("jwick@gmail.com").phoneNumber("666666666").build();
+        ManagerDto newManager = ManagerDto.builder()
+                                          .login("jwick")
+                                          .password("password123")
+                                          .name("John")
+                                          .lastName("Wick")
+                                          .email("jwick@gmail.com")
+                                          .phoneNumber("666666666")
+                                          .build();
         List<ManagerEntity> managersBeforeSavingNewOne = managerRepository.findAll();
         //when
         ManagerDto createdManager = managerService.create(newManager);
@@ -93,7 +128,15 @@ public class ManagerServiceImplTest {
     @Test
     void shouldThrowIllegalArgumentExceptionWhenCreatingManagerWhoHasId() {
         //given
-        ManagerDto newManager = ManagerDto.builder().login("jwick").password("password123").name("John").lastName("Wick").email("jwick@gmail.com").phoneNumber("666666666").id(999L).build();
+        ManagerDto newManager = ManagerDto.builder()
+                                          .login("jwick")
+                                          .password("password123")
+                                          .name("John")
+                                          .lastName("Wick")
+                                          .email("jwick@gmail.com")
+                                          .phoneNumber("666666666")
+                                          .id(999L)
+                                          .build();
         //when
         //then
         assertThrows(IllegalArgumentException.class, () -> managerService.create(newManager));
@@ -102,7 +145,8 @@ public class ManagerServiceImplTest {
     @Test
     void shouldUpdateManagerWhenUpdatingManager() {
         //given
-        ManagerDto managerToUpdate = managerProvider.getAll().get(0);
+        ManagerDto managerToUpdate = managerProvider.getAll()
+                                                    .get(0);
         String oldName = managerToUpdate.getName();
         String newName = "John";
         managerToUpdate.setName(newName);
@@ -118,7 +162,8 @@ public class ManagerServiceImplTest {
     @Test
     void shouldThrowIllegalArgumentExceptionWhenUpdatingManagerWithNullID() {
         //given
-        ManagerDto managerToUpdate = managerProvider.getAll().get(0);
+        ManagerDto managerToUpdate = managerProvider.getAll()
+                                                    .get(0);
         managerToUpdate.setId(null);
         //when + then
         assertThrows(IllegalArgumentException.class, () -> managerService.update(managerToUpdate));
@@ -127,18 +172,71 @@ public class ManagerServiceImplTest {
     @Test
     void shouldThrowNotFoundExceptionWhenUpdatingManagerWithIDNotPresentInDB() {
         //given
-        ManagerDto managerToUpdate = managerProvider.getAll().get(0);
+        ManagerDto managerToUpdate = managerProvider.getAll()
+                                                    .get(0);
         managerToUpdate.setId(99999L);
         //when + then
         assertThrows(NotFoundException.class, () -> managerService.update(managerToUpdate));
     }
 
+    @Test
+    void shouldReturnUpdateManagerWhenUpdateAvatar() throws IOException {
+        //given
+        byte[] data = new byte[2];
+        MultipartFile file = new MockMultipartFile("updateFile.xD", data);
+        MultipartFile newFile = new MockMultipartFile("updateFile.xD", data);
+        ManagerDto managerToUpdate = managerProvider.getAll()
+                                                    .get(0);
+        managerToUpdate.setAvatar(file.getBytes());
+        managerRepository.save(managerMapper.dto2Entity(managerToUpdate));
+        // when
+        ManagerDto updatedManager = managerService.updateAvatar(managerToUpdate.getId(), newFile);
+        // then
+        assertEquals(managerToUpdate.getId(), updatedManager.getId());
+        assertNotEquals(managerToUpdate.getAvatar(), updatedManager.getAvatar());
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenUpdatingAvatarWithNullID() {
+        //given
+        byte[] data = new byte[2];
+        MultipartFile file = new MockMultipartFile("file.xd", data);
+        //when + then
+        assertThrows(IllegalArgumentException.class, () -> managerService.updateAvatar(null, file));
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenUpdatingAvatarWithNullFile() {
+        //given
+        Long id = managerRepository.findAll()
+                                   .get(0)
+                                   .getId();
+        //when + then
+        assertThrows(IllegalArgumentException.class, () -> managerService.updateAvatar(id, null));
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenUpdatingAvatarWithNullIDAndNullFile() {
+        //given + when + then
+        assertThrows(IllegalArgumentException.class, () -> managerService.updateAvatar(null, null));
+    }
+
+    @Test
+    void shouldThrowNotFoundExceptionWhenUpdatingAvatarForManagerThatNotExist() {
+        //given
+        Long id = Long.MAX_VALUE;
+        byte[] data = new byte[2];
+        MultipartFile file = new MockMultipartFile("file.xD", data);
+        // when + then
+        assertThrows(NotFoundException.class, () -> managerService.updateAvatar(id, file));
+    }
 
     @Test
     void shouldDeleteManagerWhenDeletingManager() {
         //given
         List<ManagerDto> managersBeforeDeletingOne = managerProvider.getAll();
-        ManagerDto managerToDeleteDto = managerProvider.getAll().get(0);
+        ManagerDto managerToDeleteDto = managerProvider.getAll()
+                                                       .get(0);
         Long id = managerToDeleteDto.getId();
         //when
         managerService.delete(id);

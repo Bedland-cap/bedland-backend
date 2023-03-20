@@ -10,4 +10,6 @@ public interface ManagerProvider {
 
     ManagerDto getById(Long id);
 
+    byte[] getAvatarByManagerId(Long id);
+
 }

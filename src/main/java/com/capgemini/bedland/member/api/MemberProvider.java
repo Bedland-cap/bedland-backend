@@ -10,4 +10,6 @@ public interface MemberProvider {
 
     MemberDto getById(Long id);
 
+    byte[] getAvatarByMemberId(Long id);
+
 }
