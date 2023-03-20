@@ -4,10 +4,13 @@ import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.manager.internal.ManagerRepository;
 import com.capgemini.bedland.voting.internal.VotingDto;
 import com.capgemini.bedland.voting.internal.VotingMapper;
+import com.capgemini.bedland.voting.internal.VotingRepository;
+import com.capgemini.bedland.voting_option.api.VotingOptionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Transactional
@@ -16,7 +19,8 @@ public class CustomVotingServiceImpl implements CustomVotingService {
 
     @Autowired
     private VotingMapper votingMapper;
-
+    @Autowired
+    private VotingRepository votingRepository;
     @Autowired
     private ManagerRepository managerRepository;
     @Autowired
@@ -32,4 +36,27 @@ public class CustomVotingServiceImpl implements CustomVotingService {
         }
         return votingMapper.entities2DTO(customVotingRepository.findAllVotingsForGivenManager(managerId));
     }
+
+    //todo: tests for below
+    @Override
+    public List<VotingDetailsDto> findOptionsWithNumberOfResponsesForGivenVoting(Long votingId) {
+        if (votingId == null) {
+            throw new IllegalArgumentException("voting ID can't be null");
+        }
+        if (!votingRepository.existsById(votingId)) {
+            throw new NotFoundException("Voting ID doesn't exist in DB");
+        }
+        List<VotingDetailsDto> votingDetailsResults = new LinkedList<>();
+        List<VotingOptionEntity> optionsForGivenVoting = customVotingRepository.findOptionsForGivenVoting(votingId);
+
+        for (VotingOptionEntity option : optionsForGivenVoting) {
+            VotingDetailsDto optionDetail = new VotingDetailsDto();
+            optionDetail.setVotingOptionTitle(option.getTitle());
+            int responseAmount = customVotingRepository.findResponsesForGivenVotingOption(option.getId()).size();
+            optionDetail.setAmountOfResponses(responseAmount);
+            votingDetailsResults.add(optionDetail);
+        }
+        return votingDetailsResults;
+    }
+
 }

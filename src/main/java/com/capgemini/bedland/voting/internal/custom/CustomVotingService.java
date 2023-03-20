@@ -7,4 +7,5 @@ import java.util.List;
 public interface CustomVotingService {
 
     List<VotingDto> findAllVotingsForGivenManager(Long managerId);
+    List<VotingDetailsDto> findOptionsWithNumberOfResponsesForGivenVoting(Long votingId);
 }
