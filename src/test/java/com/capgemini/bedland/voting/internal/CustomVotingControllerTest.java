@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         //when
         when(customVotingServiceMock.findAllVotingsForGivenManager(managerId)).thenReturn(List.of(voting1, voting2, voting3));
         //then
-        mockMvc.perform(get("/voting_summary").param("managerId", String.valueOf(managerId))).andDo(log())
+        mockMvc.perform(get("/voting_summary").param("manager_id", String.valueOf(managerId))).andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].buildingId").value(voting1.getBuildingId()))
@@ -69,7 +69,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         doThrow(NotFoundException.class).when(customVotingServiceMock)
                 .findAllVotingsForGivenManager(managerId);
         //then
-        mockMvc.perform(get("/voting_summary").param("managerId", String.valueOf(managerId))).andDo(log())
+        mockMvc.perform(get("/voting_summary").param("manager_id", String.valueOf(managerId))).andDo(log())
                 .andExpect(status().isNotFound());
     }
 
@@ -79,7 +79,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         Long managerId = 1L;
         //when
         //then
-        mockMvc.perform(get("/voting_summary").param("managerId", String.valueOf(managerId))).andDo(log())
+        mockMvc.perform(get("/voting_summary").param("manager_id", String.valueOf(managerId))).andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0]").doesNotExist());
     }

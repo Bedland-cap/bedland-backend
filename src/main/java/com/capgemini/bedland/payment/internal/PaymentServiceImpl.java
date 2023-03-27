@@ -45,6 +45,9 @@ class PaymentServiceImpl implements PaymentService, PaymentProvider {
         if (request.getId() != null) {
             throw new IllegalArgumentException("Given request contains an ID. Payment can't be created");
         }
+        if (request.getPaymentValue() < 0 ) {
+            throw new IllegalArgumentException("Payment value must be grater than 0");
+        }
         PaymentEntity createPayment = paymentRepository.save(repackDtoToEntity(request));
         paymentStatusService.createByPaymentId(createPayment.getId());
         return paymentMapper.entity2Dto(createPayment);
