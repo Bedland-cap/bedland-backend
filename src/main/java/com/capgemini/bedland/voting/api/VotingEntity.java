@@ -18,20 +18,19 @@ import java.util.List;
 @Table(name = "VOTING")
 public class VotingEntity extends AbstractEntity {
 
-
     @OneToMany(mappedBy = "votingEntity", cascade = CascadeType.ALL)
     private List<VotingOptionEntity> votingOptionEntities;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn
     private BuildingEntity buildingEntity;
 
-    @Column(nullable = false, length = 125, name = "EXPIRATION_DATE")
+    @Column(nullable = false, name = "EXPIRATION_DATE")
     private LocalDateTime expirationDate;
 
     @Column(nullable = false, length = 125, name = "TITLE")
     private String title;
 
-    @Column(nullable = false, name = "DESCRIPTION")
+    @Column(nullable = false, length = 500, name = "DESCRIPTION")
     private String description;
 
 }

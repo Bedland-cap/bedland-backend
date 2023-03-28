@@ -112,7 +112,7 @@ public class BuildingServiceImplTest {
                                              .managerId(1L)
                                              .buildingName("test name")
                                              .address("Dubai 2137")
-                                             .floors(55)
+                                             .floors(20)
                                              .build();
         List<BuildingEntity> buildingsBeforeSavingNewOne = buildingRepository.findAll();
         //when

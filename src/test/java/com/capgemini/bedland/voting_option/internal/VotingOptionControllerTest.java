@@ -44,12 +44,10 @@ class VotingOptionControllerTest {
         VotingOptionDto votingOption1 = VotingOptionDto.builder()
                                                        .votingId(1L)
                                                        .title("Title")
-                                                       .description("Description")
                                                        .build();
         VotingOptionDto votingOption2 = VotingOptionDto.builder()
                                                        .votingId(1L)
                                                        .title("Title")
-                                                       .description("Description")
                                                        .build();
 
         when(votingOptionProviderMock.getAll()).thenReturn(List.of(votingOption1, votingOption2));
@@ -60,10 +58,8 @@ class VotingOptionControllerTest {
                .andExpect(jsonPath("$").isArray())
                .andExpect(jsonPath("$[0].votingId").value(votingOption1.getVotingId()))
                .andExpect(jsonPath("$[0].title").value(votingOption1.getTitle()))
-               .andExpect(jsonPath("$[0].description").value(votingOption1.getDescription()))
                .andExpect(jsonPath("$[1].votingId").value(votingOption2.getVotingId()))
                .andExpect(jsonPath("$[1].title").value(votingOption2.getTitle()))
-               .andExpect(jsonPath("$[1].description").value(votingOption2.getDescription()))
                .andExpect(jsonPath("$[2]").doesNotExist());
     }
 
@@ -82,7 +78,6 @@ class VotingOptionControllerTest {
                                                       .id(votingOptionId)
                                                       .votingId(1L)
                                                       .title("Title")
-                                                      .description("Description")
                                                       .build();
 
         when(votingOptionProviderMock.getById(votingOptionId)).thenReturn(votingOption);
@@ -92,8 +87,7 @@ class VotingOptionControllerTest {
                .andDo(log())
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.votingId").value(votingOption.getVotingId()))
-               .andExpect(jsonPath("$.title").value(votingOption.getTitle()))
-               .andExpect(jsonPath("$.description").value(votingOption.getDescription()));
+               .andExpect(jsonPath("$.title").value(votingOption.getTitle()));
     }
 
     @Test
@@ -117,7 +111,6 @@ class VotingOptionControllerTest {
         VotingOptionDto votingOption = VotingOptionDto.builder()
                                                       .votingId(votingId)
                                                       .title(title)
-                                                      .description(description)
                                                       .build();
         when(votingOptionServiceMock.create(any())).thenReturn(votingOption);
 
@@ -134,8 +127,7 @@ class VotingOptionControllerTest {
                .andDo(log())
                .andExpect(status().isCreated())
                .andExpect(jsonPath("$.votingId").value(votingOption.getVotingId()))
-               .andExpect(jsonPath("$.title").value(votingOption.getTitle()))
-               .andExpect(jsonPath("$.description").value(votingOption.getDescription()));
+               .andExpect(jsonPath("$.title").value(votingOption.getTitle()));
     }
 
     @Test
@@ -144,7 +136,6 @@ class VotingOptionControllerTest {
                                                       .id(1L)
                                                       .votingId(1L)
                                                       .title("Title")
-                                                      .description("Description")
                                                       .build();
 
         mockMvc.perform(delete("/voting-option/{votingOptionId}", votingOption.getId())
@@ -176,7 +167,6 @@ class VotingOptionControllerTest {
                                                       .id(id)
                                                       .votingId(votingId)
                                                       .title(title)
-                                                      .description(description)
                                                       .build();
 
         when(votingOptionServiceMock.update(any())).thenReturn(votingOption);
@@ -195,8 +185,7 @@ class VotingOptionControllerTest {
                .andDo(log())
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.votingId").value(votingOption.getVotingId()))
-               .andExpect(jsonPath("$.title").value(votingOption.getTitle()))
-               .andExpect(jsonPath("$.description").value(votingOption.getDescription()));
+               .andExpect(jsonPath("$.title").value(votingOption.getTitle()));
     }
 
 }

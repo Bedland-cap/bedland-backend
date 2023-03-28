@@ -14,6 +14,5 @@ public class VotingOptionDto extends AbstractDto {
 
     private Long votingId;
     private String title;
-    private String description;
 
 }

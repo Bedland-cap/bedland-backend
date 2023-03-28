@@ -41,6 +41,9 @@ class FlatServiceImpl implements FlatService, FlatProvider {
         if (request.getId() != null) {
             throw new IllegalArgumentException("Given request contains an ID. Flat can't be created");
         }
+        if (request.getFloor() < 0 || request.getFloor() > 20) {
+            throw new IllegalArgumentException("Incorrect value for floor");
+        }
         FlatEntity createFlat = flatRepository.save(repackDtoToEntity(request));
         return flatMapper.entity2Dto(createFlat);
     }

@@ -34,13 +34,13 @@ public class BuildingEntity extends AbstractEntity {
     @OneToMany(mappedBy = "buildingEntity", cascade = CascadeType.ALL)
     private List<FlatEntity> flatEntities;
 
-    @Column(nullable = false, length = 125, name = "BUILDING_NAME")
+    @Column(nullable = false, length = 50, name = "BUILDING_NAME")
     private String buildingName;
 
     @Column(nullable = false, length = 125, name = "ADDRESS")
     private String address;
 
-    @Column(nullable = false, length = 2, name = "FLOORS")
+    @Column(nullable = false, name = "FLOORS")
     private int floors;
     @Column(name = "PHOTO", length = LONG32)
     private byte[] photo;

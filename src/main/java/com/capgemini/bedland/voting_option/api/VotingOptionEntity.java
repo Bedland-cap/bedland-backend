@@ -26,7 +26,5 @@ public class VotingOptionEntity extends AbstractEntity {
 
     @Column(nullable = false, length = 125, name = "TITLE")
     private String title;
-    @Column(nullable = false, name = "DESCRIPTION")
-    private String description;
 
 }

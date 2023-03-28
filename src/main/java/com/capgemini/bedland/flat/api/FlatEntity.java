@@ -25,10 +25,10 @@ public class FlatEntity extends AbstractEntity {
     @JoinColumn
     private BuildingEntity buildingEntity;
 
-    @OneToMany(mappedBy = "flatEntity",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "flatEntity", cascade = CascadeType.ALL)
     private List<MemberEntity> flatMembers;
 
-    @OneToMany(mappedBy = "flatEntity",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "flatEntity", cascade = CascadeType.ALL)
     private List<AnnouncementEntity> announcementEntities;
 
     @OneToMany(mappedBy = "flatEntity", cascade = CascadeType.ALL)
@@ -40,13 +40,13 @@ public class FlatEntity extends AbstractEntity {
     @OneToMany(mappedBy = "flatEntity", cascade = CascadeType.ALL)
     private List<VotingResponseEntity> votingResponseEntities;
 
-
-    @Column(nullable = false, length = 2, name = "NUMBER")
+    @Column(nullable = false, length = 8, name = "NUMBER")
     private String number;
 
-    @Column(nullable = false, length = 2, name = "FLOOR")
+    @Column(nullable = false, name = "FLOOR")
     private int floor;
 
-    @Column(nullable = false, name = "SHAPE_PATH")
+    @Column(nullable = false, length = 250, name = "SHAPE_PATH")
     private String shapePath;
+
 }

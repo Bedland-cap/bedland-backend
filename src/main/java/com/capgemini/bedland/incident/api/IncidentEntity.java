@@ -24,10 +24,10 @@ public class IncidentEntity extends AbstractEntity {
     @OneToMany(mappedBy = "incidentEntity", cascade = CascadeType.ALL)
     private List<IncidentStatusEntity> incidentStatusEntities;
 
-    @Column(nullable = false, length = 45, name = "TITLE")
+    @Column(nullable = false, name = "TITLE")
     private String title;
 
-    @Column(nullable = false, name = "DESCRIPTION")
+    @Column(nullable = false, length = 500, name = "DESCRIPTION")
     private String description;
 
     @Column(nullable = false, name = "COMMON_SPACE")

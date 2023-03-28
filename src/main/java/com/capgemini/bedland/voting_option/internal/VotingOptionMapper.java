@@ -20,7 +20,6 @@ class VotingOptionMapper {
                               .votingId(entity.getVotingEntity()
                                               .getId())
                               .title(entity.getTitle())
-                              .description(entity.getDescription())
                               .build();
     }
 
@@ -40,7 +39,6 @@ class VotingOptionMapper {
         newVotingOption.setUpdateDate(dto.getUpdateDate());
         newVotingOption.setVotingEntity(null);
         newVotingOption.setTitle(dto.getTitle());
-        newVotingOption.setDescription(dto.getDescription());
         if (dto.getId() != null) {
             newVotingOption.setId(dto.getId());
         }

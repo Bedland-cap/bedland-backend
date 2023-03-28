@@ -13,10 +13,10 @@ import lombok.Setter;
 @Table(name = "ADMIN")
 public class AdminEntity extends AbstractEntity {
 
-    @Column(nullable = false, length = 125, name = "LOGIN")
+    @Column(nullable = false, length = 50, name = "LOGIN")
     private String login;
 
-    @Column(nullable = false, length = 45, name = "PASSWORD")
+    @Column(nullable = false, length = 50, name = "PASSWORD")
     private String password;
 
 

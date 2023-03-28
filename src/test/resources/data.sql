@@ -56,20 +56,20 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 1, CURRENT_TIMESTAMP(), 'Nowe głosowa
        (4, 0, '2023-02-14', '2023-02-14', 1, CURRENT_TIMESTAMP(), 'Płatna strefa parkowania','Czy popiera Pani/Pan wprowadzenie płatnej strefy parkowania na terenie naszego osiedla'),
        (5, 0, '2023-02-14', '2023-02-14', 2, CURRENT_TIMESTAMP(), 'Aplikacja BedLand','Proszę zaznaczyć odpowiedź najtrafniej określającą odczucia odnoście aplikacji BedLand zarządzającej naszym osiedlem');
 
-INSERT INTO voting_option(id, version, create_date, update_date, voting_entity_id, title, description)
-VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'więcej roślinności', 'na osiedlu zostaną wykonane nowe nasadzenia'),
-       (2, 0, '2023-02-14', '2023-02-14', 1, 'prywatne miejsca parkingowe', 'wyznaczone zostaną prywatne miejsca parkingowe z możliwością wykupu'),
-       (3, 0, '2023-02-14', '2023-02-14', 1, 'koncert Arki Noego', 'zostanie zorganizowany koncert Arki Noego'),
-       (4, 0, '2023-02-14', '2023-02-14', 2, 'tak', ''),
-       (5, 0, '2023-02-14', '2023-02-14', 2, 'nie', ''),
-       (6, 0, '2023-02-14', '2023-02-14', 3, '20:00-7:00', ''),
-       (7, 0, '2023-02-14', '2023-02-14', 3, '18:00-9:00', ''),
-       (8, 0, '2023-02-14', '2023-02-14', 3, '00:00-23:59', 'zakaz obowiązuje całą dobę'),
-       (9, 0, '2023-02-14', '2023-02-14', 4, 'za', 'jestem za'),
-       (10, 0, '2023-02-14', '2023-02-14', 4, 'przeciw', 'jestem przeciw'),
-       (11, 0, '2023-02-14', '2023-02-14', 5, 'cudowna', 'aplikacja jest cudowna'),
-       (12, 0, '2023-02-14', '2023-02-14', 5, 'wspaniała', 'brak słów aby to opisać'),
-       (13, 0, '2023-02-14', '2023-02-14', 5, 'niesamowita', 'widać, że sztab ekspertów nad tym pracował');
+INSERT INTO voting_option(id, version, create_date, update_date, voting_entity_id, title)
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'więcej roślinności'),
+       (2, 0, '2023-02-14', '2023-02-14', 1, 'prywatne miejsca parkingowe'),
+       (3, 0, '2023-02-14', '2023-02-14', 1, 'koncert Arki Noego'),
+       (4, 0, '2023-02-14', '2023-02-14', 2, 'tak'),
+       (5, 0, '2023-02-14', '2023-02-14', 2, 'nie'),
+       (6, 0, '2023-02-14', '2023-02-14', 3, '20:00-7:00'),
+       (7, 0, '2023-02-14', '2023-02-14', 3, '18:00-9:00'),
+       (8, 0, '2023-02-14', '2023-02-14', 3, '00:00-23:59'),
+       (9, 0, '2023-02-14', '2023-02-14', 4, 'za'),
+       (10, 0, '2023-02-14', '2023-02-14', 4, 'przeciw'),
+       (11, 0, '2023-02-14', '2023-02-14', 5, 'cudowna'),
+       (12, 0, '2023-02-14', '2023-02-14', 5, 'wspaniała'),
+       (13, 0, '2023-02-14', '2023-02-14', 5, 'niesamowita');
 
 INSERT INTO voting_response(id, version, create_date, update_date, flat_entity_id, voting_option_entity_id)
 VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 11),

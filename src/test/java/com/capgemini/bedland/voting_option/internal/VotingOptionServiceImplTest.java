@@ -75,7 +75,6 @@ class VotingOptionServiceImplTest {
         VotingOptionDto votingOptionDto = VotingOptionDto.builder()
                                                          .votingId(1L)
                                                          .title("Title")
-                                                         .description("Description")
                                                          .build();
         //when
         VotingOptionDto createVotingOption = votingOptionService.create(votingOptionDto);
@@ -92,7 +91,6 @@ class VotingOptionServiceImplTest {
                                                          .id(100L)
                                                          .votingId(1L)
                                                          .title("Title")
-                                                         .description("Description")
                                                          .build();
         //when+then
         assertThrows(IllegalArgumentException.class, () -> votingOptionService.create(votingOptionDto));
@@ -133,18 +131,17 @@ class VotingOptionServiceImplTest {
         VotingOptionDto votingOption = votingOptionService.getById(votingOptionService.getAll()
                                                                                       .get(0)
                                                                                       .getId());
-        String updateDescription = "UpdateDescription";
+        String updateTitle = "UpdateTitle";
         VotingOptionDto updateVotingOption = VotingOptionDto.builder()
                                                             .id(votingOption.getId())
                                                             .votingId(1L)
-                                                            .title("Title")
-                                                            .description(updateDescription)
+                                                            .title(updateTitle)
                                                             .build();
         //when
         votingOptionService.update(updateVotingOption);
         VotingOptionDto resultVotingOption = votingOptionService.getById(votingOption.getId());
         //then
-        assertEquals(resultVotingOption.getDescription(), updateDescription);
+        assertEquals(resultVotingOption.getTitle(), updateTitle);
     }
 
     @Test
@@ -152,11 +149,10 @@ class VotingOptionServiceImplTest {
         VotingOptionDto votingOption = votingOptionService.getById(votingOptionService.getAll()
                                                                                       .get(0)
                                                                                       .getId());
-        String updateDescription = "UpdateDescription";
+        String updateTitle = "UpdateTitle";
         VotingOptionDto updateVotingOption = VotingOptionDto.builder()
                                                             .votingId(1L)
-                                                            .title("Title")
-                                                            .description("Description")
+                                                            .title(updateTitle)
                                                             .build();
         assertThrows(IllegalArgumentException.class, () -> votingOptionService.update(updateVotingOption));
     }
@@ -169,15 +165,10 @@ class VotingOptionServiceImplTest {
     @Test
     void shouldReturnThrowWhenUpdateAndGivenVotingOptionNotExist() {
         //given
-        VotingOptionDto votingOption = votingOptionService.getById(votingOptionService.getAll()
-                                                                                      .get(0)
-                                                                                      .getId());
-        String updateDescription = "UpdateDescription";
         VotingOptionDto updateVotingOption = VotingOptionDto.builder()
                                                             .id(Long.MAX_VALUE)
                                                             .votingId(1L)
                                                             .title("Title")
-                                                            .description("Description")
                                                             .build();
         //when+then
         assertThrows(NotFoundException.class, () -> votingOptionService.update(updateVotingOption));

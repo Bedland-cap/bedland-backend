@@ -26,7 +26,7 @@ public class AnnouncementEntity extends AbstractEntity {
     @Column(nullable = false, length = 125, name = "TITLE")
     private String title;
 
-    @Column(nullable = false, name = "DESCRIPTION")
+    @Column(nullable = false, length = 500, name = "DESCRIPTION")
     private String description;
 
 }

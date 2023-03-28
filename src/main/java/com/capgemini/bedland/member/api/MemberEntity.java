@@ -20,22 +20,22 @@ public class MemberEntity extends AbstractEntity {
     @JoinColumn
     private FlatEntity flatEntity;
 
-    @Column(nullable = false, length = 125, name = "LOGIN")
+    @Column(nullable = false, length = 50, name = "LOGIN")
     private String login;
 
-    @Column(nullable = false, length = 45, name = "PASSWORD")
+    @Column(nullable = false, length = 50, name = "PASSWORD")
     private String password;
 
-    @Column(nullable = false, length = 125, name = "NAME")
+    @Column(nullable = false, length = 50, name = "NAME")
     private String name;
 
-    @Column(nullable = false, length = 125, name = "LAST_NAME")
+    @Column(nullable = false, length = 50, name = "LAST_NAME")
     private String lastName;
 
-    @Column(nullable = false, length = 125, name = "EMAIL")
+    @Column(nullable = false, length = 50, name = "EMAIL")
     private String email;
 
-    @Column(nullable = false, length = 125, name = "PHONE_NUMBER")
+    @Column(nullable = false, length = 25, name = "PHONE_NUMBER")
     private String phoneNumber;
 
     @Column(nullable = false, name = "IS_OWNER")

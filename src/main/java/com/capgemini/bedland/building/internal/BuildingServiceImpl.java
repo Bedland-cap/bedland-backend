@@ -4,7 +4,6 @@ import com.capgemini.bedland.building.api.BuildingEntity;
 import com.capgemini.bedland.building.api.BuildingProvider;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.image.ImageUtil;
-import com.capgemini.bedland.manager.api.ManagerEntity;
 import com.capgemini.bedland.manager.internal.ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,7 @@ public class BuildingServiceImpl implements BuildingService, BuildingProvider {
     @Override
     public byte[] getPhotoByBuildingId(Long id) {
         BuildingEntity buildingEntity = buildingRepository.findById(id)
-                                                       .orElseThrow(() -> new NotFoundException(id));
+                                                          .orElseThrow(() -> new NotFoundException(id));
         return ImageUtil.decompressImage(buildingEntity.getPhoto());
     }
 
@@ -48,6 +47,9 @@ public class BuildingServiceImpl implements BuildingService, BuildingProvider {
     public BuildingDto create(BuildingDto request) {
         if (request.getId() != null) {
             throw new IllegalArgumentException("Given request contains an ID. Building can't be created");
+        }
+        if (request.getFloors() < 0 || request.getFloors() > 20) {
+            throw new IllegalArgumentException("Incorrect value for floors");
         }
         BuildingEntity createBuilding = buildingRepository.save(repackDtoToEntity(request));
         return buildingMapper.entity2Dto(createBuilding);
@@ -82,8 +84,8 @@ public class BuildingServiceImpl implements BuildingService, BuildingProvider {
         if (id == null || file == null) {
             throw new IllegalArgumentException("Given param is null");
         }
-        BuildingEntity buildingEntity =buildingRepository.findById(id)
-                                                       .orElseThrow(() -> new NotFoundException(id));
+        BuildingEntity buildingEntity = buildingRepository.findById(id)
+                                                          .orElseThrow(() -> new NotFoundException(id));
         try {
             buildingEntity.setPhoto(ImageUtil.compressImage(file.getBytes()));
         } catch (IOException e) {

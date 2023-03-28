@@ -20,4 +20,5 @@ public class PaymentDto extends AbstractDto {
     private String paymentType;
 
     private double paymentValue;
+
 }

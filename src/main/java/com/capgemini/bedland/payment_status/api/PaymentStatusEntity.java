@@ -18,7 +18,7 @@ public class PaymentStatusEntity extends AbstractEntity {
     @JoinColumn
     private PaymentEntity paymentEntity;
 
-    @Column(nullable = false, length = 125, name = "PAYMENT_STATUS_NAME")
+    @Column(nullable = false, length = 50, name = "PAYMENT_STATUS_NAME")
     @Enumerated(EnumType.STRING)
     private PaymentStatusName paymentStatusName;
 
