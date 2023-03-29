@@ -1,7 +1,10 @@
 package com.capgemini.bedland.voting_option.internal;
 
+import com.capgemini.bedland.controllers.VotingOptionController;
+import com.capgemini.bedland.dtos.VotingOptionDto;
 import com.capgemini.bedland.exceptions.NotFoundException;
-import com.capgemini.bedland.voting_option.api.VotingOptionProvider;
+import com.capgemini.bedland.providers.VotingOptionProvider;
+import com.capgemini.bedland.services.VotingOptionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -107,7 +110,6 @@ class VotingOptionControllerTest {
     void shouldReturnCreatedVotingOptionWhenCreate() throws Exception {
         Long votingId = 1L;
         String title = "title";
-        String description = "Description";
         VotingOptionDto votingOption = VotingOptionDto.builder()
                                                       .votingId(votingId)
                                                       .title(title)
@@ -117,10 +119,9 @@ class VotingOptionControllerTest {
         String requestBody = """
                              {
                                 "votingId": %s,
-                                "title": "%s",
-                                "description": "%s"
+                                "title": "%s"                     
                              }
-                             """.formatted(votingId, title, description);
+                             """.formatted(votingId, title);
         mockMvc.perform(post("/voting-option")
                                 .contentType(APPLICATION_JSON)
                                 .content(requestBody))
@@ -162,7 +163,6 @@ class VotingOptionControllerTest {
         Long id = 1L;
         Long votingId = 1L;
         String title = "title";
-        String description = "Description";
         VotingOptionDto votingOption = VotingOptionDto.builder()
                                                       .id(id)
                                                       .votingId(votingId)
@@ -175,10 +175,9 @@ class VotingOptionControllerTest {
                                {
                                   "id": %s,
                                   "votingId": %s,
-                                  "title": "%s",
-                                  "description": "%s"
+                                  "title": "%s"                     
                                } 
-                               """.formatted(id, votingId, title, description);
+                               """.formatted(id, votingId, title);
         mockMvc.perform(patch("/voting-option")
                                 .contentType(APPLICATION_JSON)
                                 .content(updateRequest))

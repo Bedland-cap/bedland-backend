@@ -1,11 +1,7 @@
 package com.capgemini.bedland.voting.internal.custom;
 
-import com.capgemini.bedland.voting.api.QVotingEntity;
-import com.capgemini.bedland.voting.api.VotingEntity;
-import com.capgemini.bedland.voting_option.api.QVotingOptionEntity;
-import com.capgemini.bedland.voting_option.api.VotingOptionEntity;
-import com.capgemini.bedland.voting_response.api.QVotingResponseEntity;
-import com.capgemini.bedland.voting_response.api.VotingResponseEntity;
+import com.capgemini.bedland.entities.*;
+import com.capgemini.bedland.repositories.CustomVotingRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
