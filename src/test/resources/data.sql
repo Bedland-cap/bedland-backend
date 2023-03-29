@@ -43,11 +43,13 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 'iSutherland','IsABEl','Isabel', 'Suth
        (4, 0, '2023-02-14', '2023-02-14', 'aPerry','IsABEl','Ashton', 'Perry', 'Ashton.Perry@email.com', '123456789', true, 4),
        (5, 0, '2023-02-14', '2023-02-14', 'iPerry','IsABEl','Isabel', 'Perry', 'isabel.perry@email.com', '123456789', false, 4);
 
-INSERT INTO announcement(id, version, create_date, update_date, flat_entity_id, building_entity_id, title, description)
-VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 1, 'Uwaga mieszkańcy!','Mamy inwazję szczurów! Gryzą, napadają w ciemnych zaułkach i kradną portfele!'),
-       (2, 0, '2023-02-14', '2023-02-14', 1, 1, 'Prace konserwacyjne!','Informujemy, że w dniu 23.02.2023 mogą wystąpić chwilowe braki prądu.'),
-       (3, 0, '2023-02-14', '2023-02-14', 1, 1, 'ALERT RCB!','Uwaga! Dziś i jutro silny wiatr. Możliwe przerwy w dostawie prądu. Unikaj otwartych przestrzeni. Zabezpiecz rzeczy, które może porwać wiatr.'),
-       (4, 0, '2023-02-14', '2023-02-14', 2, 1, 'Sprzedam Opla','Sprzedam Opla, stan igła, przebieg do ustalenia pozdrawiam Zarządca');
+INSERT INTO announcement(id, version, create_date, update_date, flat_entity_id, building_entity_id, title, description, to_manager)
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 1, 'Uwaga mieszkańcy!','Mamy inwazję szczurów! Gryzą, napadają w ciemnych zaułkach i kradną portfele!',false),
+       (2, 0, '2023-02-14', '2023-02-14', 1, 1, 'Prace konserwacyjne!','Informujemy, że w dniu 23.02.2023 mogą wystąpić chwilowe braki prądu.',false),
+       (3, 0, '2023-02-14', '2023-02-14', 1, 1, 'ALERT RCB!','Uwaga! Dziś i jutro silny wiatr. Możliwe przerwy w dostawie prądu. Unikaj otwartych przestrzeni. Zabezpiecz rzeczy, które może porwać wiatr.',false),
+       (4, 0, '2023-02-14', '2023-02-14', 2, 1, 'Popsuta pralka','Pralka głośno chodzi',true),
+       (5, 0, '2023-02-14', '2023-02-14', 3, 1, 'Skarga na panią spod 3','Przez cały dzień, pani bardzo głośno jęczy, nasza klatka to nie agencja towarzyska',true),
+       (6, 0, '2023-02-14', '2023-02-14', 4, 1, 'Zajęcie miejsca parkingowe','Ktoś staje na moim miejcu, prosze coś zrobić',true);
 
 INSERT INTO voting(id, version, create_date, update_date, building_entity_id, expiration_date, title, description)
 VALUES (1, 0, '2023-02-14', '2023-02-14', 1, CURRENT_TIMESTAMP(), 'Nowe głosowanie','Drodzy mieszkańcy! Głosujemy nad budżetem osiedlowym na przyszły rok. Co chcielibyście zobaczyć na naszym osiedlu?'),

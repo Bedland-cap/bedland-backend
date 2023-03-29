@@ -26,4 +26,7 @@ public class AnnouncementEntity extends AbstractEntity {
     @Column(nullable = false, length = 500, name = "DESCRIPTION")
     private String description;
 
+    @Column(nullable = false, name = "TO_MANAGER")
+    private boolean toManager;
+
 }
