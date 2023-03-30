@@ -9,11 +9,12 @@ import com.capgemini.bedland.providers.PaymentStatusProvider;
 import com.capgemini.bedland.repositories.PaymentRepository;
 import com.capgemini.bedland.repositories.PaymentStatusRepository;
 import com.capgemini.bedland.services.PaymentStatusService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Transactional
 @Service
 public class PaymentStatusServiceImpl implements PaymentStatusService, PaymentStatusProvider {
 

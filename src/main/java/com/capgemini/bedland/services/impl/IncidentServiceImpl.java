@@ -9,11 +9,12 @@ import com.capgemini.bedland.repositories.FlatRepository;
 import com.capgemini.bedland.repositories.IncidentRepository;
 import com.capgemini.bedland.services.IncidentService;
 import com.capgemini.bedland.services.IncidentStatusService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Transactional
 @Service
 public class IncidentServiceImpl implements IncidentService, IncidentProvider {
 

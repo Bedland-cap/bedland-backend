@@ -9,11 +9,13 @@ import com.capgemini.bedland.repositories.AnnouncementRepository;
 import com.capgemini.bedland.repositories.BuildingRepository;
 import com.capgemini.bedland.repositories.FlatRepository;
 import com.capgemini.bedland.services.AnnouncementService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class AnnouncementServiceImpl implements AnnouncementService, AnnouncementProvider {
 

@@ -9,13 +9,14 @@ import com.capgemini.bedland.repositories.BuildingRepository;
 import com.capgemini.bedland.repositories.ManagerRepository;
 import com.capgemini.bedland.services.BuildingService;
 import com.capgemini.bedland.utilities.ImageUtil;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-
+@Transactional
 @Service
 public class BuildingServiceImpl implements BuildingService, BuildingProvider {
 
