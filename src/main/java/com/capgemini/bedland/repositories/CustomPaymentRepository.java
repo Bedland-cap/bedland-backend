@@ -11,4 +11,6 @@ public interface CustomPaymentRepository {
     List<PaymentEntity> findAllPaymentsForGivenBuilding(Long buildingId);
 
     List<PaymentStatusEntity> findAllStatusesForGivenPayment(Long paymentId);
+
+    PaymentStatusEntity findLatestStatusForGivenPayment(Long paymentId);
 }

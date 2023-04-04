@@ -15,23 +15,23 @@ public class PaymentMapper {
             return null;
         }
         return PaymentDto.builder()
-                         .id(entity.getId())
-                         .version(entity.getVersion())
-                         .createDate(entity.getCreateDate())
-                         .updateDate(entity.getUpdateDate())
-                         .flatId(entity.getFlatEntity()
-                                       .getId())
-                         .expirationDate(entity.getExpirationDate())
-                         .paymentType(entity.getPaymentType()
-                                            .toString())
-                         .paymentValue(entity.getPaymentValue())
-                         .build();
+                .id(entity.getId())
+                .version(entity.getVersion())
+                .createDate(entity.getCreateDate())
+                .updateDate(entity.getUpdateDate())
+                .flatId(entity.getFlatEntity()
+                              .getId())
+                .expirationDate(entity.getExpirationDate())
+                .paymentType(entity.getPaymentType()
+                                   .toString())
+                .paymentValue(entity.getPaymentValue())
+                .build();
     }
 
     public List<PaymentDto> entities2DTOs(List<PaymentEntity> entities) {
         return entities.stream()
-                       .map(this::entity2Dto)
-                       .toList();
+                .map(this::entity2Dto)
+                .toList();
     }
 
     public PaymentEntity dto2Entity(PaymentDto dto) {

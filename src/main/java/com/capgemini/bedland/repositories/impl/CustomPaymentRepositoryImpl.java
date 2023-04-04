@@ -42,4 +42,17 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
                 .fetch();
 
     }
+
+    @Override
+    public PaymentStatusEntity findLatestStatusForGivenPayment(Long paymentId) {
+
+        QPaymentStatusEntity paymentStatusEntity = QPaymentStatusEntity.paymentStatusEntity;
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+
+        return queryFactory.selectFrom(paymentStatusEntity)
+                .join(paymentStatusEntity.paymentEntity)
+                .where(paymentStatusEntity.paymentEntity.id.eq(paymentId))
+                .orderBy(paymentStatusEntity.createDate.desc())
+                .fetchFirst();
+    }
 }

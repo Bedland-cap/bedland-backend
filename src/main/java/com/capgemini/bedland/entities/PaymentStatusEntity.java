@@ -21,4 +21,8 @@ public class PaymentStatusEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private PaymentStatusName paymentStatusName;
 
+    @PostPersist
+    public void setLastPaymentStatusName() {
+        this.paymentEntity.setLastPaymentStatusName(this.paymentStatusName);
+    }
 }

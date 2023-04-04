@@ -1,5 +1,6 @@
 package com.capgemini.bedland.entities;
 
+import com.capgemini.bedland.enums.PaymentStatusName;
 import com.capgemini.bedland.enums.PaymentType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -32,5 +33,9 @@ public class PaymentEntity extends AbstractEntity {
 
     @Column(nullable = false,name = "PAYMENT_VALUE")
     private double paymentValue;
+
+    @Column(length = 50, name = "LAST_PAYMENT_STATUS_NAME")
+    @Enumerated(EnumType.STRING)
+    private PaymentStatusName lastPaymentStatusName;
 
 }

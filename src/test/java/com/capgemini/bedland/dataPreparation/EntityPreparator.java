@@ -1,9 +1,10 @@
 package com.capgemini.bedland.dataPreparation;
 
-import com.capgemini.bedland.entities.BuildingEntity;
-import com.capgemini.bedland.entities.FlatEntity;
-import com.capgemini.bedland.entities.ManagerEntity;
-import com.capgemini.bedland.entities.MemberEntity;
+import com.capgemini.bedland.entities.*;
+import com.capgemini.bedland.enums.PaymentStatusName;
+import com.capgemini.bedland.enums.PaymentType;
+
+import java.time.LocalDateTime;
 
 public abstract class EntityPreparator {
 
@@ -17,7 +18,16 @@ public abstract class EntityPreparator {
         testManager1.setPassword("testPassword");
         return testManager1;
     }
-
+    public static ManagerEntity prepareSecondTestManager() {
+        ManagerEntity testManager1 = new ManagerEntity();
+        testManager1.setName("managerNameTest2");
+        testManager1.setLastName("managerLastNameTest2");
+        testManager1.setPhoneNumber("22222");
+        testManager1.setEmail("test222@mail");
+        testManager1.setLogin("testLogin222");
+        testManager1.setPassword("testPassword222");
+        return testManager1;
+    }
     public static BuildingEntity prepareFirstTestBuilding(ManagerEntity managerEntity) {
         BuildingEntity testBuilding1 = new BuildingEntity();
         testBuilding1.setManagerEntity(managerEntity);
@@ -130,5 +140,51 @@ public abstract class EntityPreparator {
         memberEntity3.setPassword("gsf");
         memberEntity3.setPhoneNumber("4234");
         return memberEntity3;
+    }
+
+    public static PaymentEntity prepareFirstPayment(FlatEntity flatEntity){
+        PaymentEntity paymentEntity = new PaymentEntity();
+        paymentEntity.setFlatEntity(flatEntity);
+        paymentEntity.setPaymentType(PaymentType.INTERNET);
+        paymentEntity.setPaymentValue(21.37);
+        paymentEntity.setExpirationDate(LocalDateTime.now());
+        paymentEntity.setLastPaymentStatusName(PaymentStatusName.UNPAID);
+        return paymentEntity;
+    }
+    public static PaymentEntity prepareSecondPayment(FlatEntity flatEntity){
+        PaymentEntity paymentEntity = new PaymentEntity();
+        paymentEntity.setFlatEntity(flatEntity);
+        paymentEntity.setPaymentType(PaymentType.GAS);
+        paymentEntity.setPaymentValue(200.99);
+        paymentEntity.setExpirationDate(LocalDateTime.now());
+        paymentEntity.setLastPaymentStatusName(PaymentStatusName.UNPAID);
+        return paymentEntity;
+    }
+    public static PaymentEntity prepareThirdPayment(FlatEntity flatEntity){
+        PaymentEntity paymentEntity = new PaymentEntity();
+        paymentEntity.setFlatEntity(flatEntity);
+        paymentEntity.setPaymentType(PaymentType.WATER);
+        paymentEntity.setPaymentValue(9999.99);
+        paymentEntity.setExpirationDate(LocalDateTime.now());
+        paymentEntity.setLastPaymentStatusName(PaymentStatusName.UNPAID);
+        return paymentEntity;
+    }
+    public static PaymentStatusEntity prepareUNPAIDPaymentStatus(PaymentEntity paymentEntity){
+        PaymentStatusEntity paymentStatusEntity = new PaymentStatusEntity();
+        paymentStatusEntity.setPaymentEntity(paymentEntity);
+        paymentStatusEntity.setPaymentStatusName(PaymentStatusName.UNPAID);
+        return paymentStatusEntity;
+    }
+    public static PaymentStatusEntity preparePAIDPaymentStatus(PaymentEntity paymentEntity){
+        PaymentStatusEntity paymentStatusEntity = new PaymentStatusEntity();
+        paymentStatusEntity.setPaymentEntity(paymentEntity);
+        paymentStatusEntity.setPaymentStatusName(PaymentStatusName.PAID);
+        return paymentStatusEntity;
+    }
+    public static PaymentStatusEntity prepareEXPIREDPaymentStatus(PaymentEntity paymentEntity){
+        PaymentStatusEntity paymentStatusEntity = new PaymentStatusEntity();
+        paymentStatusEntity.setPaymentEntity(paymentEntity);
+        paymentStatusEntity.setPaymentStatusName(PaymentStatusName.EXPIRED);
+        return paymentStatusEntity;
     }
 }
