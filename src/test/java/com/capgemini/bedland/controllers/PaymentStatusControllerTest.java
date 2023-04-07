@@ -1,6 +1,7 @@
 package com.capgemini.bedland.controllers;
 
 import com.capgemini.bedland.dtos.PaymentStatusDto;
+import com.capgemini.bedland.enums.PaymentStatusName;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.providers.PaymentStatusProvider;
 import com.capgemini.bedland.services.PaymentStatusService;
@@ -44,8 +45,8 @@ class PaymentStatusControllerTest {
 
     @Test
     void shouldReturnListOfPaymentStatusWhenGetAll() throws Exception {
-        PaymentStatusDto paymentStatus1 = new PaymentStatusDto(1L, "UNPAID");
-        PaymentStatusDto paymentStatus2 = new PaymentStatusDto(1L, "PAID");
+        PaymentStatusDto paymentStatus1 = new PaymentStatusDto(1L, PaymentStatusName.UNPAID);
+        PaymentStatusDto paymentStatus2 = new PaymentStatusDto(1L, PaymentStatusName.PAID);
 
         when(paymentStatusProviderMock.getAll()).thenReturn(List.of(paymentStatus1, paymentStatus2));
 
@@ -54,9 +55,9 @@ class PaymentStatusControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].paymentId").value(paymentStatus1.getPaymentId()))
-                .andExpect(jsonPath("$[0].paymentStatusName").value(paymentStatus1.getPaymentStatusName()))
+                .andExpect(jsonPath("$[0].paymentStatusName").value(paymentStatus1.getPaymentStatusName().toString()))
                 .andExpect(jsonPath("$[1].paymentId").value(paymentStatus2.getPaymentId()))
-                .andExpect(jsonPath("$[1].paymentStatusName").value(paymentStatus2.getPaymentStatusName()))
+                .andExpect(jsonPath("$[1].paymentStatusName").value(paymentStatus2.getPaymentStatusName().toString()))
                 .andExpect(jsonPath("$[2]").doesNotExist());
     }
 
@@ -70,7 +71,7 @@ class PaymentStatusControllerTest {
 
     @Test
     void shouldReturnPaymentStatusWhenGetPaymentStatusById() throws Exception {
-        PaymentStatusDto paymentStatus = new PaymentStatusDto(1L, "UNPAID");
+        PaymentStatusDto paymentStatus = new PaymentStatusDto(1L,PaymentStatusName.UNPAID);
         Long paymentStatusId = 1L;
         when(paymentStatusProviderMock.getById(any())).thenReturn(paymentStatus);
         mockMvc.perform(get("/payment-status/{paymentStatusId}", paymentStatusId)
@@ -78,7 +79,7 @@ class PaymentStatusControllerTest {
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.paymentId").value(paymentStatus.getPaymentId()))
-                .andExpect((jsonPath("$.paymentStatusName").value(paymentStatus.getPaymentStatusName())));
+                .andExpect((jsonPath("$.paymentStatusName").value(paymentStatus.getPaymentStatusName().toString())));
     }
 
     @Test
@@ -98,7 +99,7 @@ class PaymentStatusControllerTest {
     @Transactional
     void shouldReturnCreatedPaymentStatusWhenCreate() throws Exception {
         Long paymentId = 1L;
-        String paymentStatusName = "PAID";
+        PaymentStatusName paymentStatusName = PaymentStatusName.PAID;
         PaymentStatusDto paymentStatus = new PaymentStatusDto(paymentId, paymentStatusName);
 
         when(paymentStatusServiceMock.create(any())).thenReturn(paymentStatus);
@@ -144,7 +145,7 @@ class PaymentStatusControllerTest {
     @Test
     void shouldReturnUpdatedPaymentStatusWhenUpdate() throws Exception {
         Long paymentId = 1L;
-        String paymentStatusName = "PAID";
+        PaymentStatusName paymentStatusName = PaymentStatusName.PAID;
         PaymentStatusDto paymentStatus = new PaymentStatusDto(paymentId, paymentStatusName);
 
         when(paymentStatusServiceMock.update(any())).thenReturn(paymentStatus);

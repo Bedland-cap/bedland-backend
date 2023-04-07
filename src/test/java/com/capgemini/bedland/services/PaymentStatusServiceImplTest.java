@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
+import static com.capgemini.bedland.enums.PaymentStatusName.UNPAID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -48,7 +49,7 @@ class PaymentStatusServiceImplTest {
         PaymentStatusDto paymentStatus = PaymentStatusDto.builder()
                 .id(paymentStatusId)
                 .paymentId(1L)
-                .paymentStatusName("PAID")
+                .paymentStatusName(PaymentStatusName.PAID)
                 .build();
         //when
         PaymentStatusDto result = paymentStatusService.getById(paymentStatusId);
@@ -71,7 +72,7 @@ class PaymentStatusServiceImplTest {
         //given
         PaymentStatusDto paymentStatus = new PaymentStatusDto();
         paymentStatus.setPaymentId(1L);
-        paymentStatus.setPaymentStatusName(PaymentStatusName.UNPAID.toString());
+        paymentStatus.setPaymentStatusName(UNPAID);
         //when
         PaymentStatusDto createPaymentStatus = paymentStatusService.create(paymentStatus);
         //then
@@ -88,7 +89,7 @@ class PaymentStatusServiceImplTest {
         //when
         PaymentStatusDto createPaymentStatus = paymentStatusService.create(paymentStatus);
         //then
-        assertEquals("UNPAID", createPaymentStatus.getPaymentStatusName());
+        assertEquals(UNPAID, createPaymentStatus.getPaymentStatusName());
     }
 
     @Test
@@ -110,7 +111,7 @@ class PaymentStatusServiceImplTest {
     void shouldCreatePaymentStatusWithNameUnpaidWhenCreateByPaymentId() {
         //given
         List<PaymentStatusDto> beforePaymentStatus = paymentStatusService.getAll();
-        String expectedName = "UNPAID";
+        PaymentStatusName expectedName = UNPAID;
         Long paymentId = 1L;
         //when
         paymentStatusService.createByPaymentId(paymentId);
@@ -161,7 +162,7 @@ class PaymentStatusServiceImplTest {
     void shouldReturnUpdatedPaymentStatusWhenUpdate() {
         //given
         PaymentStatusDto paymentStatus = paymentStatusService.getById(1L);
-        String updatePaymentStatusName = "PAID";
+        PaymentStatusName updatePaymentStatusName = PaymentStatusName.PAID;
         PaymentStatusDto updatePaymentStatus = PaymentStatusDto.builder()
                 .id(paymentStatus.getId())
                 .version(paymentStatus.getVersion())
@@ -192,7 +193,7 @@ class PaymentStatusServiceImplTest {
     void shouldReturnThrowWhenUpdateAndGivenPaymentStatusNotExist() {
         //given
         PaymentStatusDto paymentStatus = paymentStatusService.getById(1L);
-        String updatePaymentStatusName = "PAID";
+        PaymentStatusName updatePaymentStatusName = PaymentStatusName.PAID;
         PaymentStatusDto updatePaymentStatus = PaymentStatusDto.builder()
                 .id(100L)
                 .version(paymentStatus.getVersion())

@@ -1,11 +1,7 @@
 package com.capgemini.bedland.repositories.impl;
 
-import com.capgemini.bedland.entities.PaymentEntity;
-import com.capgemini.bedland.entities.PaymentStatusEntity;
-import com.capgemini.bedland.entities.QPaymentEntity;
-import com.capgemini.bedland.entities.QPaymentStatusEntity;
+import com.capgemini.bedland.enums.PaymentStatusName;
 import com.capgemini.bedland.repositories.CustomPaymentRepository;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -19,40 +15,15 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<PaymentEntity> findAllPaymentsForGivenBuilding(Long buildingId) {
-
-        QPaymentEntity paymentEntity = QPaymentEntity.paymentEntity;
-        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
-
-        return queryFactory.selectFrom(paymentEntity)
-                .join(paymentEntity.flatEntity)
-                .join(paymentEntity.flatEntity.buildingEntity)
-                .where(paymentEntity.flatEntity.buildingEntity.id.eq(buildingId))
-                .fetch();
-    }
-
-    @Override
-    public List<PaymentStatusEntity> findAllStatusesForGivenPayment(Long paymentId) {
-        QPaymentStatusEntity paymentStatusEntity = QPaymentStatusEntity.paymentStatusEntity;
-        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
-
-        return queryFactory.selectFrom(paymentStatusEntity)
-                .join(paymentStatusEntity.paymentEntity)
-                .where(paymentStatusEntity.paymentEntity.id.eq(paymentId))
-                .fetch();
+    public List findLatestPaymentsForGivenManagerWithGivenLastStatus(Long managerId, int numberOfPayments, PaymentStatusName paymentStatusName) {
+        return entityManager.createQuery("select p from PaymentEntity p " +
+                        "join p.flatEntity f " +
+                        "join f.buildingEntity b " +
+                        "join b.managerEntity m where m.id =" + managerId + " " +
+                        "and p.lastPaymentStatusName=" + paymentStatusName.toString() + " " +
+                        "group by p order by p.updateDate desc ")
+                .setMaxResults(numberOfPayments).getResultList();
 
     }
 
-    @Override
-    public PaymentStatusEntity findLatestStatusForGivenPayment(Long paymentId) {
-
-        QPaymentStatusEntity paymentStatusEntity = QPaymentStatusEntity.paymentStatusEntity;
-        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
-
-        return queryFactory.selectFrom(paymentStatusEntity)
-                .join(paymentStatusEntity.paymentEntity)
-                .where(paymentStatusEntity.paymentEntity.id.eq(paymentId))
-                .orderBy(paymentStatusEntity.createDate.desc())
-                .fetchFirst();
-    }
 }

@@ -2,6 +2,7 @@ package com.capgemini.bedland.services.impl;
 
 import com.capgemini.bedland.dtos.PaymentDto;
 import com.capgemini.bedland.entities.PaymentEntity;
+import com.capgemini.bedland.enums.PaymentStatusName;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.mappers.PaymentMapper;
 import com.capgemini.bedland.providers.PaymentProvider;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Transactional
 @Service
 public class PaymentServiceImpl implements PaymentService, PaymentProvider {
@@ -39,7 +41,7 @@ public class PaymentServiceImpl implements PaymentService, PaymentProvider {
             throw new IllegalArgumentException(idIsNull);
         }
         return paymentMapper.entity2Dto(paymentRepository.findById(id)
-                                                         .orElseThrow(() -> new NotFoundException(id)));
+                .orElseThrow(() -> new NotFoundException(id)));
     }
 
     @Override
@@ -50,10 +52,13 @@ public class PaymentServiceImpl implements PaymentService, PaymentProvider {
         if (request.getId() != null) {
             throw new IllegalArgumentException("Given request contains an ID. Payment can't be created");
         }
-        if (request.getPaymentValue() < 0 ) {
+        if (request.getPaymentValue() < 0) {
             throw new IllegalArgumentException("Payment value must be grater than 0");
         }
-        PaymentEntity createPayment = paymentRepository.save(repackDtoToEntity(request));
+        PaymentEntity paymentEntity = repackDtoToEntity(request);
+        paymentEntity.setLastPaymentStatusName(PaymentStatusName.UNPAID);
+        PaymentEntity createPayment = paymentRepository.save(paymentEntity);
+
         paymentStatusService.createByPaymentId(createPayment.getId());
         return paymentMapper.entity2Dto(createPayment);
     }
@@ -80,14 +85,17 @@ public class PaymentServiceImpl implements PaymentService, PaymentProvider {
         if (!paymentRepository.existsById(request.getId())) {
             throw new NotFoundException(request.getId());
         }
-        PaymentEntity updatePayment = paymentRepository.save(repackDtoToEntity(request));
+        PaymentEntity paymentEntity = repackDtoToEntity(request);
+        paymentEntity.setLastPaymentStatusName(paymentRepository.findById(request.getId()).orElseThrow(() -> new NotFoundException(request.getId())).getLastPaymentStatusName());
+        PaymentEntity updatePayment = paymentRepository.save(paymentEntity);
+
         return paymentMapper.entity2Dto(updatePayment);
     }
 
     private PaymentEntity repackDtoToEntity(PaymentDto dto) {
         PaymentEntity entity = paymentMapper.dto2Entity(dto);
         entity.setFlatEntity(flatRepository.findById(dto.getFlatId())
-                                           .orElseThrow(() -> new NotFoundException(dto.getFlatId())));
+                .orElseThrow(() -> new NotFoundException(dto.getFlatId())));
         return entity;
     }
 

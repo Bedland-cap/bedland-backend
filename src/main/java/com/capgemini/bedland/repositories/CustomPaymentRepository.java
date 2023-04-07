@@ -1,16 +1,11 @@
 package com.capgemini.bedland.repositories;
 
 import com.capgemini.bedland.entities.PaymentEntity;
-import com.capgemini.bedland.entities.PaymentStatusEntity;
+import com.capgemini.bedland.enums.PaymentStatusName;
 
 import java.util.List;
 
 public interface CustomPaymentRepository {
 
-
-    List<PaymentEntity> findAllPaymentsForGivenBuilding(Long buildingId);
-
-    List<PaymentStatusEntity> findAllStatusesForGivenPayment(Long paymentId);
-
-    PaymentStatusEntity findLatestStatusForGivenPayment(Long paymentId);
+    List<PaymentEntity> findLatestPaymentsForGivenManagerWithGivenLastStatus(Long managerId, int numberOfPayments, PaymentStatusName paymentStatusName);
 }

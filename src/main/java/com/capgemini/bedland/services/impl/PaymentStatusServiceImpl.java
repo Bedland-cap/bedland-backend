@@ -1,6 +1,7 @@
 package com.capgemini.bedland.services.impl;
 
 import com.capgemini.bedland.dtos.PaymentStatusDto;
+import com.capgemini.bedland.entities.PaymentEntity;
 import com.capgemini.bedland.entities.PaymentStatusEntity;
 import com.capgemini.bedland.enums.PaymentStatusName;
 import com.capgemini.bedland.exceptions.NotFoundException;
@@ -50,6 +51,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService, PaymentSt
             throw new IllegalArgumentException("Given request contains an ID. Payment can't be created");
         }
         PaymentStatusEntity createPaymentStatus = paymentStatusRepository.save(repackDtoToEntity(request));
+        updateLastPaymentStatusName(request);
         return paymentStatusMapper.entity2Dto(createPaymentStatus);
     }
 
@@ -98,4 +100,12 @@ public class PaymentStatusServiceImpl implements PaymentStatusService, PaymentSt
         return entity;
     }
 
+    private void updateLastPaymentStatusName(PaymentStatusDto request){
+       if(paymentRepository.existsById(request.getPaymentId())){
+           PaymentEntity paymentEntity = paymentRepository.findById(request.getPaymentId()).orElseThrow(() -> new NotFoundException(request.getPaymentId()));
+           PaymentStatusName paymentStatusName = request.getPaymentStatusName();
+           paymentEntity.setLastPaymentStatusName(paymentStatusName);
+           paymentRepository.save(paymentEntity);
+       }
+    }
 }

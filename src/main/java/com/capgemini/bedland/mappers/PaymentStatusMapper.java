@@ -15,21 +15,21 @@ public class PaymentStatusMapper {
             return null;
         }
         return PaymentStatusDto.builder()
-                               .id(entity.getId())
-                               .version(entity.getVersion())
-                               .createDate(entity.getCreateDate())
-                               .updateDate(entity.getUpdateDate())
-                               .paymentId(entity.getPaymentEntity()
-                                                .getId())
-                               .paymentStatusName(entity.getPaymentStatusName()
-                                                        .toString())
-                               .build();
+                .id(entity.getId())
+                .version(entity.getVersion())
+                .createDate(entity.getCreateDate())
+                .updateDate(entity.getUpdateDate())
+                .paymentId(entity.getPaymentEntity()
+                        .getId())
+                .paymentStatusName(entity.getPaymentStatusName()
+                )
+                .build();
     }
 
     public List<PaymentStatusDto> entities2DTOs(List<PaymentStatusEntity> entities) {
         return entities.stream()
-                       .map(this::entity2Dto)
-                       .toList();
+                .map(this::entity2Dto)
+                .toList();
     }
 
     public PaymentStatusEntity dto2Entity(PaymentStatusDto dto) {
@@ -44,7 +44,7 @@ public class PaymentStatusMapper {
         if (dto.getPaymentStatusName() == null) {
             newPaymentStatus.setPaymentStatusName(PaymentStatusName.UNPAID);
         } else {
-            newPaymentStatus.setPaymentStatusName(PaymentStatusName.valueOf(dto.getPaymentStatusName()));
+            newPaymentStatus.setPaymentStatusName(dto.getPaymentStatusName());
         }
         if (dto.getId() != null) {
             newPaymentStatus.setId(dto.getId());

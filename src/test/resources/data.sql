@@ -97,15 +97,15 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 11),
 
 INSERT INTO incident(id, version, create_date, update_date, flat_entity_id, title, description, common_space)
 VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'Donos na sąsiada', 'Uprzejmie donoszę, że sąsiedzi spod 2 nie sprzątają po swoim psie', true),
-       (2, 0, '2023-02-14', '2023-02-14', 2, 'Pożar', 'Klatka schodowa na 4 piętrze zajęła się ogniem. Proszę o pilną interwencję!', false),
+       (2, 0, '2023-02-19', '2023-02-19', 2, 'Pożar', 'Klatka schodowa na 4 piętrze zajęła się ogniem. Proszę o pilną interwencję!', false),
        (3, 0, '2023-02-14', '2023-02-14', 2, 'Drzwi wejściowe', 'Drzwi wejściowe do budynku nie domykają się automatycznie, trzeba je szarpnąć aby się zatrzasnęły', true),
        (4, 0, '2023-02-14', '2023-02-14', 3, 'Adam Mickiewicz - Pan Tadeusz - Inwokacja', 'Litwo! Ojczyzno moja! ty jesteś jak zdrowie. Ile cię trzeba cenić, ten tylko się dowie, Kto cię stracił. Dziś piękność twą w całej ozdobie Widzę i opisuję, bo tęsknię po tobie...', true),
        (5, 0, '2023-02-14', '2023-02-14', 4, 'Kot w pustym mieszkaniu - Wiesława Szymborska', 'Umrzeć - tego się nie robi kotu. Bo co ma począć kot w pustym mieszkaniu. Wdrapywać się na ściany. Ocierać między meblami. Nic niby tu nie zmienione, a jednak pozamieniane. Niby nie przesunięte, a jednak porozsuwane. I wieczorami lampa już nie świeci...', true),
-       (6, 0, '2023-02-14', '2023-02-14', 5, 'Jan Kochanowski – Na zdrowie', 'Szlachetne zdrowie, Nikt się nie dowie, Jako smakujesz, Aż się zepsujesz. Tam człowiek prawie Widzi na jawie I sam to powie, Że nic nad zdrowie Ani lepszego, Ani droższego; Bo dobre mienie, Perły, kamienie...', true),
+       (6, 0, '2023-02-22', '2023-02-22', 5, 'Jan Kochanowski – Na zdrowie', 'Szlachetne zdrowie, Nikt się nie dowie, Jako smakujesz, Aż się zepsujesz. Tam człowiek prawie Widzi na jawie I sam to powie, Że nic nad zdrowie Ani lepszego, Ani droższego; Bo dobre mienie, Perły, kamienie...', true),
        (7, 0, '2023-02-14', '2023-02-14', 6, 'Dzik jest dziki - Jak Brzechwa', 'Dzik jest dziki, dzik jest zły Dzik ma bardzo ostre kły Kto spotyka w lesie dzika, Ten na drzewo zaraz zmyka', true),
        (8, 0, '2023-02-14', '2023-02-14', 7, 'Katar - Jan Brzechwa', 'Spotkał katar Katarzynę – A – psik! Katarzyna pod pierzynę – A – psik! Sprowadzono wnet doktora – A – psik! „Pani jest na katar chora” – A – psik! Terpentyną grzbiet jej natarł – A – psik! A po chwili sam miał katar – A – psik..', true),
        (9, 0, '2023-02-14', '2023-02-14', 8, 'Abecadło - Juliana Tuwim', 'Abecadło z pieca spadło, O ziemię się hukło, Rozsypało się po kątach, Strasznie się potłukło: I zgubiło kropeczkę, H- złamało kładeczkę, B- zbiło sobie brzuszki, A- zwichnęło nóżki, O- jak balon pękło, aż się P przelękło. T- daszek zgubiło...', false),
-       (10, 0, '2023-02-14', '2023-02-14', 9, 'Kołysanka', 'Idzie niebo ciemną nocą Ma w fartuszku pełno gwiazd Gwiazdki błyszczą i migocą Aż wyjrzały ptaszki z gniazd...', true);
+       (10, 0, '2023-02-27', '2023-02-27', 9, 'Kołysanka', 'Idzie niebo ciemną nocą Ma w fartuszku pełno gwiazd Gwiazdki błyszczą i migocą Aż wyjrzały ptaszki z gniazd...', true);
 
 INSERT INTO incident_status(id, version, create_date, update_date, incident_entity_id, incident_status_name)
 VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'CREATED'),
@@ -125,8 +125,8 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'CREATED'),
        (15, 0, '2023-02-16', '2023-02-16', 2, 'SOLVED');
 
 INSERT INTO payment(id, version, create_date, update_date, flat_entity_id, expiration_date, payment_type, payment_value, last_payment_status_name)
-VALUES (1, 0, '2023-02-14', '2023-02-14', 1, '2023-03-03', 'RENT', 200.20,'PAID'),
-       (2, 0, '2023-02-14', '2023-02-14', 2, '2023-03-03', 'MEDIA', 123.45,'PAID'),
+VALUES (1, 0, '2023-02-14', '2023-02-18', 1, '2023-03-03', 'RENT', 200.20,'PAID'),
+       (2, 0, '2023-02-14', '2023-02-21', 2, '2023-03-03', 'MEDIA', 123.45,'PAID'),
        (3, 0, '2023-02-14', '2023-02-14', 3, '2023-03-03', 'ELECTRICITY', 70.67,'UNPAID'),
        (4, 0, '2023-02-14', '2023-02-14', 4, '2023-03-03', 'RENT', 200,'UNPAID'),
        (5, 0, '2023-02-14', '2023-02-14', 5, '2023-03-03', 'ELECTRICITY', 50.50,'UNPAID'),
@@ -134,12 +134,12 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 1, '2023-03-03', 'RENT', 200.20,'PAID'
        (7, 0, '2023-02-14', '2023-02-14', 7, '2023-03-03', 'RENT', 909.02,'UNPAID'),
        (8, 0, '2023-02-14', '2023-02-14', 8, '2023-03-03', 'RENT', 211,'UNPAID'),
        (9, 0, '2023-02-14', '2023-02-14', 9, '2023-03-03', 'RENT', 222.33,'UNPAID'),
-       (10, 0, '2023-02-14', '2023-02-14', 1, '2023-03-03', 'MEDIA', 233.44,'EXPIRED'),
+       (10, 0, '2023-02-14', '2023-02-26', 1, '2023-03-03', 'MEDIA', 233.44,'EXPIRED'),
        (11, 0, '2023-02-14', '2023-02-14', 2, '2023-03-03', 'RENT', 244.55,'EXPIRED'),
        (12, 0, '2023-02-14', '2023-02-14', 3, '2023-03-03', 'ELECTRICITY', 266.77,'EXPIRED'),
        (13, 0, '2023-02-14', '2023-02-14', 4, '2023-03-03', 'MEDIA', 288.99,'EXPIRED'),
-       (14, 0, '2023-02-14', '2023-02-14', 5, '2023-03-03', 'RENT', 299.00,'UNPAID'),
-       (15, 0, '2023-02-14', '2023-02-14', 6, '2023-03-03', 'ELECTRICITY', 200,'PAID');
+       (14, 0, '2023-02-14', '2023-02-27', 5, '2023-03-03', 'RENT', 299.00,'UNPAID'),
+       (15, 0, '2023-02-14', '2023-02-19', 6, '2023-03-03', 'ELECTRICITY', 200,'PAID');
 
 INSERT INTO payment_status(id, version, create_date, update_date, payment_entity_id, payment_status_name)
 VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'UNPAID'),
