@@ -9,6 +9,7 @@ import com.capgemini.bedland.enums.PaymentStatusName;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.repositories.CustomIncidentRepository;
 import com.capgemini.bedland.repositories.CustomPaymentRepository;
+import com.capgemini.bedland.repositories.ManagerRepository;
 import com.capgemini.bedland.services.CustomNotificationService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,15 @@ public class CustomNotificationServiceImpl implements CustomNotificationService 
     @Autowired
     private CustomIncidentRepository customIncidentRepository;
 
+    @Autowired
+    private ManagerRepository managerRepository;
+
     @Override
     public List<NotificationSummaryDto> getGivenNumberOfLastNotificationsForGivenManager(Long managerId, Integer numberOfNotifications) {
+
+        if (managerId == null || numberOfNotifications == null || !managerRepository.existsById(managerId)) {
+            throw new IllegalArgumentException("Incorrect arguments for getting notifications for manager");
+        }
 
         List<NotificationSummaryDto> resultSummaries = new LinkedList<>();
         prepareNotificationDtoList(managerId, numberOfNotifications, resultSummaries);
@@ -91,7 +99,7 @@ public class CustomNotificationServiceImpl implements CustomNotificationService 
                 .filter(MemberEntity::isOwner)
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("flat owner not found"));
-        return String.format( "New report from %s %s was sent.",owner.getName(),owner.getLastName());
+        return String.format("New report from %s %s was sent.", owner.getName(), owner.getLastName());
     }
 
     private String createPaymentNotificationTitle(PaymentEntity paymentEntity) {
@@ -102,7 +110,7 @@ public class CustomNotificationServiceImpl implements CustomNotificationService 
                 .filter(MemberEntity::isOwner)
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("flat owner not found"));
-    return String.format( "New payment from %s %s was sent.",owner.getName(),owner.getLastName());
+        return String.format("New payment from %s %s was sent.", owner.getName(), owner.getLastName());
     }
 
 }

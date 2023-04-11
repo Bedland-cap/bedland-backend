@@ -15,5 +15,5 @@ public class AnnouncementDto extends AbstractDto {
     private Long buildingId;
     private String title;
     private String description;
-
+    private Boolean toManager;
 }

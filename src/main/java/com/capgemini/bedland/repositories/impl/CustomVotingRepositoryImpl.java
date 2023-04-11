@@ -1,4 +1,4 @@
-package com.capgemini.bedland.voting.internal.custom;
+package com.capgemini.bedland.repositories.impl;
 
 import com.capgemini.bedland.entities.*;
 import com.capgemini.bedland.repositories.CustomVotingRepository;

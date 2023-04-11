@@ -15,23 +15,24 @@ class AnnouncementMapper {
             return null;
         }
         return AnnouncementDto.builder()
-                              .id(entity.getId())
-                              .version(entity.getVersion())
-                              .createDate(entity.getCreateDate())
-                              .updateDate(entity.getUpdateDate())
-                              .flatId(entity.getFlatEntity()
-                                            .getId())
-                              .buildingId(entity.getBuildingEntity()
-                                                .getId())
-                              .title(entity.getTitle())
-                              .description(entity.getDescription())
-                              .build();
+                .id(entity.getId())
+                .version(entity.getVersion())
+                .createDate(entity.getCreateDate())
+                .updateDate(entity.getUpdateDate())
+                .flatId(entity.getFlatEntity()
+                        .getId())
+                .buildingId(entity.getBuildingEntity()
+                        .getId())
+                .toManager(entity.isToManager())
+                .title(entity.getTitle())
+                .description(entity.getDescription())
+                .build();
     }
 
     public List<AnnouncementDto> entities2DTOs(List<AnnouncementEntity> entities) {
         return entities.stream()
-                       .map(this::entity2Dto)
-                       .toList();
+                .map(this::entity2Dto)
+                .toList();
     }
 
     public AnnouncementEntity dto2Entity(AnnouncementDto dto) {
@@ -46,6 +47,11 @@ class AnnouncementMapper {
         newAnnouncement.setBuildingEntity(null);
         newAnnouncement.setTitle(dto.getTitle());
         newAnnouncement.setDescription(dto.getDescription());
+        if (dto.getToManager() != null) {
+            newAnnouncement.setToManager(dto.getToManager());
+        } else {
+            newAnnouncement.setToManager(false);
+        }
         if (dto.getId() != null) {
             newAnnouncement.setId(dto.getId());
         }

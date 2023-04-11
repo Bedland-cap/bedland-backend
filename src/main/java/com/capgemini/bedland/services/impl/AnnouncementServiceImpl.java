@@ -2,6 +2,7 @@ package com.capgemini.bedland.services.impl;
 
 import com.capgemini.bedland.dtos.AnnouncementDto;
 import com.capgemini.bedland.entities.AnnouncementEntity;
+import com.capgemini.bedland.entities.BuildingEntity;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.mappers.AnnouncementMapper;
 import com.capgemini.bedland.providers.AnnouncementProvider;
@@ -45,9 +46,13 @@ public class AnnouncementServiceImpl implements AnnouncementService, Announcemen
 
     @Override
     public AnnouncementDto create(AnnouncementDto request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Given request is null");
+        }
         if (request.getId() != null) {
             throw new IllegalArgumentException("Given request contains an ID. Announcement can't be created");
         }
+        validateBuildingId(request);
         AnnouncementEntity createdAnnouncement = announcementRepository.save(repackDtoToEntity(request));
         return announcementMapper.entity2Dto(createdAnnouncement);
     }
@@ -71,6 +76,7 @@ public class AnnouncementServiceImpl implements AnnouncementService, Announcemen
         if (!announcementRepository.existsById(request.getId())) {
             throw new NotFoundException(request.getId());
         }
+        validateBuildingId(request);
         AnnouncementEntity updateAnnouncement = announcementRepository.save(repackDtoToEntity(request));
         return announcementMapper.entity2Dto(updateAnnouncement);
     }
@@ -83,5 +89,11 @@ public class AnnouncementServiceImpl implements AnnouncementService, Announcemen
                                                    .orElseThrow(() -> new NotFoundException(dto.getBuildingId())));
         return entity;
     }
-
+    private void validateBuildingId(AnnouncementDto request){
+        BuildingEntity buildingById = buildingRepository.findById(request.getBuildingId()).orElseThrow(() -> new NotFoundException("building id not found"));
+        BuildingEntity buildingFromFlat = flatRepository.findById(request.getFlatId()).orElseThrow(()->new NotFoundException("flat not found")).getBuildingEntity();
+        if(buildingFromFlat!=buildingById){
+            throw new IllegalArgumentException("Building assigned to flat is not equal to building given by ID");
+        }
+    }
 }
