@@ -3,6 +3,7 @@ package com.capgemini.bedland.controllers;
 import com.capgemini.bedland.dtos.BuildingDto;
 import com.capgemini.bedland.providers.BuildingProvider;
 import com.capgemini.bedland.services.BuildingService;
+import com.capgemini.bedland.services.CustomBuildingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,11 +34,13 @@ class BuildingControllerTest {
     @Mock
     private BuildingProvider buildingProviderMock;
 
+    @Mock
+    private CustomBuildingService customBuildingServiceMock;
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUpBuildingControllerTest() {
-        BuildingController controller = new BuildingController(buildingServiceMock, buildingProviderMock);
+        BuildingController controller = new BuildingController(buildingServiceMock, buildingProviderMock,customBuildingServiceMock);
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .build();

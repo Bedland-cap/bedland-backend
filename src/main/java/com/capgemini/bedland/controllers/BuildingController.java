@@ -3,6 +3,7 @@ package com.capgemini.bedland.controllers;
 import com.capgemini.bedland.dtos.BuildingDto;
 import com.capgemini.bedland.providers.BuildingProvider;
 import com.capgemini.bedland.services.BuildingService;
+import com.capgemini.bedland.services.CustomBuildingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,6 +25,9 @@ public class BuildingController {
     @Autowired
     private final BuildingProvider buildingProvider;
 
+    @Autowired
+    private final CustomBuildingService customBuildingService;
+
     @GetMapping()
     List<BuildingDto> getAll() {
         return buildingProvider.getAll();
@@ -37,8 +41,8 @@ public class BuildingController {
     @GetMapping("/image/{id}")
     ResponseEntity<byte[]> getPhotoByBuildingId(@PathVariable Long id) {
         return ResponseEntity.status(OK)
-                             .contentType(MediaType.valueOf("image/png"))
-                             .body(buildingProvider.getPhotoByBuildingId(id));
+                .contentType(MediaType.valueOf("image/png"))
+                .body(buildingProvider.getPhotoByBuildingId(id));
     }
 
     @PostMapping()
@@ -56,10 +60,15 @@ public class BuildingController {
     BuildingDto updatePhoto(@PathVariable Long id, @RequestParam(value = "image", required = false) MultipartFile file) {
         return buildingService.updatePhoto(id, file);
     }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     void delete(@PathVariable Long id) {
         buildingService.delete(id);
     }
 
+    @GetMapping(params = {"manager_id"})
+    List<BuildingDto> findBuildingsForGivenManager(@RequestParam Long manager_id) {
+        return customBuildingService.getBuildingsByManager(manager_id);
+    }
 }
