@@ -18,6 +18,7 @@ public abstract class EntityPreparator {
         testManager1.setPassword("testPassword");
         return testManager1;
     }
+
     public static ManagerEntity prepareSecondTestManager() {
         ManagerEntity testManager1 = new ManagerEntity();
         testManager1.setName("managerNameTest2");
@@ -28,6 +29,55 @@ public abstract class EntityPreparator {
         testManager1.setPassword("testPassword222");
         return testManager1;
     }
+
+    public static OwnerEntity prepareFirstTestOwner() {
+        String s = "owner1";
+        OwnerEntity owner = new OwnerEntity();
+        owner.setName(s);
+        owner.setLastName(s);
+        owner.setLogin(s);
+        owner.setPhoneNumber("12432");
+        owner.setPassword(s);
+        owner.setEmail(s + "@email");
+        return owner;
+    }
+
+    public static OwnerEntity prepareSecondTestOwner() {
+        String s = "owner2";
+        OwnerEntity owner = new OwnerEntity();
+        owner.setName(s);
+        owner.setLastName(s);
+        owner.setLogin(s);
+        owner.setPhoneNumber("12432");
+        owner.setPassword(s);
+        owner.setEmail(s + "@email");
+        return owner;
+    }
+
+    public static OwnerEntity prepareThirdTestOwner() {
+        String s = "owner3";
+        OwnerEntity owner = new OwnerEntity();
+        owner.setName(s);
+        owner.setLastName(s);
+        owner.setLogin(s);
+        owner.setPhoneNumber("12432");
+        owner.setPassword(s);
+        owner.setEmail(s + "@email");
+        return owner;
+    }
+
+    public static OwnerEntity prepareFourthTestOwner() {
+        String s = "owner4";
+        OwnerEntity owner = new OwnerEntity();
+        owner.setName(s);
+        owner.setLastName(s);
+        owner.setLogin(s);
+        owner.setPhoneNumber("12432");
+        owner.setPassword(s);
+        owner.setEmail(s + "@email");
+        return owner;
+    }
+
     public static BuildingEntity prepareFirstTestBuilding(ManagerEntity managerEntity) {
         BuildingEntity testBuilding1 = new BuildingEntity();
         testBuilding1.setManagerEntity(managerEntity);
@@ -97,21 +147,16 @@ public abstract class EntityPreparator {
         memberEntity1.setName("testName1");
         memberEntity1.setLastName("testLastName1");
         memberEntity1.setEmail("test1@mail");
-        memberEntity1.setOwner(true);
-        memberEntity1.setLogin("dadsadas");
-        memberEntity1.setPassword("dasdadsad");
         memberEntity1.setPhoneNumber("4314123");
         return memberEntity1;
     }
+
     public static MemberEntity prepareSecondTestMember_Owner(FlatEntity flatEntity) {
         MemberEntity memberEntity5 = new MemberEntity();
         memberEntity5.setFlatEntity(flatEntity);
         memberEntity5.setName("owner2");
         memberEntity5.setLastName("owner2");
         memberEntity5.setEmail("owner2@mail");
-        memberEntity5.setOwner(true);
-        memberEntity5.setLogin("owner2");
-        memberEntity5.setPassword("dasdadsad");
         memberEntity5.setPhoneNumber("4314123");
         return memberEntity5;
     }
@@ -122,9 +167,6 @@ public abstract class EntityPreparator {
         memberEntity2.setName("testName11");
         memberEntity2.setLastName("testLastName11");
         memberEntity2.setEmail("test11@mail");
-        memberEntity2.setOwner(false);
-        memberEntity2.setLogin("dadsadasa");
-        memberEntity2.setPassword("dasdadsdaad");
         memberEntity2.setPhoneNumber("43124123");
         return memberEntity2;
     }
@@ -135,14 +177,11 @@ public abstract class EntityPreparator {
         memberEntity3.setName("testName2");
         memberEntity3.setLastName("testLastName2");
         memberEntity3.setEmail("test2@mail");
-        memberEntity3.setOwner(false);
-        memberEntity3.setLogin("dfaa");
-        memberEntity3.setPassword("gsf");
         memberEntity3.setPhoneNumber("4234");
         return memberEntity3;
     }
 
-    public static PaymentEntity prepareFirstPayment(FlatEntity flatEntity){
+    public static PaymentEntity prepareFirstPayment(FlatEntity flatEntity) {
         PaymentEntity paymentEntity = new PaymentEntity();
         paymentEntity.setFlatEntity(flatEntity);
         paymentEntity.setPaymentType(PaymentType.INTERNET);
@@ -151,7 +190,8 @@ public abstract class EntityPreparator {
         paymentEntity.setLastPaymentStatusName(PaymentStatusName.UNPAID);
         return paymentEntity;
     }
-    public static PaymentEntity prepareSecondPayment(FlatEntity flatEntity){
+
+    public static PaymentEntity prepareSecondPayment(FlatEntity flatEntity) {
         PaymentEntity paymentEntity = new PaymentEntity();
         paymentEntity.setFlatEntity(flatEntity);
         paymentEntity.setPaymentType(PaymentType.GAS);
@@ -160,7 +200,8 @@ public abstract class EntityPreparator {
         paymentEntity.setLastPaymentStatusName(PaymentStatusName.UNPAID);
         return paymentEntity;
     }
-    public static PaymentEntity prepareThirdPayment(FlatEntity flatEntity){
+
+    public static PaymentEntity prepareThirdPayment(FlatEntity flatEntity) {
         PaymentEntity paymentEntity = new PaymentEntity();
         paymentEntity.setFlatEntity(flatEntity);
         paymentEntity.setPaymentType(PaymentType.WATER);
@@ -169,19 +210,22 @@ public abstract class EntityPreparator {
         paymentEntity.setLastPaymentStatusName(PaymentStatusName.UNPAID);
         return paymentEntity;
     }
-    public static PaymentStatusEntity prepareUNPAIDPaymentStatus(PaymentEntity paymentEntity){
+
+    public static PaymentStatusEntity prepareUNPAIDPaymentStatus(PaymentEntity paymentEntity) {
         PaymentStatusEntity paymentStatusEntity = new PaymentStatusEntity();
         paymentStatusEntity.setPaymentEntity(paymentEntity);
         paymentStatusEntity.setPaymentStatusName(PaymentStatusName.UNPAID);
         return paymentStatusEntity;
     }
-    public static PaymentStatusEntity preparePAIDPaymentStatus(PaymentEntity paymentEntity){
+
+    public static PaymentStatusEntity preparePAIDPaymentStatus(PaymentEntity paymentEntity) {
         PaymentStatusEntity paymentStatusEntity = new PaymentStatusEntity();
         paymentStatusEntity.setPaymentEntity(paymentEntity);
         paymentStatusEntity.setPaymentStatusName(PaymentStatusName.PAID);
         return paymentStatusEntity;
     }
-    public static PaymentStatusEntity prepareEXPIREDPaymentStatus(PaymentEntity paymentEntity){
+
+    public static PaymentStatusEntity prepareEXPIREDPaymentStatus(PaymentEntity paymentEntity) {
         PaymentStatusEntity paymentStatusEntity = new PaymentStatusEntity();
         paymentStatusEntity.setPaymentEntity(paymentEntity);
         paymentStatusEntity.setPaymentStatusName(PaymentStatusName.EXPIRED);

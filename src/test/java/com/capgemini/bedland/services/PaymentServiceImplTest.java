@@ -103,7 +103,18 @@ class PaymentServiceImplTest {
         //when+then
         assertThrows(IllegalArgumentException.class, () -> paymentService.create(payment));
     }
-
+    @Test
+    void shouldReturnThrowWhenCreatePaymentAndGivenPaymentHasValueLessThan0() {
+        //given
+        PaymentDto payment = PaymentDto.builder()
+                .flatId(1L)
+                .expirationDate(LocalDateTime.now())
+                .paymentType("RENT")
+                .paymentValue(-1)
+                .build();
+        //when+then
+        assertThrows(IllegalArgumentException.class, () -> paymentService.create(payment));
+    }
     @Test
     void shouldReturnThrowWhenCreatePaymentAndGivenPaymentIsNull() {
         assertThrows(IllegalArgumentException.class, () -> paymentService.create(null));

@@ -40,7 +40,6 @@ public class CustomVotingServiceImpl implements CustomVotingService {
         return votingMapper.entities2DTO(customVotingRepository.findAllVotingsForGivenManager(managerId));
     }
 
-    //todo: tests for below
     @Override
     public List<VotingDetailsDto> findOptionsWithNumberOfResponsesForGivenVoting(Long votingId) {
         if (votingId == null) {

@@ -15,7 +15,7 @@ public class FlatDetailsDto {
 
     private String flatNumber;
     private int floor;
-    private List<String> owners;
+    private String owner;
     private List<String> residents;
     private MonthlyFlatPaymentStatus monthlyPayments;
     private LocalDateTime lastMaintenance;

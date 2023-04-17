@@ -2,11 +2,10 @@ package com.capgemini.bedland.services.impl;
 
 import com.capgemini.bedland.dtos.NotificationSummaryDto;
 import com.capgemini.bedland.entities.IncidentEntity;
-import com.capgemini.bedland.entities.MemberEntity;
+import com.capgemini.bedland.entities.OwnerEntity;
 import com.capgemini.bedland.entities.PaymentEntity;
 import com.capgemini.bedland.enums.NotificationType;
 import com.capgemini.bedland.enums.PaymentStatusName;
-import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.repositories.CustomIncidentRepository;
 import com.capgemini.bedland.repositories.CustomPaymentRepository;
 import com.capgemini.bedland.repositories.ManagerRepository;
@@ -92,24 +91,16 @@ public class CustomNotificationServiceImpl implements CustomNotificationService 
     }
 
     private String createIncidentNotificationTitle(IncidentEntity incident) {
-        MemberEntity owner = incident
+        OwnerEntity owner = incident
                 .getFlatEntity()
-                .getFlatMembers()
-                .stream()
-                .filter(MemberEntity::isOwner)
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("flat owner not found"));
+                .getFlatOwnerEntity();
         return String.format("New report from %s %s was sent.", owner.getName(), owner.getLastName());
     }
 
     private String createPaymentNotificationTitle(PaymentEntity paymentEntity) {
-        MemberEntity owner = paymentEntity
+        OwnerEntity owner = paymentEntity
                 .getFlatEntity()
-                .getFlatMembers()
-                .stream()
-                .filter(MemberEntity::isOwner)
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("flat owner not found"));
+                .getFlatOwnerEntity();
         return String.format("New payment from %s %s was sent.", owner.getName(), owner.getLastName());
     }
 

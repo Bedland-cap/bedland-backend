@@ -1,9 +1,9 @@
 package com.capgemini.bedland.security;
 
 import com.capgemini.bedland.entities.ManagerEntity;
-import com.capgemini.bedland.entities.MemberEntity;
+import com.capgemini.bedland.entities.OwnerEntity;
 import com.capgemini.bedland.repositories.ManagerRepository;
-import com.capgemini.bedland.repositories.MemberRepository;
+import com.capgemini.bedland.repositories.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -21,43 +21,41 @@ import java.util.Optional;
 public class UserDao {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private OwnerRepository ownerRepository;
     @Autowired
     private ManagerRepository managerRepository;
     private final PasswordEncoder passwordEncoder;
 
     private List<UserDetails> createUserList(String login) {
-        Optional<MemberEntity> member = memberRepository.findAll()
-                                                        .stream()
-                                                        .filter(user -> user.getLogin()
-                                                                  .equals(login)).findFirst();
+        Optional<OwnerEntity> owner = ownerRepository.findAll()
+                .stream()
+                .filter(user -> user.getLogin()
+                        .equals(login)).findFirst();
         Optional<ManagerEntity> manager = managerRepository.findAll()
-                                                 .stream()
-                                                 .filter(user -> user.getLogin()
-                                                                  .equals(login)).findFirst();
+                .stream()
+                .filter(user -> user.getLogin()
+                        .equals(login)).findFirst();
         List<UserDetails> usersList = new ArrayList<>();
-        if(member.isPresent()){
-            usersList.add(User.withUsername(member.get().getLogin())
-                              .password(passwordEncoder.encode(member.get().getPassword()))
-                              .roles("USER")
-                              .build());
-        }
-        if(manager.isPresent()){
-            usersList.add(User.withUsername(manager.get().getLogin())
-                              .password(passwordEncoder.encode(manager.get().getPassword()))
-                              .roles("MANAGER")
-                              .build());
-        }
+
+        owner.ifPresent(ownerEntity -> usersList.add(User.withUsername(ownerEntity.getLogin())
+                .password(passwordEncoder.encode(ownerEntity.getPassword()))
+                .roles("USER")
+                .build()));
+
+        manager.ifPresent(managerEntity -> usersList.add(User.withUsername(managerEntity.getLogin())
+                .password(passwordEncoder.encode(managerEntity.getPassword()))
+                .roles("MANAGER")
+                .build()));
         usersList.add(User.withUsername("admin")
-                          .password(passwordEncoder.encode("admin"))
-                          .roles("ADMIN")
-                          .build());
+                .password(passwordEncoder.encode("admin"))
+                .roles("ADMIN")
+                .build());
         return usersList;
     }
 
     public UserDetails findUserByLogin(String login) {
         return createUserList(login).stream().findFirst()
-                                    .orElseThrow(() -> new UsernameNotFoundException("No user was found"));
+                .orElseThrow(() -> new UsernameNotFoundException("No user was found"));
     }
 
 }

@@ -14,31 +14,34 @@ public class FlatMapper {
             return null;
         }
         return FlatDto.builder()
-                      .id(entity.getId())
-                      .version(entity.getVersion())
-                      .createDate(entity.getCreateDate())
-                      .updateDate(entity.getUpdateDate())
-                      .buildingId(entity.getBuildingEntity()
-                                        .getId())
-                      .number(entity.getNumber())
-                      .floor(entity.getFloor())
-                      .shapePath(entity.getShapePath())
-                      .build();
+                .id(entity.getId())
+                .version(entity.getVersion())
+                .createDate(entity.getCreateDate())
+                .updateDate(entity.getUpdateDate())
+                .buildingId(entity.getBuildingEntity()
+                        .getId())
+                .ownerId(entity.getFlatOwnerEntity()
+                        .getId())
+                .number(entity.getNumber())
+                .floor(entity.getFloor())
+                .shapePath(entity.getShapePath())
+                .build();
     }
 
-    public List<FlatDto> entities2DTOs(List<FlatEntity> entities){
+    public List<FlatDto> entities2DTOs(List<FlatEntity> entities) {
         return entities.stream().map(this::entity2Dto).toList();
     }
 
-    public FlatEntity dto2Entity(FlatDto dto){
-        if(dto==null){
+    public FlatEntity dto2Entity(FlatDto dto) {
+        if (dto == null) {
             return null;
         }
-        FlatEntity newFlat  = new FlatEntity();
+        FlatEntity newFlat = new FlatEntity();
         newFlat.setVersion(dto.getVersion());
         newFlat.setCreateDate(dto.getCreateDate());
         newFlat.setUpdateDate(dto.getUpdateDate());
         newFlat.setBuildingEntity(null);
+        newFlat.setFlatOwnerEntity(null);
         newFlat.setNumber(dto.getNumber());
         newFlat.setFloor(dto.getFloor());
         newFlat.setShapePath(dto.getShapePath());

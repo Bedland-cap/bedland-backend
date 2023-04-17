@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 public class ManagerDto extends AbstractDto {
+
     private String login;
     private String password;
     private String name;

@@ -45,18 +45,12 @@ public class CustomFlatServiceImpl implements CustomFlatService {
         return collectFlatDetailsForGivenManagerAndBuilding(managerId, buildingId);
     }
 
-    private List<String> getFlatOwners(FlatEntity flat) {
-        List<MemberEntity> owners = flat.getFlatMembers().stream().filter(MemberEntity::isOwner).toList();
-        List<String> ownersStrings = new LinkedList<>();
-        owners.forEach(o -> {
-            String s = o.getName() + " " + o.getLastName();
-            ownersStrings.add(s);
-        });
-        return ownersStrings;
+    private String getFlatOwner(FlatEntity flat) {
+        return flat.getFlatOwnerEntity().getName() + " " + flat.getFlatOwnerEntity().getLastName();
     }
 
     private List<String> getFlatResidents(FlatEntity flat) {
-        List<MemberEntity> residents = flat.getFlatMembers().stream().filter(memberEntity -> !memberEntity.isOwner()).toList();
+        List<MemberEntity> residents = flat.getFlatMembers();
         List<String> residentsStrings = new LinkedList<>();
         residents.forEach(r -> {
             String s = r.getName() + " " + r.getLastName();
@@ -95,7 +89,7 @@ public class CustomFlatServiceImpl implements CustomFlatService {
                 .builder()
                 .flatNumber(flat.getNumber())
                 .floor(flat.getFloor())
-                .owners(getFlatOwners(flat))
+                .owner(getFlatOwner(flat))
                 .residents(getFlatResidents(flat))
                 .lastMaintenance(getLastPaymentDate(flat))
                 .monthlyPayments(getOverallMonthlyPayments(flat)).build()));

@@ -18,13 +18,10 @@ public class MemberMapper {
                         .version(entity.getVersion())
                         .createDate(entity.getCreateDate())
                         .updateDate(entity.getUpdateDate())
-                        .login(entity.getLogin())
-                        .password(entity.getPassword())
                         .name(entity.getName())
                         .lastName(entity.getLastName())
                         .email(entity.getEmail())
                         .phoneNumber(entity.getPhoneNumber())
-                        .isOwner(entity.isOwner())
                         .flatId(entity.getFlatEntity()
                                       .getId())
                         .avatar(entity.getAvatar())
@@ -46,13 +43,10 @@ public class MemberMapper {
         newMember.setCreateDate(dto.getCreateDate());
         newMember.setUpdateDate(dto.getUpdateDate());
         newMember.setFlatEntity(null);
-        newMember.setLogin(dto.getLogin());
-        newMember.setPassword(dto.getPassword());
         newMember.setName(dto.getName());
         newMember.setLastName(dto.getLastName());
         newMember.setEmail(dto.getEmail());
         newMember.setPhoneNumber(dto.getPhoneNumber());
-        newMember.setOwner(dto.isOwner());
         newMember.setAvatar(dto.getAvatar());
         if (dto.getId() != null) {
             newMember.setId(dto.getId());

@@ -112,14 +112,11 @@ class MemberServiceImplTest {
     void shouldCreateMemberWhenCreatingMember() {
         //given
         MemberDto newMember = MemberDto.builder()
-                .login("jwick")
-                .password("password123")
                 .name("John")
                 .lastName("Wick")
                 .email("jwick@gmail.com")
                 .phoneNumber("666666666")
                 .flatId(1L)
-                .isOwner(false)
                 .build();
         List<MemberEntity> membersBeforeSavingNewOne = memberRepository.findAll();
         //when
@@ -135,14 +132,11 @@ class MemberServiceImplTest {
     void shouldThrowIllegalArgumentExceptionWhenCreatingMemberWhoHasID() {
         //given
         MemberDto newMember = MemberDto.builder()
-                .login("jwick")
-                .password("password123")
                 .name("John")
                 .lastName("Wick")
                 .email("jwick@gmail.com")
                 .phoneNumber("666666666")
                 .flatId(1L)
-                .isOwner(false)
                 .build();
         newMember.setId(9999L);
         //when

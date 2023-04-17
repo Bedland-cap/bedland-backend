@@ -1,6 +1,9 @@
 package com.capgemini.bedland.services;
 
+import com.capgemini.bedland.dtos.VotingDetailsDto;
 import com.capgemini.bedland.dtos.VotingDto;
+import com.capgemini.bedland.entities.VotingEntity;
+import com.capgemini.bedland.entities.VotingOptionEntity;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.mappers.VotingMapper;
 import com.capgemini.bedland.repositories.ManagerRepository;
@@ -14,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,20 +29,18 @@ import static org.junit.jupiter.api.Assertions.*;
 class CustomVotingServiceImplTest {
 
     @Autowired
-    VotingServiceImpl votingService;
+    private VotingServiceImpl votingService;
     @Autowired
-    VotingRepository votingRepository;
+    private VotingRepository votingRepository;
     @Autowired
-    VotingMapper votingMapper;
-
+    private VotingMapper votingMapper;
     @Autowired
-    CustomVotingService customVotingService;
-
+    private CustomVotingService customVotingService;
     @Autowired
-    ManagerRepository managerRepository;
+    private ManagerRepository managerRepository;
 
     @Test
-    void shouldFindAllVotingForGivenManagerWhenFindingAllVotingsForGivenManager() {
+    void shouldFindAllVotingForGivenManager_WhenFindingAllVotingsForGivenManager() {
         //given
         Long sampleManagerId = managerRepository.findAll().get(0).getId();
         List<VotingDto> expectedVotingsForGivenManagerId = votingMapper.entities2DTO(votingRepository.findAll().stream().filter(m -> m.getBuildingEntity().getManagerEntity().getId().equals(sampleManagerId)).toList());
@@ -51,7 +53,7 @@ class CustomVotingServiceImplTest {
     }
 
     @Test
-    void shouldReturnEmptyListWhenGivenManagerDoesntHaveAssignedVoting() {
+    void shouldReturnEmptyList_WhenGivenManagerDoesntHaveAssignedVoting() {
         //given
         Long sampleManagerId = 3L;
         //when
@@ -61,7 +63,7 @@ class CustomVotingServiceImplTest {
     }
 
     @Test
-    void shouldThrowIllegalArgumentExceptionWhenFindingAllVotingsForGivenManagerAndGivenManagerIdIsNull() {
+    void shouldThrowIllegalArgumentException_WhenFindingAllVotingsForGivenManagerAndGivenManagerIdIsNull() {
         //given
         Long sampleManagerId = null;
         //when
@@ -70,11 +72,40 @@ class CustomVotingServiceImplTest {
     }
 
     @Test
-    void shouldThrowNotFoundExceptionWhenFindingAllVotingsForGivenManagerAndGivenManagerIdIsNotInDB() {
+    void shouldThrowNotFoundException_WhenFindingAllVotingsForGivenManagerAndGivenManagerIdIsNotInDB() {
         //given
         Long sampleManagerId = 9999L;
         //when
         //then
         assertThrows(NotFoundException.class, () -> customVotingService.findAllVotingsForGivenManager(sampleManagerId));
+    }
+
+    @Test
+    void findOptionsWithNumberOfResponsesForGivenVoting_WhenfindingOptionsWithNumberOfResponsesForGivenVoting() {
+        //given
+        VotingEntity votingEntity = votingRepository.findAll().get(0);
+        List<VotingOptionEntity> votingOptionEntities = votingEntity.getVotingOptionEntities();
+        List<VotingDetailsDto> expectedVotingDetailsDtos = new ArrayList<>();
+        votingOptionEntities.forEach(voe -> expectedVotingDetailsDtos.add(VotingDetailsDto.builder().votingOptionTitle(voe.getTitle()).amountOfResponses(voe.getVotingResponseEntities().size()).build()));
+        //when
+        List<VotingDetailsDto> foundVotingDetailsDtos = customVotingService.findOptionsWithNumberOfResponsesForGivenVoting(votingEntity.getId());
+        //then
+        assertEquals(expectedVotingDetailsDtos,foundVotingDetailsDtos);
+    }
+    @Test
+    void shouldThrowNotFoundExceptionWhenfindingOptionsWithNumberOfResponsesForGivenVoting_AndVotingIsNotInDB() {
+        //given
+        Long id = 9999L;
+        //when
+        //then
+        assertThrows(NotFoundException.class, () -> customVotingService.findOptionsWithNumberOfResponsesForGivenVoting(id));
+    }
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenfindingOptionsWithNumberOfResponsesForGivenVoting_AndVotingIdIsNull() {
+        //given
+        Long id = null;
+        //when
+        //then
+        assertThrows(IllegalArgumentException.class, () -> customVotingService.findOptionsWithNumberOfResponsesForGivenVoting(id));
     }
 }

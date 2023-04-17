@@ -13,5 +13,5 @@ public class FlatDto extends AbstractDto {
     private String number;
     private int floor;
     private String shapePath;
-
+    private Long ownerId;
 }

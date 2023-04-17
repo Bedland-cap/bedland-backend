@@ -65,7 +65,7 @@ class BuildingServiceImplTest {
     void shouldFIndBuildingByIdWhenGettingBuildingById() {
         //given
         BuildingDto buildingInDB = buildingMapper.entity2Dto(buildingRepository.findAll()
-                                                                               .get(0));
+                .get(0));
         //when
         BuildingDto buildingFound = buildingProvider.getById(buildingInDB.getId());
         //then
@@ -96,7 +96,7 @@ class BuildingServiceImplTest {
     void shouldFindBuildingPhotoByBuildingIdWhenGettingBuildingById() throws IOException {
         //given
         BuildingEntity building = buildingRepository.findAll()
-                                                    .get(0);
+                .get(0);
         byte[] data = {1, 2};
         MultipartFile file = new MockMultipartFile("name.xD", data);
         //when
@@ -112,11 +112,11 @@ class BuildingServiceImplTest {
     void shouldCreateBuildingWhenCreatingBuilding() {
         //given
         BuildingDto newBuilding = BuildingDto.builder()
-                                             .managerId(1L)
-                                             .buildingName("test name")
-                                             .address("Dubai 2137")
-                                             .floors(20)
-                                             .build();
+                .managerId(1L)
+                .buildingName("test name")
+                .address("Dubai 2137")
+                .floors(20)
+                .build();
         List<BuildingEntity> buildingsBeforeSavingNewOne = buildingRepository.findAll();
         //when
         BuildingDto createdBuilding = buildingService.create(newBuilding);
@@ -131,12 +131,26 @@ class BuildingServiceImplTest {
     void shouldThrowIllegalArgumentExceptionWhenCreatingBuildingWhichHasID() {
         //given
         BuildingDto newBuilding = BuildingDto.builder()
-                                             .managerId(1L)
-                                             .buildingName("test name")
-                                             .address("Dubai 2137")
-                                             .floors(55)
-                                             .build();
+                .managerId(1L)
+                .buildingName("test name")
+                .address("Dubai 2137")
+                .floors(15)
+                .build();
         newBuilding.setId(999L);
+        //when
+        //then
+        assertThrows(IllegalArgumentException.class, () -> buildingService.create(newBuilding));
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenCreatingBuildingWhichHasMoreThan20Floors() {
+        //given
+        BuildingDto newBuilding = BuildingDto.builder()
+                .managerId(1L)
+                .buildingName("test name")
+                .address("Dubai 2137")
+                .floors(55)
+                .build();
         //when
         //then
         assertThrows(IllegalArgumentException.class, () -> buildingService.create(newBuilding));
@@ -147,7 +161,7 @@ class BuildingServiceImplTest {
         //given
         List<BuildingDto> buildingsBeforeDeletingOne = buildingProvider.getAll();
         BuildingDto buildingToDeleteDto = buildingProvider.getAll()
-                                                          .get(0);
+                .get(0);
         Long id = buildingToDeleteDto.getId();
         //when
         buildingService.delete(id);
@@ -175,7 +189,7 @@ class BuildingServiceImplTest {
     void shouldUpdateBuildingWhenUpdatingBuilding() {
         //given
         BuildingDto buildingToUpdate = buildingProvider.getAll()
-                                                       .get(0);
+                .get(0);
         String oldName = buildingToUpdate.getBuildingName();
         String newName = "new name";
         buildingToUpdate.setBuildingName(newName);
@@ -192,7 +206,7 @@ class BuildingServiceImplTest {
     void shouldThrowIllegalArgumentExceptionWhenUpdatingBuildingWithNullID() {
         //given
         BuildingDto buildingToUpdate = buildingProvider.getAll()
-                                                       .get(0);
+                .get(0);
         buildingToUpdate.setId(null);
         //when + then
         assertThrows(IllegalArgumentException.class, () -> buildingService.update(buildingToUpdate));
@@ -202,7 +216,7 @@ class BuildingServiceImplTest {
     void shouldThrowNotFoundExceptionWhenUpdatingBuildingWithIDNotPresentInDB() {
         //given
         BuildingDto buildingToUpdate = buildingProvider.getAll()
-                                                       .get(0);
+                .get(0);
         buildingToUpdate.setId(99999L);
         //when + then
         assertThrows(NotFoundException.class, () -> buildingService.update(buildingToUpdate));
@@ -215,7 +229,7 @@ class BuildingServiceImplTest {
         MultipartFile file = new MockMultipartFile("file.xD", data);
         MultipartFile newFile = new MockMultipartFile("updateFile.xD", data);
         BuildingEntity buildingToUpdate = buildingRepository.findAll()
-                                                            .get(0);
+                .get(0);
         buildingToUpdate.setPhoto(file.getBytes());
         buildingRepository.save(buildingToUpdate);
         // when
@@ -238,8 +252,8 @@ class BuildingServiceImplTest {
     void shouldThrowIllegalArgumentExceptionWhenUpdatingPhotoWithNullFile() {
         //given
         Long id = buildingRepository.findAll()
-                                    .get(0)
-                                    .getId();
+                .get(0)
+                .getId();
         //when + then
         assertThrows(IllegalArgumentException.class, () -> buildingService.updatePhoto(id, null));
     }

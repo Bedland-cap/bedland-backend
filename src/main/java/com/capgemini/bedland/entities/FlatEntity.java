@@ -18,6 +18,10 @@ public class FlatEntity extends AbstractEntity {
     @JoinColumn
     private BuildingEntity buildingEntity;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinColumn
+    private OwnerEntity flatOwnerEntity;
+
     @OneToMany(mappedBy = "flatEntity", cascade = CascadeType.ALL)
     private List<MemberEntity> flatMembers;
 

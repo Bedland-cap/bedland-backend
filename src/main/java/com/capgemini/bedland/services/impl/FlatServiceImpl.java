@@ -7,13 +7,14 @@ import com.capgemini.bedland.mappers.FlatMapper;
 import com.capgemini.bedland.providers.FlatProvider;
 import com.capgemini.bedland.repositories.BuildingRepository;
 import com.capgemini.bedland.repositories.FlatRepository;
-import com.capgemini.bedland.repositories.MemberRepository;
+import com.capgemini.bedland.repositories.OwnerRepository;
 import com.capgemini.bedland.services.FlatService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Transactional
 @Service
 public class FlatServiceImpl implements FlatService, FlatProvider {
@@ -25,7 +26,7 @@ public class FlatServiceImpl implements FlatService, FlatProvider {
     @Autowired
     private BuildingRepository buildingRepository;
     @Autowired
-    private MemberRepository memberRepository;
+    private OwnerRepository ownerRepository;
 
     @Override
     public List<FlatDto> getAll() {
@@ -38,7 +39,7 @@ public class FlatServiceImpl implements FlatService, FlatProvider {
             throw new IllegalArgumentException("Given ID is null");
         }
         return flatMapper.entity2Dto(flatRepository.findById(id)
-                                                   .orElseThrow(() -> new NotFoundException(id)));
+                .orElseThrow(() -> new NotFoundException(id)));
     }
 
     @Override
@@ -79,7 +80,9 @@ public class FlatServiceImpl implements FlatService, FlatProvider {
     private FlatEntity repackDtoToEntity(FlatDto dto) {
         FlatEntity entity = flatMapper.dto2Entity(dto);
         entity.setBuildingEntity(buildingRepository.findById(dto.getBuildingId())
-                                                   .orElseThrow(() -> new NotFoundException(dto.getBuildingId())));
+                .orElseThrow(() -> new NotFoundException(dto.getBuildingId())));
+        entity.setFlatOwnerEntity(ownerRepository.findById(dto.getOwnerId())
+                .orElseThrow(() -> new NotFoundException(dto.getOwnerId())));
         return entity;
     }
 

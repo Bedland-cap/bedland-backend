@@ -5,18 +5,25 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 import static org.hibernate.Length.LONG32;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @Entity
-@Table(name = "MEMBER")
-public class MemberEntity extends AbstractEntity {
+@Table(name = "OWNER")
+public class OwnerEntity extends AbstractEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    @JoinColumn
-    private FlatEntity flatEntity;
+    @OneToMany(mappedBy = "flatOwnerEntity", cascade = CascadeType.ALL)
+    private List<FlatEntity> flatEntities;
+
+    @Column(nullable = false, length = 50, name = "LOGIN")
+    private String login;
+
+    @Column(nullable = false, length = 50, name = "PASSWORD")
+    private String password;
 
     @Column(nullable = false, length = 50, name = "NAME")
     private String name;

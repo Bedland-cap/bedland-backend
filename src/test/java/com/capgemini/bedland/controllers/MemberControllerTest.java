@@ -48,25 +48,19 @@ class MemberControllerTest {
     void shouldReturnAllMembersWhenGettingAllMembers() throws Exception {
         //given
         MemberDto firstSampleMember = MemberDto.builder()
-                .login("jwick")
-                .password("password123")
                 .name("John")
                 .lastName("Wick")
                 .email("jwick@gmail.com")
                 .phoneNumber("666666666")
                 .flatId(1L)
-                .isOwner(false)
                 .id(1L)
                 .build();
         MemberDto secondSampleMember = MemberDto.builder()
-                .login("jwick")
-                .password("password123")
                 .name("John")
                 .lastName("Wick")
                 .email("jwick@gmail.com")
                 .phoneNumber("666666666")
                 .flatId(1L)
-                .isOwner(false)
                 .id(2L)
                 .build();
 
@@ -78,16 +72,12 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").value(firstSampleMember.getId()))
-                .andExpect(jsonPath("$[0].login").value(firstSampleMember.getLogin()))
-                .andExpect(jsonPath("$[0].password").value(firstSampleMember.getPassword()))
                 .andExpect(jsonPath("$[0].name").value(firstSampleMember.getName()))
                 .andExpect(jsonPath("$[0].lastName").value(firstSampleMember.getLastName()))
                 .andExpect(jsonPath("$[0].email").value(firstSampleMember.getEmail()))
                 .andExpect(jsonPath("$[0].phoneNumber").value(firstSampleMember.getPhoneNumber()))
 
                 .andExpect(jsonPath("$[1].id").value(secondSampleMember.getId()))
-                .andExpect(jsonPath("$[1].login").value(secondSampleMember.getLogin()))
-                .andExpect(jsonPath("$[1].password").value(secondSampleMember.getPassword()))
                 .andExpect(jsonPath("$[1].name").value(secondSampleMember.getName()))
                 .andExpect(jsonPath("$[1].lastName").value(secondSampleMember.getLastName()))
                 .andExpect(jsonPath("$[1].email").value(secondSampleMember.getEmail()))
@@ -112,14 +102,11 @@ class MemberControllerTest {
         //given
         long sampleId = 1L;
         MemberDto firstSampleMember = MemberDto.builder()
-                .login("jwick")
-                .password("password123")
                 .name("John")
                 .lastName("Wick")
                 .email("jwick@gmail.com")
                 .phoneNumber("666666666")
                 .flatId(1L)
-                .isOwner(false)
                 .id(1L)
                 .build();
         //when
@@ -129,8 +116,6 @@ class MemberControllerTest {
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(firstSampleMember.getId()))
-                .andExpect(jsonPath("$.login").value(firstSampleMember.getLogin()))
-                .andExpect(jsonPath("$.password").value(firstSampleMember.getPassword()))
                 .andExpect(jsonPath("$.name").value(firstSampleMember.getName()))
                 .andExpect(jsonPath("$.lastName").value(firstSampleMember.getLastName()))
                 .andExpect(jsonPath("$.email").value(firstSampleMember.getEmail()))
@@ -153,36 +138,27 @@ class MemberControllerTest {
     void shouldCreateMemberWhenCreatingMember() throws Exception {
         //given
         MemberDto creationRequest = MemberDto.builder()
-                .login("jwick")
-                .password("password123")
                 .name("John")
                 .lastName("Wick")
                 .email("jwick@gmail.com")
                 .phoneNumber("666666666")
                 .flatId(1L)
-                .isOwner(false)
                 .id(1L)
                 .build();
 
         String requestedBody = """
-                {
-                      "login": "%s",
-                      "password": "%s",
+                {                  
                       "name": "%s",
                       "lastName": "%s",
                       "email": "%s",
                       "phoneNumber": "%s",
-                      "flatId": "%s",
-                      "owner": "%s"
+                      "flatId": "%s"
                 }
-                """.formatted(creationRequest.getLogin(),
-                creationRequest.getPassword(),
-                creationRequest.getName(),
+                """.formatted(creationRequest.getName(),
                 creationRequest.getLastName(),
                 creationRequest.getEmail(),
                 creationRequest.getPhoneNumber(),
-                creationRequest.getFlatId(),
-                creationRequest.isOwner());
+                creationRequest.getFlatId());
         //when
         when(memberServiceMock.create(creationRequest)).thenReturn(creationRequest);
         //then
@@ -191,8 +167,6 @@ class MemberControllerTest {
                 .andDo(log())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(creationRequest.getId()))
-                .andExpect(jsonPath("$.login").value(creationRequest.getLogin()))
-                .andExpect(jsonPath("$.password").value(creationRequest.getPassword()))
                 .andExpect(jsonPath("$.name").value(creationRequest.getName()))
                 .andExpect(jsonPath("$.lastName").value(creationRequest.getLastName()))
                 .andExpect(jsonPath("$.email").value(creationRequest.getEmail()))
@@ -203,36 +177,27 @@ class MemberControllerTest {
     void shouldUpdateMemberWhenUpdatingMember() throws Exception {
         //given
         MemberDto updateRequest = MemberDto.builder()
-                .login("jwick")
-                .password("password123")
                 .name("John")
                 .lastName("Wick")
                 .email("jwick@gmail.com")
                 .phoneNumber("666666666")
                 .flatId(1L)
-                .isOwner(false)
                 .id(1L)
                 .build();
 
         String requestedBody = """
                 {
-                      "login": "%s",
-                      "password": "%s",
                       "name": "%s",
                       "lastName": "%s",
                       "email": "%s",
                       "phoneNumber": "%s",
-                      "flatId": "%s",
-                      "owner": "%s"
+                      "flatId": "%s"
                 }
-                """.formatted(updateRequest.getLogin(),
-                updateRequest.getPassword(),
-                updateRequest.getName(),
+                """.formatted(updateRequest.getName(),
                 updateRequest.getLastName(),
                 updateRequest.getEmail(),
                 updateRequest.getPhoneNumber(),
-                updateRequest.getFlatId(),
-                updateRequest.isOwner());
+                updateRequest.getFlatId());
         //when
         when(memberServiceMock.update(updateRequest)).thenReturn(updateRequest);
         //then
@@ -242,8 +207,6 @@ class MemberControllerTest {
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(updateRequest.getId()))
-                .andExpect(jsonPath("$.login").value(updateRequest.getLogin()))
-                .andExpect(jsonPath("$.password").value(updateRequest.getPassword()))
                 .andExpect(jsonPath("$.name").value(updateRequest.getName()))
                 .andExpect(jsonPath("$.lastName").value(updateRequest.getLastName()))
                 .andExpect(jsonPath("$.email").value(updateRequest.getEmail()))
@@ -267,14 +230,11 @@ class MemberControllerTest {
         long sampleId = 1L;
         byte[] data = new byte[2];
         MemberDto sampleMember = MemberDto.builder()
-                .login("jwick")
-                .password("password123")
                 .name("John")
                 .lastName("Wick")
                 .email("jwick@gmail.com")
                 .phoneNumber("666666666")
                 .flatId(1L)
-                .isOwner(false)
                 .id(1L)
                 .build();
 
@@ -295,14 +255,11 @@ class MemberControllerTest {
         long id = 1L;
         MemberDto updatedMember = MemberDto.builder()
                 .id(id)
-                .login("jwick")
-                .password("password123")
                 .name("John")
                 .lastName("Wick")
                 .email("jwick@gmail.com")
                 .phoneNumber("666666666")
                 .flatId(1L)
-                .isOwner(false)
                 .avatar(data)
                 .build();
 
@@ -317,8 +274,6 @@ class MemberControllerTest {
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(updatedMember.getId()))
-                .andExpect(jsonPath("$.login").value(updatedMember.getLogin()))
-                .andExpect(jsonPath("$.password").value(updatedMember.getPassword()))
                 .andExpect(jsonPath("$.name").value(updatedMember.getName()))
                 .andExpect(jsonPath("$.lastName").value(updatedMember.getLastName()))
                 .andExpect(jsonPath("$.email").value(updatedMember.getEmail()))

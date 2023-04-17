@@ -81,7 +81,7 @@ class FlatServiceImplTest {
     @Test
     void shouldCreateFlatWhenCreatingFlat() {
         //given
-        FlatDto newFlat = FlatDto.builder().buildingId(1L).number("4").floor(1).shapePath("dasdasd23413").build();
+        FlatDto newFlat = FlatDto.builder().buildingId(1L).number("4").floor(1).shapePath("dasdasd23413").ownerId(1L).build();
         List<FlatEntity> flatsBeforeSavingNewOne = flatRepository.findAll();
         //when
         FlatDto createdFlat = flatService.create(newFlat);
