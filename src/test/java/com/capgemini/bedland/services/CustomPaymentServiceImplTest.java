@@ -2,10 +2,7 @@ package com.capgemini.bedland.services;
 
 import com.capgemini.bedland.dataPreparation.EntityPreparator;
 import com.capgemini.bedland.dtos.PaymentSummaryDto;
-import com.capgemini.bedland.entities.BuildingEntity;
-import com.capgemini.bedland.entities.FlatEntity;
-import com.capgemini.bedland.entities.ManagerEntity;
-import com.capgemini.bedland.entities.PaymentEntity;
+import com.capgemini.bedland.entities.*;
 import com.capgemini.bedland.enums.PaymentStatusName;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.repositories.*;
@@ -17,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,6 +38,9 @@ class CustomPaymentServiceImplTest {
     @Autowired
     private PaymentStatusRepository paymentStatusRepository;
 
+    @Autowired
+    private OwnerRepository ownerRepository;
+
     @Test
     void shouldfindAllPaymentsWithStatusesAndTheirAmountsForGivenManager() {
         //given
@@ -49,8 +50,11 @@ class CustomPaymentServiceImplTest {
         BuildingEntity buildingEntity1 = buildingRepository.save(EntityPreparator.prepareFirstTestBuilding(managerEntity1));
         BuildingEntity buildingEntity2 = buildingRepository.save(EntityPreparator.prepareSecondTestBuilding(managerEntity2));
 
-        FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity1));
-        FlatEntity flatEntity2 = flatRepository.save(EntityPreparator.prepareSecondTestFlat(buildingEntity2));
+        OwnerEntity ownerEntity1 = ownerRepository.save(EntityPreparator.prepareFirstTestOwner());
+        OwnerEntity ownerEntity2 = ownerRepository.save(EntityPreparator.prepareSecondTestOwner());
+
+        FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity1, ownerEntity1));
+        FlatEntity flatEntity2 = flatRepository.save(EntityPreparator.prepareSecondTestFlat(buildingEntity2, ownerEntity2));
 
         PaymentEntity paymentEntity1 = paymentRepository.save(EntityPreparator.prepareFirstPayment(flatEntity1));
         PaymentEntity paymentEntity2 = paymentRepository.save(EntityPreparator.prepareSecondPayment(flatEntity1));
@@ -81,7 +85,7 @@ class CustomPaymentServiceImplTest {
     }
 
     @Test
-    void shouldNotFoundExceptionWhenfindingAllPaymentsWithStatusesAndTheirAmountsForGivenManagerAndMangerIDIsNotInDB() {
+    void shoulThrowdNotFoundExceptionWhenFindingAllPaymentsWithStatusesAndTheirAmountsForGivenManagerAndMangerIDIsNotInDB() {
         //given
         //when
         //then
@@ -101,5 +105,39 @@ class CustomPaymentServiceImplTest {
         //then
         assertEquals(expectedResult, allPaymentsWithStatusesAndTheirAmountsForGivenManager);
         assertFalse(allPaymentsWithStatusesAndTheirAmountsForGivenManager.isEmpty());
+    }
+
+    @Test
+    void shouldFindAllPaymentsWithStatusesAndTheirAmountsForGivenOwner() {
+        //given
+        OwnerEntity exampleOwner = ownerRepository.save(EntityPreparator.prepareSecondTestOwner());
+        BuildingEntity building = buildingRepository.findAll().get(0);
+        FlatEntity flat = flatRepository.save(EntityPreparator.prepareFirstTestFlat(building, exampleOwner));
+        paymentRepository.save(EntityPreparator.prepareThirdPayment(flat));
+        paymentRepository.save(EntityPreparator.prepareSecondPayment(flat));
+        paymentRepository.save(EntityPreparator.prepareFirstPayment(flat));
+        List<PaymentSummaryDto> expectedPaymentsSummary = new ArrayList<>(
+                List.of(new PaymentSummaryDto(PaymentStatusName.UNPAID, 3),
+                        new PaymentSummaryDto(PaymentStatusName.PAID, 0),
+                        new PaymentSummaryDto(PaymentStatusName.EXPIRED, 0)));
+        //when
+        List<PaymentSummaryDto> foundPaymentsSummary = customPaymentService.findAllPaymentsWithStatusesAndTheirAmountsForGivenOwnerInActualMonth(exampleOwner.getId());
+        //then
+        assertFalse(foundPaymentsSummary.isEmpty());
+        assertEquals(expectedPaymentsSummary, foundPaymentsSummary);
+    }
+    @Test
+    void shouldThrowNotFoundExceptionWhenFindingAllPaymentsWithStatusesAndOwnerIDIsNotInDB() {
+        //given
+        //when
+        //then
+        assertThrows(NotFoundException.class, () -> customPaymentService.findAllPaymentsWithStatusesAndTheirAmountsForGivenOwnerInActualMonth(999L));
+    }
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenFindingAllPaymentsWithStatusesAndOwnerIDIsNull() {
+        //given
+        //when
+        //then
+        assertThrows(IllegalArgumentException.class, () -> customPaymentService.findAllPaymentsWithStatusesAndTheirAmountsForGivenOwnerInActualMonth(null));
     }
 }

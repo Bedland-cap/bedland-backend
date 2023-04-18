@@ -3,14 +3,8 @@
 package com.capgemini.bedland.cascades.deleting;
 
 import com.capgemini.bedland.dataPreparation.EntityPreparator;
-import com.capgemini.bedland.entities.BuildingEntity;
-import com.capgemini.bedland.entities.FlatEntity;
-import com.capgemini.bedland.entities.ManagerEntity;
-import com.capgemini.bedland.entities.MemberEntity;
-import com.capgemini.bedland.repositories.BuildingRepository;
-import com.capgemini.bedland.repositories.FlatRepository;
-import com.capgemini.bedland.repositories.ManagerRepository;
-import com.capgemini.bedland.repositories.MemberRepository;
+import com.capgemini.bedland.entities.*;
+import com.capgemini.bedland.repositories.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +31,8 @@ class CascadeDeletingEntitiesTest {
 
     @Autowired
     MemberRepository memberRepository;
+    @Autowired
+    OwnerRepository ownerRepository;
 
     @AfterEach
     void cleanDB() {
@@ -44,6 +40,7 @@ class CascadeDeletingEntitiesTest {
         flatRepository.deleteAll();
         buildingRepository.deleteAll();
         managerRepository.deleteAll();
+        ownerRepository.deleteAll();
     }
 
     @Test
@@ -95,8 +92,12 @@ class CascadeDeletingEntitiesTest {
         //given
         ManagerEntity managerEntity = managerRepository.save(EntityPreparator.prepareFirstTestManager());
         BuildingEntity buildingEntity = buildingRepository.save(EntityPreparator.prepareFirstTestBuilding(managerEntity));
-        FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity));
-        FlatEntity flatEntity2 = flatRepository.save(EntityPreparator.prepareSecondTestFlat(buildingEntity));
+
+        OwnerEntity ownerEntity1 = ownerRepository.save(EntityPreparator.prepareFirstTestOwner());
+        OwnerEntity ownerEntity2 = ownerRepository.save(EntityPreparator.prepareSecondTestOwner());
+
+                FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity,ownerEntity1));
+        FlatEntity flatEntity2 = flatRepository.save(EntityPreparator.prepareSecondTestFlat(buildingEntity,ownerEntity2));
 
         List<ManagerEntity> allManagersBeforeDeletingOne = managerRepository.findAll();
         List<BuildingEntity> allBuildingsBeforeDeletingManager = buildingRepository.findAll();
@@ -153,8 +154,12 @@ class CascadeDeletingEntitiesTest {
         //given
         ManagerEntity managerEntity = managerRepository.save(EntityPreparator.prepareFirstTestManager());
         BuildingEntity buildingEntity = buildingRepository.save(EntityPreparator.prepareFirstTestBuilding(managerEntity));
-        FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity));
-        FlatEntity flatEntity2 = flatRepository.save(EntityPreparator.prepareSecondTestFlat(buildingEntity));
+
+        OwnerEntity ownerEntity1 = ownerRepository.save(EntityPreparator.prepareFirstTestOwner());
+        OwnerEntity ownerEntity2 = ownerRepository.save(EntityPreparator.prepareSecondTestOwner());
+
+        FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity,ownerEntity1));
+        FlatEntity flatEntity2 = flatRepository.save(EntityPreparator.prepareSecondTestFlat(buildingEntity,ownerEntity2));
 
         List<ManagerEntity> allMenagers = managerRepository.findAll();
         List<BuildingEntity> allBuildingsBeforeDeletingManager = buildingRepository.findAll();
@@ -201,8 +206,10 @@ class CascadeDeletingEntitiesTest {
         //given
         ManagerEntity managerEntity = managerRepository.save(EntityPreparator.prepareFirstTestManager());
         BuildingEntity buildingEntity = buildingRepository.save(EntityPreparator.prepareFirstTestBuilding(managerEntity));
-        FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity));
-        FlatEntity flatEntity2 = flatRepository.save(EntityPreparator.prepareSecondTestFlat(buildingEntity));
+        OwnerEntity ownerEntity1 = ownerRepository.save(EntityPreparator.prepareFirstTestOwner());
+        OwnerEntity ownerEntity2 = ownerRepository.save(EntityPreparator.prepareSecondTestOwner());
+        FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity,ownerEntity1));
+        FlatEntity flatEntity2 = flatRepository.save(EntityPreparator.prepareSecondTestFlat(buildingEntity,ownerEntity2));
         MemberEntity memberEntity1 = memberRepository.save(EntityPreparator.prepareFirstTestMember_Owner(flatEntity1));
         MemberEntity memberEntity2 = memberRepository.save(EntityPreparator.prepareFirstTestMember(flatEntity1));
         MemberEntity memberEntity3 = memberRepository.save(EntityPreparator.prepareSecondTestMember_Owner(flatEntity2));
@@ -291,8 +298,10 @@ class CascadeDeletingEntitiesTest {
         //given
         ManagerEntity managerEntity = managerRepository.save(EntityPreparator.prepareFirstTestManager());
         BuildingEntity buildingEntity = buildingRepository.save(EntityPreparator.prepareFirstTestBuilding(managerEntity));
-        FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity));
-        FlatEntity flatEntity2 = flatRepository.save(EntityPreparator.prepareSecondTestFlat(buildingEntity));
+        OwnerEntity ownerEntity1 = ownerRepository.save(EntityPreparator.prepareFirstTestOwner());
+        OwnerEntity ownerEntity2 = ownerRepository.save(EntityPreparator.prepareSecondTestOwner());
+        FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity,ownerEntity1));
+        FlatEntity flatEntity2 = flatRepository.save(EntityPreparator.prepareSecondTestFlat(buildingEntity,ownerEntity2));
         MemberEntity memberEntity1 = memberRepository.save(EntityPreparator.prepareFirstTestMember_Owner(flatEntity1));
         MemberEntity memberEntity2 = memberRepository.save(EntityPreparator.prepareFirstTestMember(flatEntity1));
         MemberEntity memberEntity3 = memberRepository.save(EntityPreparator.prepareSecondTestMember_Owner(flatEntity2));
@@ -371,7 +380,8 @@ class CascadeDeletingEntitiesTest {
         //given
         ManagerEntity managerEntity = managerRepository.save(EntityPreparator.prepareFirstTestManager());
         BuildingEntity buildingEntity = buildingRepository.save(EntityPreparator.prepareFirstTestBuilding(managerEntity));
-        FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity));
+        OwnerEntity ownerEntity1 = ownerRepository.save(EntityPreparator.prepareFirstTestOwner());
+        FlatEntity flatEntity1 = flatRepository.save(EntityPreparator.prepareFirstTestFlat(buildingEntity,ownerEntity1));
         MemberEntity memberEntity1 = memberRepository.save(EntityPreparator.prepareFirstTestMember_Owner(flatEntity1));
         MemberEntity memberEntity2 = memberRepository.save(EntityPreparator.prepareFirstTestMember(flatEntity1));
 

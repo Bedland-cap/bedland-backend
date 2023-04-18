@@ -8,4 +8,5 @@ public interface CustomPaymentService {
 
     List<PaymentSummaryDto> findAllPaymentsWithStatusesAndTheirAmountsForGivenManager(Long managerId);
 
+    List<PaymentSummaryDto> findAllPaymentsWithStatusesAndTheirAmountsForGivenOwnerInActualMonth(Long ownerId);
 }

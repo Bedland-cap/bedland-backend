@@ -17,4 +17,8 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Long> {
             "join b.managerEntity m where m.id =:managerId")
     List<PaymentEntity> findAllPaymentsForGivenManager(@Param("managerId") Long managerId);
 
+
+    @Query("select p from PaymentEntity  p join p.flatEntity f join f.flatOwnerEntity fo where fo.id =:ownerId group by p")
+    List<PaymentEntity> findAllPaymentsForGivenOwner(@Param("ownerId") Long ownerId);
+
 }

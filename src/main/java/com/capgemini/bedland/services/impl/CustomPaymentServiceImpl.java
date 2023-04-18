@@ -5,12 +5,14 @@ import com.capgemini.bedland.entities.PaymentEntity;
 import com.capgemini.bedland.enums.PaymentStatusName;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.repositories.ManagerRepository;
+import com.capgemini.bedland.repositories.OwnerRepository;
 import com.capgemini.bedland.repositories.PaymentRepository;
 import com.capgemini.bedland.services.CustomPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +25,8 @@ public class CustomPaymentServiceImpl implements CustomPaymentService {
     private PaymentRepository paymentRepository;
     @Autowired
     private ManagerRepository managerRepository;
+    @Autowired
+    private OwnerRepository ownerRepository;
 
     @Override
     public List<PaymentSummaryDto> findAllPaymentsWithStatusesAndTheirAmountsForGivenManager(Long managerId) {
@@ -32,27 +36,46 @@ public class CustomPaymentServiceImpl implements CustomPaymentService {
         if (!managerRepository.existsById(managerId)) {
             throw new NotFoundException("Manager ID doesn't exist in DB");
         }
-
-        return buildPaymentsSummaryDtosFromGivenPaymentStatuses(managerId);
+        List<PaymentEntity> allPaymentsForGivenManager = paymentRepository.findAllPaymentsForGivenManager(managerId);
+        return buildPaymentsSummaryDtosForGivenPayments(allPaymentsForGivenManager);
     }
 
-    private List<PaymentSummaryDto> buildPaymentsSummaryDtosFromGivenPaymentStatuses(Long managerId) {
-        List<PaymentEntity> allPaymentsForGivenManager = paymentRepository.findAllPaymentsForGivenManager(managerId);
+    @Override
+    public List<PaymentSummaryDto> findAllPaymentsWithStatusesAndTheirAmountsForGivenOwnerInActualMonth(Long ownerId) {
+        if (ownerId == null) {
+            throw new IllegalArgumentException("Owner ID can't be null");
+        }
+        if (!ownerRepository.existsById(ownerId)) {
+            throw new NotFoundException("Owner ID doesn't exist in DB");
+        }
+       return buildPaymentsSummaryDtosForGivenPayments(getPaymentsForActualMonthForGivenOwner(ownerId));
+    }
+
+    private List<PaymentSummaryDto> buildPaymentsSummaryDtosForGivenPayments(List<PaymentEntity> payments) {
+
         List<PaymentSummaryDto> paymentSummaryDtos = new LinkedList<>();
         List<PaymentStatusName> paymentStatusNames = Arrays.stream(PaymentStatusName.values()).toList();
 
         for (PaymentStatusName statusName : paymentStatusNames) {
             PaymentSummaryDto paymentSummaryDto = new PaymentSummaryDto();
             int paymentStatusAmount;
-            if (allPaymentsForGivenManager.isEmpty()) {
+            if (payments.isEmpty()) {
                 paymentStatusAmount = 0;
             } else {
-                paymentStatusAmount = allPaymentsForGivenManager.stream().filter(e -> e.getLastPaymentStatusName().equals(statusName)).toList().size();
+                paymentStatusAmount = payments.stream().filter(e -> e.getLastPaymentStatusName().equals(statusName)).toList().size();
             }
             paymentSummaryDto.setPaymentStatusName(statusName);
             paymentSummaryDto.setAmountOfPayments(paymentStatusAmount);
             paymentSummaryDtos.add(paymentSummaryDto);
         }
         return paymentSummaryDtos;
+    }
+
+    private List<PaymentEntity> getPaymentsForActualMonthForGivenOwner(Long ownerId) {
+        return paymentRepository.findAllPaymentsForGivenOwner(ownerId)
+                .stream()
+                .filter(payment -> payment
+                        .getCreateDate().getMonth().equals(LocalDateTime.now().getMonth()))
+                .toList();
     }
 }

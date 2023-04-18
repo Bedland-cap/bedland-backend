@@ -105,8 +105,9 @@ public abstract class EntityPreparator {
         return testBuilding3;
     }
 
-    public static FlatEntity prepareFirstTestFlat(BuildingEntity buildingEntity) {
+    public static FlatEntity prepareFirstTestFlat(BuildingEntity buildingEntity, OwnerEntity ownerEntity) {
         FlatEntity testFlat1 = new FlatEntity();
+        testFlat1.setFlatOwnerEntity(ownerEntity);
         testFlat1.setBuildingEntity(buildingEntity);
         testFlat1.setFloor(1);
         testFlat1.setShapePath("shapePath1");
@@ -114,32 +115,16 @@ public abstract class EntityPreparator {
         return testFlat1;
     }
 
-    public static FlatEntity prepareSecondTestFlat(BuildingEntity buildingEntity) {
+    public static FlatEntity prepareSecondTestFlat(BuildingEntity buildingEntity, OwnerEntity ownerEntity) {
         FlatEntity testFlat2 = new FlatEntity();
         testFlat2.setBuildingEntity(buildingEntity);
+        testFlat2.setFlatOwnerEntity(ownerEntity);
         testFlat2.setFloor(2);
         testFlat2.setShapePath("shapePath2");
         testFlat2.setNumber("2");
         return testFlat2;
     }
 
-    public static FlatEntity prepareThirdTestFlat(BuildingEntity buildingEntity) {
-        FlatEntity testFlat3 = new FlatEntity();
-        testFlat3.setBuildingEntity(buildingEntity);
-        testFlat3.setFloor(3);
-        testFlat3.setShapePath("shapePath3");
-        testFlat3.setNumber("3");
-        return testFlat3;
-    }
-
-    public static FlatEntity prepareFourthTestFlat(BuildingEntity buildingEntity) {
-        FlatEntity testFlat4 = new FlatEntity();
-        testFlat4.setBuildingEntity(buildingEntity);
-        testFlat4.setFloor(1);
-        testFlat4.setShapePath("shapePath4");
-        testFlat4.setNumber("4");
-        return testFlat4;
-    }
 
     public static MemberEntity prepareFirstTestMember_Owner(FlatEntity flatEntity) {
         MemberEntity memberEntity1 = new MemberEntity();

@@ -22,5 +22,8 @@ public class CustomPaymentController {
         return customPaymentService.findAllPaymentsWithStatusesAndTheirAmountsForGivenManager(manager_id);
     }
 
-
+    @GetMapping(path = "/payments_summary_resident", params = {"resident_id"})//resident = owner
+    List<PaymentSummaryDto> findPaymentsForGivenOwner(@RequestParam Long resident_id) {
+        return customPaymentService.findAllPaymentsWithStatusesAndTheirAmountsForGivenOwnerInActualMonth(resident_id);
+    }
 }

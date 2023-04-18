@@ -4,9 +4,11 @@ import com.capgemini.bedland.dataPreparation.EntityPreparator;
 import com.capgemini.bedland.entities.BuildingEntity;
 import com.capgemini.bedland.entities.FlatEntity;
 import com.capgemini.bedland.entities.ManagerEntity;
+import com.capgemini.bedland.entities.OwnerEntity;
 import com.capgemini.bedland.repositories.BuildingRepository;
 import com.capgemini.bedland.repositories.FlatRepository;
 import com.capgemini.bedland.repositories.ManagerRepository;
+import com.capgemini.bedland.repositories.OwnerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +29,11 @@ class FlatDataValidationTest {
 
     @Autowired
     private ManagerRepository managerRepository;
-
+    @Autowired
+    private OwnerRepository ownerRepository;
     @Autowired
     private FlatRepository flatRepository;
+
     private String createToLongString(int stringLenght) {
         String s = "a";
         StringBuilder stringBuilder = new StringBuilder();
@@ -45,7 +49,8 @@ class FlatDataValidationTest {
         ManagerEntity managerEntity = managerRepository.save(EntityPreparator.prepareFirstTestManager());
         String toLongString = createToLongString(10);
         BuildingEntity buildingEntity = buildingRepository.save(EntityPreparator.prepareFirstTestBuilding(managerEntity));
-        FlatEntity flatEntity = EntityPreparator.prepareFirstTestFlat(buildingEntity);
+        OwnerEntity ownerEntity1 = ownerRepository.save(EntityPreparator.prepareFirstTestOwner());
+        FlatEntity flatEntity = EntityPreparator.prepareFirstTestFlat(buildingEntity,ownerEntity1);
         flatEntity.setNumber(toLongString);
         //when
         //then
@@ -58,7 +63,8 @@ class FlatDataValidationTest {
         ManagerEntity managerEntity = managerRepository.save(EntityPreparator.prepareFirstTestManager());
         String toLongString = createToLongString(250);
         BuildingEntity buildingEntity = buildingRepository.save(EntityPreparator.prepareFirstTestBuilding(managerEntity));
-        FlatEntity flatEntity = EntityPreparator.prepareFirstTestFlat(buildingEntity);
+        OwnerEntity ownerEntity1 = ownerRepository.save(EntityPreparator.prepareFirstTestOwner());
+        FlatEntity flatEntity = EntityPreparator.prepareFirstTestFlat(buildingEntity,ownerEntity1);
         flatEntity.setShapePath(toLongString);
         //when
         //then
