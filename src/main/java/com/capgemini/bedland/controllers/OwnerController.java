@@ -23,7 +23,7 @@ public class OwnerController {
     private final OwnerService ownerService;
     @Autowired
     private final OwnerProvider ownerProvider;
-
+//todo: tests for below
     @GetMapping()
     List<OwnerDto> getAll() {
         return ownerProvider.getAll();

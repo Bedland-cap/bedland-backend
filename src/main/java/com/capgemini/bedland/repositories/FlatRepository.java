@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public interface FlatRepository extends JpaRepository<FlatEntity, Long> {
     @Query("select f from FlatEntity  f " +
@@ -21,4 +22,8 @@ public interface FlatRepository extends JpaRepository<FlatEntity, Long> {
             "join f.announcementEntities a " +
             "join b.managerEntity ma where ma.id =:managerId and a.toManager=true group by f")
     List<FlatEntity> findFlatsWhichOwnersMadeAnnouncementToManager(@Param("managerId") Long managerId);
+
+    @Query("select f from FlatEntity  f join f.flatOwnerEntity fo where fo.id =:ownerId")
+    List<FlatEntity> findFlatsForOwner(@Param("ownerId") Long ownerId);
+
 }

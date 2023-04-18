@@ -1,6 +1,7 @@
 package com.capgemini.bedland.services.impl;
 
 import com.capgemini.bedland.dtos.FlatDetailsDto;
+import com.capgemini.bedland.dtos.FlatShortenDetailsDto;
 import com.capgemini.bedland.entities.FlatEntity;
 import com.capgemini.bedland.entities.MemberEntity;
 import com.capgemini.bedland.entities.PaymentEntity;
@@ -10,6 +11,7 @@ import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.repositories.BuildingRepository;
 import com.capgemini.bedland.repositories.FlatRepository;
 import com.capgemini.bedland.repositories.ManagerRepository;
+import com.capgemini.bedland.repositories.OwnerRepository;
 import com.capgemini.bedland.services.CustomFlatService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class CustomFlatServiceImpl implements CustomFlatService {
     @Autowired
     private BuildingRepository buildingRepository;
 
+    @Autowired
+    private OwnerRepository ownerRepository;
+
     @Override
     public List<FlatDetailsDto> getFlatDetailsForGivenManagerInGivenBuilding(Long managerId, Long buildingId) {
         if (managerId == null || buildingId == null) {
@@ -44,6 +49,15 @@ public class CustomFlatServiceImpl implements CustomFlatService {
         }
         return collectFlatDetailsForGivenManagerAndBuilding(managerId, buildingId);
     }
+
+    @Override
+    public List<FlatShortenDetailsDto> getFlatsForGivenOwner(Long ownerId) {
+        if (ownerId == null || !ownerRepository.existsById(ownerId)) {
+            throw new IllegalArgumentException("Incorrect owner to get flats for");
+        }
+        return collectFlatsForOwner(ownerId);
+    }
+
 
     private String getFlatOwner(FlatEntity flat) {
         return flat.getFlatOwnerEntity().getName() + " " + flat.getFlatOwnerEntity().getLastName();
@@ -85,14 +99,23 @@ public class CustomFlatServiceImpl implements CustomFlatService {
 
         List<FlatDetailsDto> flatDetails = new LinkedList<>();
         List<FlatEntity> flats = flatRepository.findFlatsForGivenManagerInGivenBuilding(managerId, buildingId);
-        flats.forEach(flat -> flatDetails.add(FlatDetailsDto
-                .builder()
-                .flatNumber(flat.getNumber())
-                .floor(flat.getFloor())
-                .owner(getFlatOwner(flat))
-                .residents(getFlatResidents(flat))
-                .lastMaintenance(getLastPaymentDate(flat))
-                .monthlyPayments(getOverallMonthlyPayments(flat)).build()));
+        flats.forEach(flat -> flatDetails.add(FlatDetailsDto.builder().flatNumber(flat.getNumber()).floor(flat.getFloor()).owner(getFlatOwner(flat)).residents(getFlatResidents(flat)).lastMaintenance(getLastPaymentDate(flat)).monthlyPayments(getOverallMonthlyPayments(flat)).build()));
         return flatDetails;
+    }
+
+    private List<FlatShortenDetailsDto> collectFlatsForOwner(Long ownerId) {
+
+        List<FlatEntity> flatsForOwner = flatRepository.findFlatsForOwner(ownerId);
+        List<FlatShortenDetailsDto> flats = new LinkedList<>();
+        if (!flatsForOwner.isEmpty()) {
+            flatsForOwner.forEach(flat -> flats
+                    .add(FlatShortenDetailsDto
+                            .builder()
+                            .flatAddress(flat.getBuildingEntity().getAddress())
+                            .flatId(flat.getId())
+                            .flatNumber(flat.getNumber())
+                            .build()));
+        }
+        return flats;
     }
 }
