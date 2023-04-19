@@ -1,6 +1,7 @@
 package com.capgemini.bedland.services;
 
 import com.capgemini.bedland.dtos.IncidentStatusDto;
+import com.capgemini.bedland.enums.IncidentStatusName;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.repositories.IncidentStatusRepository;
 import com.capgemini.bedland.services.impl.IncidentStatusServiceImpl;
@@ -47,7 +48,7 @@ class IncidentStatusServiceImplTest {
         IncidentStatusDto incidentStatus = IncidentStatusDto.builder()
                 .id(incidentStatusId)
                 .incidentId(2L)
-                .incidentStatusName("CREATED")
+                .incidentStatusName(IncidentStatusName.CREATED)
                 .build();
         //when
         IncidentStatusDto result = incidentStatusService.getById(incidentStatusId);
@@ -70,6 +71,7 @@ class IncidentStatusServiceImplTest {
         //given
         IncidentStatusDto incidentStatus = IncidentStatusDto.builder()
                 .incidentId(1L)
+                .incidentStatusName(IncidentStatusName.CREATED)
                 .build();
         //when
         IncidentStatusDto createIncidentStatus = incidentStatusService.create(incidentStatus);
@@ -77,7 +79,7 @@ class IncidentStatusServiceImplTest {
         assertNotNull(createIncidentStatus);
         assertNotNull(createIncidentStatus.getId());
         assertTrue(incidentStatusRepository.existsById(createIncidentStatus.getId()));
-        assertEquals("CREATED", createIncidentStatus.getIncidentStatusName());
+        assertEquals(IncidentStatusName.CREATED, createIncidentStatus.getIncidentStatusName());
     }
 
     @Test
@@ -100,7 +102,6 @@ class IncidentStatusServiceImplTest {
     void shouldCreateIncidentStatusWithNameCreatedWhenCreateByIncidentId() {
         //given
         List<IncidentStatusDto> beforeIncidentStatus = incidentStatusService.getAll();
-        String expectedName = "CREATED";
         Long incidentId = 1L;
         //when
         incidentStatusService.createByIncidentId(incidentId);
@@ -110,7 +111,7 @@ class IncidentStatusServiceImplTest {
                 .getId());
         //then
         assertEquals(1, afterIncidentStatus.size() - beforeIncidentStatus.size());
-        assertSame(expectedName, newIncidentStatus.getIncidentStatusName());
+        assertSame(IncidentStatusName.CREATED, newIncidentStatus.getIncidentStatusName());
         assertSame(incidentId, newIncidentStatus.getIncidentId());
     }
 
@@ -155,21 +156,20 @@ class IncidentStatusServiceImplTest {
                 .get(0)
                 .getId();
         IncidentStatusDto incidentStatus = incidentStatusService.getById(incidentId);
-        String updateIncidentStatusName = "IN_PROGRESS";
         IncidentStatusDto updateIncidentStatus = IncidentStatusDto.builder()
                 .id(incidentStatus.getId())
                 .version(incidentStatus.getVersion())
                 .createDate(incidentStatus.getCreateDate())
                 .updateDate(incidentStatus.getUpdateDate())
                 .incidentId(incidentStatus.getIncidentId())
-                .incidentStatusName(updateIncidentStatusName)
+                .incidentStatusName(IncidentStatusName.CREATED)
                 .build();
         //when
         incidentStatusService.update(updateIncidentStatus);
         IncidentStatusDto resultIncidentStatus = incidentStatusService.getById(incidentId);
         //then
         assertEquals(updateIncidentStatus.getId(), resultIncidentStatus.getId());
-        assertEquals(resultIncidentStatus.getIncidentStatusName(), updateIncidentStatusName);
+        assertEquals(IncidentStatusName.CREATED, resultIncidentStatus.getIncidentStatusName());
     }
 
     @Test
@@ -180,7 +180,7 @@ class IncidentStatusServiceImplTest {
     @Test
     void shouldReturnThrowWhenUpdateAndGivenIncidentStatusHasNoId() {
         assertThrows(IllegalArgumentException.class,
-                () -> incidentStatusService.update(new IncidentStatusDto(1L, "CREATED")));
+                () -> incidentStatusService.update(new IncidentStatusDto(1L, IncidentStatusName.CREATED)));
     }
 
     @Test
@@ -189,7 +189,7 @@ class IncidentStatusServiceImplTest {
         IncidentStatusDto incidentStatus = IncidentStatusDto.builder()
                 .id(Long.MAX_VALUE)
                 .incidentId(1L)
-                .incidentStatusName("IN_PROGRESS")
+                .incidentStatusName(IncidentStatusName.CREATED)
                 .build();
         //when+then
         assertThrows(NotFoundException.class, () -> incidentStatusService.update(incidentStatus));

@@ -15,21 +15,21 @@ public class IncidentStatusMapper {
             return null;
         }
         return IncidentStatusDto.builder()
-                                .id(entity.getId())
-                                .version(entity.getVersion())
-                                .createDate(entity.getCreateDate())
-                                .updateDate(entity.getUpdateDate())
-                                .incidentId(entity.getIncidentEntity()
-                                                  .getId())
-                                .incidentStatusName(entity.getIncidentStatusName()
-                                                          .toString())
-                                .build();
+                .id(entity.getId())
+                .version(entity.getVersion())
+                .createDate(entity.getCreateDate())
+                .updateDate(entity.getUpdateDate())
+                .incidentId(entity.getIncidentEntity()
+                        .getId())
+                .incidentStatusName(entity.getIncidentStatusName()
+                )
+                .build();
     }
 
     public List<IncidentStatusDto> entities2DTOs(List<IncidentStatusEntity> entities) {
         return entities.stream()
-                       .map(this::entity2Dto)
-                       .toList();
+                .map(this::entity2Dto)
+                .toList();
     }
 
     public IncidentStatusEntity dto2Entity(IncidentStatusDto dto) {
@@ -43,7 +43,7 @@ public class IncidentStatusMapper {
         if (dto.getIncidentStatusName() == null) {
             newIncidentStatus.setIncidentStatusName(IncidentStatusName.CREATED);
         } else {
-            newIncidentStatus.setIncidentStatusName(IncidentStatusName.valueOf(dto.getIncidentStatusName()));
+            newIncidentStatus.setIncidentStatusName(dto.getIncidentStatusName());
         }
         newIncidentStatus.setIncidentEntity(null);
         if (dto.getId() != null) {

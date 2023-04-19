@@ -1,6 +1,7 @@
 package com.capgemini.bedland.services.impl;
 
 import com.capgemini.bedland.dtos.IncidentStatusDto;
+import com.capgemini.bedland.entities.IncidentEntity;
 import com.capgemini.bedland.entities.IncidentStatusEntity;
 import com.capgemini.bedland.enums.IncidentStatusName;
 import com.capgemini.bedland.exceptions.NotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Transactional
 @Service
 public class IncidentStatusServiceImpl implements IncidentStatusService, IncidentStatusProvider {
@@ -37,7 +39,7 @@ public class IncidentStatusServiceImpl implements IncidentStatusService, Inciden
             throw new IllegalArgumentException(idIsNull);
         }
         return incidentStatusMapper.entity2Dto(incidentStatusRepository.findById(id)
-                                                                       .orElseThrow(() -> new NotFoundException(id)));
+                .orElseThrow(() -> new NotFoundException(id)));
     }
 
     @Override
@@ -49,7 +51,10 @@ public class IncidentStatusServiceImpl implements IncidentStatusService, Inciden
             throw new IllegalArgumentException("Given request contains an ID. IncidentStatus can't be created");
         }
         IncidentStatusEntity createIncidentStatus = incidentStatusRepository.save(repackDtoToEntity(request));
-        createIncidentStatus.setIncidentStatusName(IncidentStatusName.CREATED);
+        createIncidentStatus.setIncidentStatusName(request.getIncidentStatusName());
+        IncidentEntity incident = incidentRepository.findById(request.getIncidentId()).orElseThrow(() -> new NotFoundException(request.getIncidentId()));
+        incident.setUpdateDate(createIncidentStatus.getCreateDate());
+        incidentRepository.save(incident);
         return incidentStatusMapper.entity2Dto(createIncidentStatus);
     }
 
@@ -61,7 +66,7 @@ public class IncidentStatusServiceImpl implements IncidentStatusService, Inciden
         IncidentStatusEntity createIncidentStatus = new IncidentStatusEntity();
         createIncidentStatus.setIncidentStatusName(IncidentStatusName.CREATED);
         createIncidentStatus.setIncidentEntity(incidentRepository.findById(incidentId)
-                                                                 .orElseThrow(() -> new NotFoundException(incidentId)));
+                .orElseThrow(() -> new NotFoundException(incidentId)));
         incidentStatusRepository.save(createIncidentStatus);
     }
 
@@ -94,7 +99,7 @@ public class IncidentStatusServiceImpl implements IncidentStatusService, Inciden
     private IncidentStatusEntity repackDtoToEntity(IncidentStatusDto dto) {
         IncidentStatusEntity entity = incidentStatusMapper.dto2Entity(dto);
         entity.setIncidentEntity(incidentRepository.findById(dto.getIncidentId())
-                                                   .orElseThrow(() -> new NotFoundException(dto.getIncidentId())));
+                .orElseThrow(() -> new NotFoundException(dto.getIncidentId())));
         return entity;
     }
 

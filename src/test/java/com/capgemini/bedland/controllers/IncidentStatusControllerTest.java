@@ -1,6 +1,7 @@
 package com.capgemini.bedland.controllers;
 
 import com.capgemini.bedland.dtos.IncidentStatusDto;
+import com.capgemini.bedland.enums.IncidentStatusName;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.providers.IncidentStatusProvider;
 import com.capgemini.bedland.services.IncidentStatusService;
@@ -43,8 +44,8 @@ class IncidentStatusControllerTest {
 
     @Test
     void shouldReturnListOfIncidentStatusWhenGetAll() throws Exception {
-        IncidentStatusDto incidentStatus1 = new IncidentStatusDto(1L, "CREATED");
-        IncidentStatusDto incidentStatus2 = new IncidentStatusDto(1L, "IN_PROGRESS");
+        IncidentStatusDto incidentStatus1 = new IncidentStatusDto(1L, IncidentStatusName.CREATED);
+        IncidentStatusDto incidentStatus2 = new IncidentStatusDto(1L, IncidentStatusName.IN_PROGRESS);
 
         when(incidentStatusProviderMock.getAll()).thenReturn(List.of(incidentStatus1, incidentStatus2));
 
@@ -53,9 +54,9 @@ class IncidentStatusControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].incidentId").value(incidentStatus1.getIncidentId()))
-                .andExpect(jsonPath("$[0].incidentStatusName").value(incidentStatus1.getIncidentStatusName()))
+                .andExpect(jsonPath("$[0].incidentStatusName").value(incidentStatus1.getIncidentStatusName().toString()))
                 .andExpect(jsonPath("$[1].incidentId").value(incidentStatus1.getIncidentId()))
-                .andExpect(jsonPath("$[1].incidentStatusName").value(incidentStatus2.getIncidentStatusName()))
+                .andExpect(jsonPath("$[1].incidentStatusName").value(incidentStatus2.getIncidentStatusName().toString()))
                 .andExpect(jsonPath("$[2]").doesNotExist());
     }
 
@@ -69,7 +70,7 @@ class IncidentStatusControllerTest {
 
     @Test
     void shouldReturnIncidentStatusWhenGetIncidentStatusById() throws Exception {
-        IncidentStatusDto incidentStatus = new IncidentStatusDto(1L, "CREATED");
+        IncidentStatusDto incidentStatus = new IncidentStatusDto(1L, IncidentStatusName.CREATED);
         Long incidentStatusId = 1L;
 
         when(incidentStatusProviderMock.getById(incidentStatusId)).thenReturn(incidentStatus);
@@ -78,7 +79,7 @@ class IncidentStatusControllerTest {
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.incidentId").value(incidentStatus.getIncidentId()))
-                .andExpect((jsonPath("$.incidentStatusName").value(incidentStatus.getIncidentStatusName())));
+                .andExpect((jsonPath("$.incidentStatusName").value(incidentStatus.getIncidentStatusName().toString())));
     }
 
     @Test
@@ -96,7 +97,7 @@ class IncidentStatusControllerTest {
     @Test
     void shouldReturnCreatedIncidentStatusWhenCreate() throws Exception {
         Long incidentId = 1L;
-        String incidentStatusName = "CREATED";
+        IncidentStatusName incidentStatusName = IncidentStatusName.CREATED;
         IncidentStatusDto incidentStatus = new IncidentStatusDto(incidentId, incidentStatusName);
 
         when(incidentStatusServiceMock.create(any())).thenReturn(incidentStatus);
@@ -113,7 +114,7 @@ class IncidentStatusControllerTest {
                 .andDo(log())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.incidentId").value(incidentStatus.getIncidentId()))
-                .andExpect(jsonPath("$.incidentStatusName").value(incidentStatus.getIncidentStatusName()));
+                .andExpect(jsonPath("$.incidentStatusName").value(incidentStatus.getIncidentStatusName().toString()));
     }
 
     @Test
@@ -142,7 +143,7 @@ class IncidentStatusControllerTest {
     @Test
     void shouldReturnUpdatedIncidentStatusWhenUpdate() throws Exception {
         Long incidentId = 1L;
-        String incidentStatusName = "CREATED";
+        IncidentStatusName incidentStatusName = IncidentStatusName.CREATED;
         IncidentStatusDto incidentStatus = new IncidentStatusDto(incidentId, incidentStatusName);
 
         when(incidentStatusServiceMock.update(any())).thenReturn(incidentStatus);
@@ -160,7 +161,7 @@ class IncidentStatusControllerTest {
                 .andDo(log())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.incidentId").value(incidentStatus.getIncidentId()))
-                .andExpect(jsonPath("$.incidentStatusName").value(incidentStatus.getIncidentStatusName()));
+                .andExpect(jsonPath("$.incidentStatusName").value(incidentStatus.getIncidentStatusName().toString()));
     }
 
 }

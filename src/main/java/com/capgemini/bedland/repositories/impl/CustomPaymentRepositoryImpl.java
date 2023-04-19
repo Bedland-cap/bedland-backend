@@ -26,4 +26,14 @@ public class CustomPaymentRepositoryImpl implements CustomPaymentRepository {
 
     }
 
+    @Override
+    public List findLatestPaymentsForGivenOwnerWithGivenLastStatus(Long ownerId, int numberOfPayments, PaymentStatusName paymentStatusName) {
+        return entityManager.createQuery("select p from PaymentEntity p " +
+                        "join p.flatEntity f " +
+                        "join f.flatOwnerEntity fo where fo.id =" + ownerId + " " +
+                        "and p.lastPaymentStatusName='EXPIRED' or p.lastPaymentStatusName='UNPAID' " +
+                        "group by p order by p.createDate desc ")
+                .setMaxResults(numberOfPayments).getResultList();
+    }
+
 }

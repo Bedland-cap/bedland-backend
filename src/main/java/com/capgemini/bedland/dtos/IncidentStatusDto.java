@@ -1,5 +1,6 @@
 package com.capgemini.bedland.dtos;
 
+import com.capgemini.bedland.enums.IncidentStatusName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,6 @@ import lombok.experimental.SuperBuilder;
 public class IncidentStatusDto extends AbstractDto {
 
     private Long incidentId;
-    private String incidentStatusName;
+    private IncidentStatusName incidentStatusName;
 
 }

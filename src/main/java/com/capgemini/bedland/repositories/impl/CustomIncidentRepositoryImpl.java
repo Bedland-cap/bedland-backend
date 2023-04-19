@@ -23,4 +23,15 @@ public class CustomIncidentRepositoryImpl implements CustomIncidentRepository {
                 .setMaxResults(numberOfIncidents).getResultList();
 
     }
+
+    @Override
+    public List findLatestUpdatedIncidentsForGivenOwner(Long ownerId, int numberOfIncidents) {
+        return entityManager.createQuery("select i from IncidentEntity i " +
+                        "join i.flatEntity f " +
+                        "join i.incidentStatusEntities is " +
+                        "join f.flatOwnerEntity fo " +
+                        "where fo.id =" + ownerId + " and is.incidentStatusName= 'IN_PROGRESS' or is.incidentStatusName= 'SOLVED' " +
+                        "group by i order by i.updateDate desc ")
+                .setMaxResults(numberOfIncidents).getResultList();
+    }
 }

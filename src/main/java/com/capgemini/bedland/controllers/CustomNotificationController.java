@@ -22,4 +22,8 @@ public class CustomNotificationController {
         return customNotificationService.getGivenNumberOfLastNotificationsForGivenManager(manager_id, number_of_last_notifications);
     }
 
+    @GetMapping(path = "/notifications_summary_resident", params = {"resident_id", "number_of_last_notifications"})
+    List<NotificationSummaryDto> getLastNotificationsForGivenOwner(@RequestParam Long resident_id, @RequestParam Integer number_of_last_notifications) {
+        return customNotificationService.getGivenNumberOfLastNotificationsForGivenOwner(resident_id, number_of_last_notifications);
+    }
 }
