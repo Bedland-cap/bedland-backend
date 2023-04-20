@@ -114,6 +114,7 @@ public class CustomFlatServiceImpl implements CustomFlatService {
                             .flatAddress(flat.getBuildingEntity().getAddress())
                             .flatId(flat.getId())
                             .flatNumber(flat.getNumber())
+                            .flatCreateDate(flat.getCreateDate())
                             .build()));
         }
         return flats;

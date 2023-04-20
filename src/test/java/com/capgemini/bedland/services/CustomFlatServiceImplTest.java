@@ -51,6 +51,7 @@ class CustomFlatServiceImplTest {
                                 .flatNumber(flat.getNumber())
                                 .flatAddress(flat.getBuildingEntity().getAddress())
                                 .flatId(flat.getId())
+                                .flatCreateDate(flat.getCreateDate())
                                 .build()));
         //when
         List<FlatShortenDetailsDto> foundFlatsForGivenOwner = customFlatService.getFlatsForGivenOwner(exampleOwner.getId());
