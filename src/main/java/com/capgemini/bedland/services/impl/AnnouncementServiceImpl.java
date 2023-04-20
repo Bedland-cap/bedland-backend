@@ -2,7 +2,6 @@ package com.capgemini.bedland.services.impl;
 
 import com.capgemini.bedland.dtos.AnnouncementDto;
 import com.capgemini.bedland.entities.AnnouncementEntity;
-import com.capgemini.bedland.entities.BuildingEntity;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.mappers.AnnouncementMapper;
 import com.capgemini.bedland.providers.AnnouncementProvider;
@@ -41,7 +40,7 @@ public class AnnouncementServiceImpl implements AnnouncementService, Announcemen
             throw new IllegalArgumentException("Given ID is null");
         }
         return announcementMapper.entity2Dto(announcementRepository.findById(id)
-                                                                   .orElseThrow(() -> new NotFoundException(id)));
+                .orElseThrow(() -> new NotFoundException(id)));
     }
 
     @Override
@@ -52,7 +51,7 @@ public class AnnouncementServiceImpl implements AnnouncementService, Announcemen
         if (request.getId() != null) {
             throw new IllegalArgumentException("Given request contains an ID. Announcement can't be created");
         }
-        validateBuildingId(request);
+        validateBuildingAndFlat(request);
         AnnouncementEntity createdAnnouncement = announcementRepository.save(repackDtoToEntity(request));
         return announcementMapper.entity2Dto(createdAnnouncement);
     }
@@ -76,24 +75,36 @@ public class AnnouncementServiceImpl implements AnnouncementService, Announcemen
         if (!announcementRepository.existsById(request.getId())) {
             throw new NotFoundException(request.getId());
         }
-        validateBuildingId(request);
+        validateBuildingAndFlat(request);
         AnnouncementEntity updateAnnouncement = announcementRepository.save(repackDtoToEntity(request));
         return announcementMapper.entity2Dto(updateAnnouncement);
     }
 
     private AnnouncementEntity repackDtoToEntity(AnnouncementDto dto) {
         AnnouncementEntity entity = announcementMapper.dto2Entity(dto);
-        entity.setFlatEntity(flatRepository.findById(dto.getFlatId())
-                                           .orElseThrow(() -> new NotFoundException(dto.getFlatId())));
-        entity.setBuildingEntity(buildingRepository.findById(dto.getBuildingId())
-                                                   .orElseThrow(() -> new NotFoundException(dto.getBuildingId())));
+        if (dto.getFlatId() != null) {
+            entity.setFlatEntity(flatRepository.findById(dto.getFlatId())
+                    .orElseThrow(() -> new NotFoundException(dto.getFlatId())));
+        }
+        if (dto.getBuildingId() != null) {
+            entity.setBuildingEntity(buildingRepository.findById(dto.getBuildingId())
+                    .orElseThrow(() -> new NotFoundException(dto.getBuildingId())));
+        }
         return entity;
     }
-    private void validateBuildingId(AnnouncementDto request){
-        BuildingEntity buildingById = buildingRepository.findById(request.getBuildingId()).orElseThrow(() -> new NotFoundException("building id not found"));
-        BuildingEntity buildingFromFlat = flatRepository.findById(request.getFlatId()).orElseThrow(()->new NotFoundException("flat not found")).getBuildingEntity();
-        if(buildingFromFlat!=buildingById){
-            throw new IllegalArgumentException("Building assigned to flat is not equal to building given by ID");
+
+    private void validateBuildingAndFlat(AnnouncementDto request) {
+        if (request.getBuildingId() != null && request.getFlatId() != null) {
+            throw new IllegalArgumentException("Announcement must have building or flat, not both");
+        }
+        if (request.getBuildingId() != null && !buildingRepository.existsById(request.getBuildingId())) {
+            throw new NotFoundException("Building doesn't exist in DB");
+        }
+        if (request.getFlatId() != null && !flatRepository.existsById(request.getFlatId())) {
+            throw new NotFoundException("Flat doesn't exist in DB");
+        }
+        if (request.getBuildingId() != null && request.getToManager()) {
+            throw new IllegalArgumentException("Announcement for building can't be direct to manager");
         }
     }
 }

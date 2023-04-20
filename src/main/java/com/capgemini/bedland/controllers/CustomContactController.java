@@ -1,5 +1,6 @@
 package com.capgemini.bedland.controllers;
 
+import com.capgemini.bedland.dtos.AnnouncementDto;
 import com.capgemini.bedland.dtos.ContactSummaryDto;
 import com.capgemini.bedland.services.CustomContactService;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,13 @@ public class CustomContactController {
     @Autowired
     private final CustomContactService customContactService;
 
-    @GetMapping(path = "/contacts_summary", params = {"manager_id", "to_manager"})
+    @GetMapping(path = "/contacts_summary", params = {"manager_id"})
     List<ContactSummaryDto> getContactsSummariesForGivenManager(@RequestParam Long manager_id) {
         return customContactService.getContactsForGivenManager(manager_id);
+    }
+
+    @GetMapping(path = "/messages_resident", params = {"resident_id"})
+    List<AnnouncementDto> getMessageSummariesForGivenOwner(@RequestParam Long resident_id) {
+        return customContactService.getMessagesBetweenOwnerAndManagerForGivenOwner(resident_id);
     }
 }

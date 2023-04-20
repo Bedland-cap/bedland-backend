@@ -80,7 +80,7 @@ class AnnouncementServiceImplTest {
     @Test
     void shouldCreateAnnouncementWhenCreatingAnnouncement() {
         //given
-        AnnouncementDto newAnnouncement = AnnouncementDto.builder().title("test announcement").title("test title").description("test description").flatId(1L).buildingId(1L).build();
+        AnnouncementDto newAnnouncement = AnnouncementDto.builder().title("test announcement").title("test title").description("test description").flatId(1L).build();
 
         List<AnnouncementEntity> announcementsBeforeSavingNewOne = announcementRepository.findAll();
         //when

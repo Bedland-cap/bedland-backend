@@ -14,19 +14,22 @@ class AnnouncementMapper {
         if (entity == null) {
             return null;
         }
-        return AnnouncementDto.builder()
+        AnnouncementDto dto = AnnouncementDto.builder()
                 .id(entity.getId())
                 .version(entity.getVersion())
                 .createDate(entity.getCreateDate())
                 .updateDate(entity.getUpdateDate())
-                .flatId(entity.getFlatEntity()
-                        .getId())
-                .buildingId(entity.getBuildingEntity()
-                        .getId())
                 .toManager(entity.isToManager())
                 .title(entity.getTitle())
                 .description(entity.getDescription())
                 .build();
+        if (entity.getBuildingEntity() != null) {
+            dto.setBuildingId(entity.getBuildingEntity().getId());
+        }
+        if (entity.getFlatEntity() != null) {
+            dto.setFlatId(entity.getFlatEntity().getId());
+        }
+        return dto;
     }
 
     public List<AnnouncementDto> entities2DTOs(List<AnnouncementEntity> entities) {
