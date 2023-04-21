@@ -94,8 +94,11 @@ public class AnnouncementServiceImpl implements AnnouncementService, Announcemen
     }
 
     private void validateBuildingAndFlat(AnnouncementDto request) {
+        if (request.getBuildingId() == null && request.getFlatId() == null) {
+            throw new IllegalArgumentException("Announcement must have building ID or flat ID");
+        }
         if (request.getBuildingId() != null && request.getFlatId() != null) {
-            throw new IllegalArgumentException("Announcement must have building or flat, not both");
+            throw new IllegalArgumentException("Announcement must have either building or flat");
         }
         if (request.getBuildingId() != null && !buildingRepository.existsById(request.getBuildingId())) {
             throw new NotFoundException("Building doesn't exist in DB");
