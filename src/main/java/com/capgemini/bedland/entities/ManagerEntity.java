@@ -40,4 +40,7 @@ public class ManagerEntity extends AbstractEntity {
     @Column(name="AVATAR", length = LONG32)
     private byte[] avatar;
 
+    @Column(unique = true, name ="TOKEN")
+    private String token;
+
 }

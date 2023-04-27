@@ -12,12 +12,14 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -26,6 +28,7 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final UserDao userDao;
+    private final LogoutHandler logoutHandler;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -41,7 +44,7 @@ public class SecurityConfig {
                 .cors()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/","/auth/**","/swagger-ui/**","/v3/api-docs/**")
+                .requestMatchers("/", "/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/logout")
                 .permitAll()
                 .requestMatchers(HttpMethod.GET, "/**")
                 .authenticated()
@@ -52,6 +55,14 @@ public class SecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
+                .logout(logout -> {
+                            logout
+                                    .logoutSuccessUrl("/logout")
+                                    .invalidateHttpSession(true)
+                                    .addLogoutHandler(logoutHandler)
+                                    .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
+                        }
+                )
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

@@ -20,16 +20,19 @@ public class AuthenticationController {
     private final JwtUtils jwtUtils;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword())
         );
         final UserDetails user = userDao.findUserByLogin(request.getLogin());
         if (user != null) {
-            return ResponseEntity.ok(jwtUtils.generateToken(user));
+            AuthenticationResponse authenticationResponse = new AuthenticationResponse(jwtUtils.generateToken(user),
+                                                                                       userDao.findOwnerOrManagerByLogin(
+                                                                                               request.getLogin()),
+                                                                                       userDao.findRoleByUser(user));
+            return ResponseEntity.ok(authenticationResponse);
         }
-        return ResponseEntity.status(400)
-                             .body("Some error has occurred");
+        throw new IllegalArgumentException("User is null! Some error has occurred");
     }
 
 }
