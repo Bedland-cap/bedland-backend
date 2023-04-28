@@ -1,0 +1,16 @@
+image: maven:3.8.3-openjdk-17
+
+options:
+  max-time: 4
+
+pipelines:
+  default:
+    - parallel:
+        - step:
+            name: Build and Test
+            caches:
+              - maven
+            script:
+              - mvn clean -f pom.xml
+              - mvn test -f pom.xml
+              - mvn package -f pom.xml
