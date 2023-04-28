@@ -52,9 +52,9 @@ class IncidentServiceImplTest {
         IncidentDto incident = IncidentDto.builder()
                 .id(id)
                 .flatId(1L)
-                .title("Donos na sąsiada")
+                .title("Donos na sasiada")
                 .description(
-                        "Uprzejmie donoszę, że sąsiedzi spod 2 nie sprzątają po swoim psie")
+                        "Uprzejmie donosze, ze sasiedzi spod 2 nie sprzataja po swoim psie")
                 .commonSpace(true)
                 .build();
         //when
