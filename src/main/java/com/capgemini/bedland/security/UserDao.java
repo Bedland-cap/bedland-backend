@@ -99,15 +99,17 @@ public class UserDao {
     public void deleteTokenInDB(Long userId, String userRole) {
         if (Objects.equals(userRole, "ROLE_USER")) {
             Optional<OwnerEntity> owner = ownerRepository.findById(userId);
-            owner.get()
-                 .setToken(null);
-            ownerRepository.save(owner.get());
+            owner.ifPresent(ownerEntity -> {
+                ownerEntity.setToken(null);
+                ownerRepository.save(ownerEntity);
+            });
         }
         if (Objects.equals(userRole, "ROLE_MANAGER")) {
             Optional<ManagerEntity> manager = managerRepository.findById(userId);
-            manager.get()
-                   .setToken(null);
-            managerRepository.save(manager.get());
+            manager.ifPresent(managerEntity -> {
+                managerEntity.setToken(null);
+                managerRepository.save(managerEntity);
+            });
         }
     }
 

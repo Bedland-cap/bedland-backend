@@ -140,8 +140,8 @@ VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 11),
        (20, 0, '2023-02-14', '2023-02-14', 1, 1);
 
 INSERT INTO incident(id, version, create_date, update_date, flat_entity_id, title, description, common_space)
-VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'Donos na sąsiada',
-        'Uprzejmie donoszę, że sąsiedzi spod 2 nie sprzątają po swoim psie', true),
+VALUES (1, 0, '2023-02-14', '2023-02-14', 1, 'Donos na sasiada',
+        'Uprzejmie donosze, ze sasiedzi spod 2 nie sprzataja po swoim psie', true),
        (2, 0, '2023-02-19', '2023-02-19', 2, 'Pożar',
         'Klatka schodowa na 4 piętrze zajęła się ogniem. Proszę o pilną interwencję!', false),
        (3, 0, '2023-02-14', '2023-02-14', 2, 'Drzwi wejściowe',
