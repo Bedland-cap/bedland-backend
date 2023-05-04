@@ -5,10 +5,7 @@ import com.capgemini.bedland.entities.BuildingEntity;
 import com.capgemini.bedland.entities.FlatEntity;
 import com.capgemini.bedland.entities.OwnerEntity;
 import com.capgemini.bedland.exceptions.NotFoundException;
-import com.capgemini.bedland.repositories.BuildingRepository;
-import com.capgemini.bedland.repositories.FlatRepository;
-import com.capgemini.bedland.repositories.ManagerRepository;
-import com.capgemini.bedland.repositories.OwnerRepository;
+import com.capgemini.bedland.repositories.*;
 import com.capgemini.bedland.services.CustomOwnerService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,7 @@ public class CustomOwnerServiceImpl implements CustomOwnerService {
     FlatRepository flatRepository;
     @Autowired
     ManagerRepository managerRepository;
+    @Autowired private MemberRepository memberRepository;
 
     @Override
     public List<OwnerSummaryDto> findAllOwnersForGivenManager(Long managerId) {
@@ -50,15 +48,21 @@ public class CustomOwnerServiceImpl implements CustomOwnerService {
                 List<FlatEntity> flatsForOwner = flatRepository.findFlatsForOwner(owner.getId());
                 if (!flatsForOwner.isEmpty()) {
                     flatsForOwner.forEach(flat -> {
-                        Optional<BuildingEntity> buildingForFlat = buildingRepository.findById(flat.getBuildingEntity().getId());
+                        Optional<BuildingEntity> buildingForFlat = buildingRepository.findById(flat.getBuildingEntity()
+                                                                                                   .getId());
+                        List<String> memberInFlat = new LinkedList<>();
+                        memberRepository.findByFlatId(flat.getId())
+                                        .forEach(member -> memberInFlat.add(member.getName() + " " + member.getLastName()));
                         owners.add(OwnerSummaryDto.builder()
-                                                  .buildingName(buildingForFlat.get().getBuildingName())
+                                                  .buildingName(buildingForFlat.get()
+                                                                               .getBuildingName())
                                                   .flatNumber(flat.getNumber())
                                                   .flatFloor(flat.getFloor())
                                                   .flatId(flat.getId())
                                                   .ownerNameAndLastName(owner.getName() + " " + owner.getLastName())
                                                   .ownerPhone(owner.getPhoneNumber())
                                                   .ownerId(owner.getId())
+                                                  .residents(memberInFlat)
                                                   .build());
                     });
                 }
