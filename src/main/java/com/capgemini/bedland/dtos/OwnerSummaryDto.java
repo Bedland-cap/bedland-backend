@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,4 +19,5 @@ public class OwnerSummaryDto {
     private String ownerNameAndLastName;
     private String ownerPhone;
     private Long ownerId;
+    private List<String> residents;
 }

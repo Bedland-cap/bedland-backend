@@ -17,5 +17,7 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
             "join f.announcementEntities a " +
             "join b.managerEntity ma where ma.id =:managerId")
     List<MemberEntity> findMembersByManager(@Param("managerId") Long managerId);
+@Query ("select m from MemberEntity m join m.flatEntity f where f.id =:flatId")
+    List<MemberEntity> findByFlatId(@Param("flatId") Long flatId);
 
 }
