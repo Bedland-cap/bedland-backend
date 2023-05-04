@@ -15,8 +15,8 @@ public class OwnerSummaryDto {
     private String buildingName;
     private String flatNumber;
     private int flatFloor;
-    private Long flatId;
-    private String ownerNameAndLastName;
+    private Long flat;
+    private String owner;
     private String ownerPhone;
     private Long ownerId;
     private List<String> residents;
