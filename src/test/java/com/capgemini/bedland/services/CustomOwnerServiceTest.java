@@ -1,10 +1,7 @@
 package com.capgemini.bedland.services;
 
 import com.capgemini.bedland.dtos.OwnerSummaryDto;
-import com.capgemini.bedland.entities.BuildingEntity;
-import com.capgemini.bedland.entities.FlatEntity;
 import com.capgemini.bedland.entities.ManagerEntity;
-import com.capgemini.bedland.entities.OwnerEntity;
 import com.capgemini.bedland.exceptions.NotFoundException;
 import com.capgemini.bedland.repositories.BuildingRepository;
 import com.capgemini.bedland.repositories.FlatRepository;
@@ -53,8 +50,8 @@ class CustomOwnerServiceTest {
                                                                                .buildingName(building.getBuildingName())
                                                                                .flatNumber(flat.getNumber())
                                                                                .flatFloor(flat.getFloor())
-                                                                               .flatId(flat.getId())
-                                                                               .ownerNameAndLastName(flat.getFlatOwnerEntity().getName() + " " + flat.getFlatOwnerEntity().getLastName())
+                                                                               .flat(flat.getId())
+                                                                               .owner(flat.getFlatOwnerEntity().getName() + " " + flat.getFlatOwnerEntity().getLastName())
                                                                                .ownerPhone(flat.getFlatOwnerEntity().getPhoneNumber())
                                                                                .ownerId(flat.getFlatOwnerEntity().getId())
                                                                                .build());
